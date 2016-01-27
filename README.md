@@ -38,7 +38,7 @@ Waypoint Actions (also can be used as group actions):
 
 <strong>Configuration</strong>:
 
-The server creates one or more command controls when the the mission starts. Example creating two command controls - one for all each groups, and one for all west groups.
+The server creates one or more command controls when the the mission starts. Example creating two command controls - one for all east groups, and one for all west groups. Note: These "default" command controls (ALL_EAST, ALL_WEST) are created automatically. You can create new ones with specific groups assigned, or use these defaults.
 
 ```
 ["ALL_EAST"] call AIC_fnc_createCommandControl;
