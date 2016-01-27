@@ -28,9 +28,9 @@ Group Actions:
 
 Waypoint Actions (also can be used as group actions):
 
-1. Board Cargo - Only for ground troops. Will board the cargo of the closest group's vehicle as long as there's space. Once on board, the group's icon is removed from the map.
+1. Board Transport - Only for ground troops. Will board the cargo of the closest group's vehicle as long as there's space. Once on board, the group's icon is removed from the map.
 
-2. Unload Cargo - Only for groups assigned to a vehicle with other groups currently in their cargo. Will force all other groups to exit the vehicle. Once other groups exit, the other group's icons reappear on the map.
+2. Unload Transport - Only for groups assigned to a vehicle with other groups currently in their cargo. Will force all other groups to exit the vehicle. Once other groups exit, the other group's icons reappear on the map.
 
 3. Wait - For all groups. Options might include, wait for amount of time, wait indefinitely, wait for go code, wait for cargo board, etc.
 
