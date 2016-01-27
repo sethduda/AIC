@@ -65,6 +65,10 @@ or
 ["ALL_EAST",true] call AIC_fnc_showCommandControl;
 ```
 
+<strong>Video:</strong>
+
+[![View Video](http://img.youtube.com/vi/irtAvbGjP8g/0.jpg)](http://www.youtube.com/watch?v=irtAvbGjP8g)
+
 ---
 
 The MIT License (MIT)
