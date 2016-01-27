@@ -1,4 +1,4 @@
-![alt tag](http://s7.postimg.org/srtpp1obf/Capture.png)
+![alt tag](http://s10.postimg.org/rbltoe18p/command.jpg)
 
 This is the high level organization of the code:
 
