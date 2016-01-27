@@ -1,3 +1,5 @@
+![alt tag](http://s7.postimg.org/srtpp1obf/Capture.png)
+
 This is the high level organization of the code:
 
 <strong>Command Control</strong> -- uses --> <strong>Group Controls</strong> -- uses --> <strong>Interactive Icons</strong> -- uses --> <strong>Map Icons</strong>
