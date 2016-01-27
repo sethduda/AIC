@@ -1,0 +1,19 @@
+class Header
+{
+	gameType=COOP;
+	minPlayers=1;
+	maxPlayers=5;
+};
+
+DisabledAI = true;
+Respawn = "INSTANT";
+RespawnDelay = 5;
+
+class cfgFunctions {
+	#include "AICommand\cfgfunctions.hpp"
+};
+
+class CfgNotifications
+{
+	#include "AICommand\cfgnotifications.hpp"
+};
