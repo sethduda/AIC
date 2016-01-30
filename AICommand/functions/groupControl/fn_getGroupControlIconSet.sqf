@@ -21,7 +21,7 @@ private ["_groupType","_iconSet","_colorName"];
 
 _colorName = _color select 0;
 _groupType = _group call AIC_fnc_getGroupIconType;
-_iconSet = missionNamespace getVariable ["AIC_Icon_Set_" + _colorName + "_" + _groupType, nil];
+_iconSet = missionNamespace getVariable [format ["AIC_Icon_Set_%1_%2", _colorName, _groupType], nil];
 
 if(isNil "_iconSet") then {
 	_iconSet = [];

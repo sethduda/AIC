@@ -12,14 +12,16 @@
 
 	Parameter(s):
 	_this select 0: STRING - Group Control ID
+	_this select 1: BOOLEAN - disable interaction (default false)
 		
 	Returns: 
 	Nothing
 */
 
-private ["_groupControlId"];
+private ["_groupControlId","_interactionDisabled"];
 
 _groupControlId = param [0];
+_interactionDisabled = param [1,false];
 
 if!(AIC_fnc_getGroupControlShown(_groupControlId)) exitWith {};
 
@@ -59,7 +61,11 @@ _waypointIcons = AIC_fnc_getGroupControlWaypointIcons(_groupControlId);
 
 private ["_priorWaypointPosition","_lineFromPosition","_lineToPosition","_lineColor"];
 
-_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [1];
+if(_interactionDisabled) then {
+	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [0.2];
+} else {
+	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [1];
+};
 
 {
 	if(isNil "_priorWaypointPosition") then {

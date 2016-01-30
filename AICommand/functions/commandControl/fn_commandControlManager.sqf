@@ -1,5 +1,7 @@
 #include "functions.h"
 #include "..\properties.h"
+#include "..\interactiveIcon\functions.h"
+#include "..\actionControl\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -15,16 +17,26 @@
 */
 
 if(hasInterface) then {
-
+		
 	AIC_fnc_commandControlDrawHandler = {
-		private ["_commandControls"];
-		//_temp = diag_tickTime;
-		_commandControls = AIC_fnc_getCommandControls();
+		
+		private ["_commandControls","_actionControls","_disableAllCommandControls"];
+		
+		_actionControlShown = false;
+		_actionControls = AIC_fnc_getActionControls();
 		{
-			[_x] call AIC_fnc_drawCommandControl;
+			if(AIC_fnc_getActionControlShown(_x)) then {
+				[_x] call AIC_fnc_drawActionControl;
+				_actionControlShown = true;
+			};
+		} forEach _actionControls;
+		
+		_commandControls = AIC_fnc_getCommandControls();
+		_disableAllCommandControls = _actionControlShown;
+		{
+			[_x,_disableAllCommandControls] call AIC_fnc_drawCommandControl;
 		} forEach _commandControls;
-		//_tempend = diag_tickTime;
-		//hint format ["%1",_tempend-_temp];
+			
 	};
 
 	// Setup UI event handlers

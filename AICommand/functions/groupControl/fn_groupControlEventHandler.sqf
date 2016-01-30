@@ -86,6 +86,18 @@ if(isNil "_groupControlId") then {
 	private ["_group"];
 
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+	
+	if( _event == "ASSIGN_VEHICLE_SELECTED" ) then {
+		private ["_vehicle"];
+		_vehicle = _params select 0;
+		hint format ["Vehicle Assigned: %1", _vehicle];
+	};
+	
+	if( _event == "ASSIGN_VEHICLE_ACTION_SELECTED" ) then {
+		private ["_actionControl"];
+		_actionControl = ["ASSIGN_GROUP_VEHICLE",[_groupControlId]] call AIC_fnc_createActionControl;
+		[_actionControl,true] call AIC_fnc_showActionControl;
+	};
 
 	if( _event == "SELECTED" ) then {
 		[_groupControlId] call AIC_fnc_showGroupCommandMenu;

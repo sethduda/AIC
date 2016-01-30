@@ -102,4 +102,21 @@ class AICommand
 		class getPublicVariable {description = ""};
 	};
 	
+	class VehicleIcon
+	{
+		file = "AICommand\functions\vehicleIcon";
+		class getVehicleIconPath {description = "";};
+		class getVehicleMapIconSet {description = "";};
+		class getVehicleInteractiveIcon {description = "";};
+	};
+	
+	class ActionControl
+	{
+		file = "AICommand\functions\actionControl";
+		class actionControlEventHandler {description = "";};
+		class createActionControl {description = "";};
+		class drawActionControl {description = "";};
+		class showActionControl {description = "";};
+	};
+	
 };
