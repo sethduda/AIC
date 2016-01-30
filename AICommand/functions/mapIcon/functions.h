@@ -6,6 +6,8 @@
 		NUMBER - Icon screen height
 		NUMBER - Icon map width
 		NUMBER - Icon map height 
+		NUMBER - Icon shadow
+		COLOR  - Icon color [R,G,B,A]
 	]
 */
 #define AIC_fnc_getMapIconProperties(_iconId) missionNamespace getVariable [format ["AIC_Map_Icon_%1",(_iconId)],nil]

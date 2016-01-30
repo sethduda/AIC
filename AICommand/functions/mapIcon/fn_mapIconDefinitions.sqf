@@ -11,7 +11,8 @@ AIC_COLOR_BLACK = ["BLACK",_colorBlack];
 AIC_COLOR_WHITE = ["WHITE",_colorWhite];
 
 _colors = [AIC_COLOR_RED,AIC_COLOR_GREEN,AIC_COLOR_BLUE,AIC_COLOR_BLACK,AIC_COLOR_WHITE];
-_groupIconTypes = ["inf","air"];
+_groupIconTypes = ["inf","air","motor_inf","mech_inf","armor","plane","uav","art","mortar","maint","med","support","boat"];
+
 _wpIconTypes = ["alpha","bravo","move"];
 
 AIC_UNSELECTED_GROUP_SELECTOR_ICON = ["AICommand\images\group_selector_dashed.paa",48,48,0,_colorBlack + [0.5]] call AIC_fnc_createMapIcon;
@@ -23,10 +24,10 @@ AIC_PICKED_UP_SELECTOR_ICON = ["AICommand\images\group_selector.paa",52,52,1,_co
 	_color = _x;
 	{
 		_iconType = _x;
-		missionNamespace setVariable ["AIC_UNSELECTED_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["AICommand\images\group_"+toLower _iconType+"_icon.paa",32,32,0,(_color select 1) + [0.5]] call AIC_fnc_createMapIcon)];
-		missionNamespace setVariable ["AIC_SELECTED_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["AICommand\images\group_"+toLower _iconType+"_icon.paa",32,32,0,(_color select 1) + [1]] call AIC_fnc_createMapIcon)];
-		missionNamespace setVariable ["AIC_MOUSE_OVER_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["AICommand\images\group_"+toLower _iconType+"_icon.paa",32,32,0,(_color select 1) + [0.8]] call AIC_fnc_createMapIcon)];
-		missionNamespace setVariable ["AIC_PICKED_UP_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["AICommand\images\group_"+toLower _iconType+"_icon.paa",36,36,1,(_color select 1) + [1]] call AIC_fnc_createMapIcon)];
+		missionNamespace setVariable ["AIC_UNSELECTED_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["\A3\ui_f\data\map\markers\nato\b_"+_iconType,32,32,0,(_color select 1) + [0.5]] call AIC_fnc_createMapIcon)];
+		missionNamespace setVariable ["AIC_SELECTED_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["\A3\ui_f\data\map\markers\nato\b_"+_iconType,32,32,0,(_color select 1) + [1]] call AIC_fnc_createMapIcon)];
+		missionNamespace setVariable ["AIC_MOUSE_OVER_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["\A3\ui_f\data\map\markers\nato\b_"+_iconType,32,32,0,(_color select 1) + [0.8]] call AIC_fnc_createMapIcon)];
+		missionNamespace setVariable ["AIC_PICKED_UP_GROUP_ICON_"+toUpper (_color select 0)+"_"+toUpper _iconType,(["\A3\ui_f\data\map\markers\nato\b_"+_iconType,36,36,1,(_color select 1) + [1]] call AIC_fnc_createMapIcon)];
 	} forEach _groupIconTypes;
 } forEach _colors;
 

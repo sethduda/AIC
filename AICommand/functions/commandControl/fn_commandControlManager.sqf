@@ -20,7 +20,7 @@ if(hasInterface) then {
 		
 	AIC_fnc_commandControlDrawHandler = {
 		
-		private ["_commandControls","_actionControls","_disableAllCommandControls"];
+		private ["_commandControls","_actionControls","_alpha"];
 		
 		_actionControlShown = false;
 		_actionControls = AIC_fnc_getActionControls();
@@ -30,11 +30,16 @@ if(hasInterface) then {
 				_actionControlShown = true;
 			};
 		} forEach _actionControls;
+	
+		// Make all group controls transparent if an action control was drawn
+		_alpha = -1;
+		if(_actionControlShown) then {
+			_alpha = 0.2;
+		};
 		
 		_commandControls = AIC_fnc_getCommandControls();
-		_disableAllCommandControls = _actionControlShown;
 		{
-			[_x,_disableAllCommandControls] call AIC_fnc_drawCommandControl;
+			[_x,_alpha] call AIC_fnc_drawCommandControl;
 		} forEach _commandControls;
 			
 	};

@@ -67,6 +67,15 @@
 #define AIC_fnc_getGroupControlColor(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Color",(_controlId)],AIC_COLOR_RED]
 #define AIC_fnc_setGroupControlColor(_controlId,_controlColor) missionNamespace setVariable [format ["AIC_Group_Control_%1_Color",(_controlId)],_controlColor]
 
+/*
+	Gets and sets group control group type
+	Data type: ARRAY - [ STRING - Color Name, RGB - Color array ]
+*/
+#define AIC_fnc_getGroupControlType(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],""]
+#define AIC_fnc_setGroupControlType(_controlId,_groupType) missionNamespace setVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],_groupType]
+
+
+
 
 
 /*

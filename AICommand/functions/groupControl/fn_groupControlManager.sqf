@@ -68,7 +68,7 @@ if(isDedicated || !hasInterface) exitWith {};
 	};
 };
 
-// Manage updates to group color
+// Manage updates to group color & icon type
 
 [] spawn {
 	private ["_currentControlColor","_waypoints","_currentWpRevision","_groupControls","_group","_groupControlId"];
@@ -82,11 +82,36 @@ if(isDedicated || !hasInterface) exitWith {};
 			if((_currentControlColor select 0) != (_currentGroupColor select 0)) then {
 				[_groupControlId,"COLOR_CHANGED",[]] call AIC_fnc_groupControlEventHandler;
 			};
+			
+			_currentGroupType = AIC_fnc_getGroupControlType(_groupControlId); 
+			_groupType = _group call AIC_fnc_getGroupIconType;
+			if(_groupType != _currentGroupType) then {
+				[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+			};
+			
 		} forEach _groupControls;
 		sleep 2;
 	};
 };
 
+// Manage updates to group icon type
+
+[] spawn {
+	private ["_groupControls","_groupControlId","_group","_currentGroupType","_groupType"];
+	while {true} do {
+		_groupControls = AIC_fnc_getGroupControls();
+		{
+			_groupControlId = _x;
+			_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+			_currentGroupType = AIC_fnc_getGroupControlType(_groupControlId); 
+			_groupType = _group call AIC_fnc_getGroupIconType;
+			if(_groupType != _currentGroupType) then {
+				[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+			};
+		} forEach _groupControls;
+		sleep 5;
+	};
+};
 
 
 

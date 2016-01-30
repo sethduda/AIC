@@ -24,6 +24,7 @@ _setColorScript = "['"+_groupControlId+"'] spawn AIC_fnc_showGroupColorMenu";
 _setBehaviourScript = "['"+_groupControlId+"'] spawn AIC_fnc_showGroupBehaviourMenu";
 _setCombatModeScript = "['"+_groupControlId+"'] spawn AIC_fnc_showGroupCombatModeMenu";
 _assignVehicleScript = "['"+_groupControlId+"','ASSIGN_VEHICLE_ACTION_SELECTED'] spawn AIC_fnc_groupControlEventHandler";
+_unassignVehicleScript = "['"+_groupControlId+"','UNASSIGN_VEHICLE_ACTION_SELECTED'] spawn AIC_fnc_groupControlEventHandler";
 
 
 AIC_Group_Control_Menu = [
@@ -46,6 +47,7 @@ AIC_Group_Control_Menu = [
 		["Set Group Color", [0], "", -5, [["expression", '["'+_setColorScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Remote Control", [0], "", -5, [["expression", '["'+_remoteControlScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Assign Vehicle", [0], "", -5, [["expression", '["'+_assignVehicleScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
+		["Unassign Vehicle", [0], "", -5, [["expression", '["'+_unassignVehicleScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Clear All Waypoints", [0], "", -5, [["expression", '["'+_clearAllWaypointsScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"]
 		//["Clear Waypoints", [2], "", -5, [["expression", "["" player sidechat 'second' ""] spawn AIC_fnc_commandMenuAction"]], "1", "1"]
 		//["Submenu", [3], "#USER:MY_SUBMENU_inCommunication", -5, [["expression", "showCommandingMenu ""#USER:MY_SUBMENU_inCommunication"""]], "1", "1"]

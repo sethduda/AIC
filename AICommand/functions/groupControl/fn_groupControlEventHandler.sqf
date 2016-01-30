@@ -88,9 +88,31 @@ if(isNil "_groupControlId") then {
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
 	
 	if( _event == "ASSIGN_VEHICLE_SELECTED" ) then {
-		private ["_vehicle"];
+		private ["_vehicle","_vehicleRoles","_vehicleRolesCount","_groupUnits","_groupUnitCount","_minCount","_role","_unit"];
 		_vehicle = _params select 0;
-		hint format ["Vehicle Assigned: %1", _vehicle];
+
+		_vehicleRoles = [_vehicle] call BIS_fnc_vehicleRoles;
+		_vehicleRolesCount = count _vehicleRoles;
+		_groupUnits = units _group;
+		_groupUnitCount = count (units _group);
+		_minCount = _vehicleRolesCount min _groupUnitCount;
+		
+		for "_i" from 0 to (_minCount-1) do
+		{
+			_role = _vehicleRoles select _i;
+			_unit = _groupUnits select _i;
+			if((_role select 0) == "Driver") then {
+				_unit assignAsDriver _vehicle;
+			};
+			if((_role select 0) == "Turret") then {
+				_unit assignAsTurret [_vehicle,_role select 1];
+			};
+			if((_role select 0) == "Cargo") then {
+				_unit assignAsCargoIndex [_vehicle,(_role select 1) select 0];
+			};
+			[[_unit],true] remoteExec ["orderGetIn", _unit];
+		};
+		
 	};
 	
 	if( _event == "ASSIGN_VEHICLE_ACTION_SELECTED" ) then {
@@ -99,6 +121,12 @@ if(isNil "_groupControlId") then {
 		[_actionControl,true] call AIC_fnc_showActionControl;
 	};
 
+	if( _event == "UNASSIGN_VEHICLE_ACTION_SELECTED" ) then {
+		{
+			[_group,vehicle _x] remoteExec ["leaveVehicle", _x];
+		} forEach (units _group);
+	};
+	
 	if( _event == "SELECTED" ) then {
 		[_groupControlId] call AIC_fnc_showGroupCommandMenu;
 		[[_group]] spawn AIC_fnc_showGroupReport;
@@ -165,6 +193,7 @@ if(isNil "_groupControlId") then {
 		_iconSet = [_group,_color] call AIC_fnc_getGroupControlIconSet;
 		_interactiveIconId = AIC_fnc_getGroupControlInteractiveIcon(_groupControlId);
 		AIC_fnc_setInteractiveIconIconSet(_interactiveIconId,_iconSet);
+		AIC_fnc_setGroupControlType(_groupControlId,(_group call AIC_fnc_getGroupIconType));
 	};
 	
 	if(_event == "REFRESH_WAYPOINTS" ) then {

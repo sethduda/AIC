@@ -12,16 +12,16 @@
 
 	Parameter(s):
 	_this select 0: STRING - Group Control ID
-	_this select 1: BOOLEAN - disable interaction (default false)
+	_this select 1: NUMBER - Alpha (Optional - if set, this alpha value will be used for all drawing actions. If set to -1, alpha will not be changed)
 		
 	Returns: 
 	Nothing
 */
 
-private ["_groupControlId","_interactionDisabled"];
+private ["_groupControlId","_alpha"];
 
 _groupControlId = param [0];
-_interactionDisabled = param [1,false];
+_alpha = param [1,-1];
 
 if!(AIC_fnc_getGroupControlShown(_groupControlId)) exitWith {};
 
@@ -38,16 +38,16 @@ AIC_fnc_setInteractiveIconPosition(_icon,_groupPosition);
 
 // Draw the interactive icon at the group's position
 
-[_icon] call AIC_fnc_drawInteractiveIcon;
+[_icon,_alpha] call AIC_fnc_drawInteractiveIcon;
 
 // Draw go code on top of the icon if group is waiting for go code
 
 if(!isNil "_goCode") then {
 	if(_goCode == "ALPHA") then {
-		[A_GO_CODE_ICON,_groupPosition] call AIC_fnc_drawMapIcon;
+		[A_GO_CODE_ICON,_groupPosition,_alpha] call AIC_fnc_drawMapIcon;
 	};
 	if(_goCode == "BRAVO") then {
-		[B_GO_CODE_ICON,_groupPosition] call AIC_fnc_drawMapIcon;
+		[B_GO_CODE_ICON,_groupPosition,_alpha] call AIC_fnc_drawMapIcon;
 	};
 };
 
@@ -61,8 +61,8 @@ _waypointIcons = AIC_fnc_getGroupControlWaypointIcons(_groupControlId);
 
 private ["_priorWaypointPosition","_lineFromPosition","_lineToPosition","_lineColor"];
 
-if(_interactionDisabled) then {
-	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [0.2];
+if(_alpha >= 0) then {
+	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [_alpha];
 } else {
 	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [1];
 };
@@ -101,5 +101,5 @@ if(AIC_fnc_getGroupControlAddingWaypoints(_groupControlId)) then {
 // Draw the waypoint interactive icons on top of the line
 
 {
-	[_x select 1] call AIC_fnc_drawInteractiveIcon;
+	[_x select 1,_alpha] call AIC_fnc_drawInteractiveIcon;
 } forEach _waypointIcons;

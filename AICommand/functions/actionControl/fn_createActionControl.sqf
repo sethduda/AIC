@@ -53,12 +53,14 @@ if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 	
 	_nearVehicleIcons = [];
 	{
-		_nearIcon = [_x] call AIC_fnc_getVehicleInteractiveIcon;
-		AIC_fnc_setInteractiveIconShown(_nearIcon, false);
-		AIC_fnc_setInteractiveIconEventHandlerScript(_nearIcon,_eventHandlerScript);
-		_params = [_actionControlId,[_nearIcon,_x]];
-		AIC_fnc_setInteractiveIconEventHandlerScriptParams(_nearIcon,_params);
-		_nearVehicleIcons pushBack [_nearIcon,_x];
+		if({alive _x} count crew _x == 0) then {
+			_nearIcon = [_x] call AIC_fnc_getVehicleInteractiveIcon;
+			AIC_fnc_setInteractiveIconShown(_nearIcon, false);
+			AIC_fnc_setInteractiveIconEventHandlerScript(_nearIcon,_eventHandlerScript);
+			_params = [_actionControlId,[_nearIcon,_x]];
+			AIC_fnc_setInteractiveIconEventHandlerScriptParams(_nearIcon,_params);
+			_nearVehicleIcons pushBack [_nearIcon,_x];
+		};
 	} forEach _nearVehicles;
 
 	AIC_fnc_setActionControlData(_actionControlId,[_nearVehicleIcons]);
