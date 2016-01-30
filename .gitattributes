@@ -16,4 +16,7 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-* eol=crlf
+*.sqf eol=crlf
+*.sqm eol=crlf
+*.ext eol=crlf
+*.hpp eol=crlf
