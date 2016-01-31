@@ -23,7 +23,7 @@ _parameters = param [1,[]];
 
 private ["_actionControlId","_actionControls"];
 
-_actionControlId = ["AIC_fnc_deleteActionControl",false,false] call AIC_fnc_createMapElement;
+_actionControlId = ["AIC_fnc_deleteActionControl",false,true] call AIC_fnc_createMapElement;
 
 AIC_fnc_setActionControlType(_actionControlId,_actionType);
 AIC_fnc_setActionControlParameters(_actionControlId,_parameters);

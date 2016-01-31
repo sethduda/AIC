@@ -87,6 +87,7 @@ class AICommand
 		class createActionControl {description = "";};
 		class drawActionControl {description = "";};
 		class deleteActionControl {description = "";};
+		class actionControlManager {description = ""; postInit=1};
 	};
 	
 	class InteractiveIconMapElement

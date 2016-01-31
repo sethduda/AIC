@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "..\functions.h"
 #include "..\..\properties.h"
 #include "..\commandControl\functions.h"
 #include "..\interactiveIcon\functions.h"
@@ -25,6 +26,36 @@ _event = param [1];
 _params = param [2,[]];
 
 if(isNil "_actionControlId") then {
+
+
+	if(_event == "MouseButtonDown") then {
+		private ["_actionControls"];
+		_actionControls = AIC_fnc_getActionControls();
+		{
+			if((AIC_fnc_getMapElementVisible(_x)) && (AIC_fnc_getMapElementEnabled(_x))) then {
+				if(_params select 1 == 1) then {			
+					[_x,"RIGHT_MOUSE_BUTTON_DOWN_MAP",[]] call AIC_fnc_actionControlEventHandler;
+				} else {
+					[_x,"LEFT_MOUSE_BUTTON_DOWN_MAP",[]] call AIC_fnc_actionControlEventHandler;
+				};		
+			};
+		} forEach _actionControls;
+	};
+	
+	
+	if(_event == "MouseButtonClick") then {
+		private ["_actionControls"];
+		_actionControls = AIC_fnc_getActionControls();
+		{
+			if((AIC_fnc_getMapElementVisible(_x)) && (AIC_fnc_getMapElementEnabled(_x))) then {
+				if(_params select 1 == 1) then {			
+					[_x,"RIGHT_MOUSE_BUTTON_CLICK_MAP",[]] call AIC_fnc_actionControlEventHandler;
+				} else {
+					[_x,"LEFT_MOUSE_BUTTON_CLICK_MAP",[]] call AIC_fnc_actionControlEventHandler;
+				};		
+			};
+		} forEach _actionControls;
+	};
 	
 } else {
 	
@@ -33,6 +64,10 @@ if(isNil "_actionControlId") then {
 	_actionType = AIC_fnc_getActionControlType(_actionControlId);
 	_actionParameters = AIC_fnc_getActionControlParameters(_actionControlId);
 
+	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
+		[_actionControlId] call AIC_fnc_deleteMapElement;
+	};
+	
 	if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 
 		private ["_groupControlId"];

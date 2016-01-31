@@ -44,8 +44,10 @@ if(hasInterface) then {
 		
 			if(_actionControlShown) then {
 				[_x,false] call AIC_fnc_setMapElementForeground;
+				[_x,false] call AIC_fnc_setMapElementEnabled;
 			} else {
 				[_x,true] call AIC_fnc_setMapElementForeground;
+				[_x,true] call AIC_fnc_setMapElementEnabled;
 			};
 			
 			[_x] call AIC_fnc_drawCommandControl;
