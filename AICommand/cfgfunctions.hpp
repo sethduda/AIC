@@ -115,7 +115,6 @@ class AICommand
 		class actionControlEventHandler {description = "";};
 		class createActionControl {description = "";};
 		class drawActionControl {description = "";};
-		class showActionControl {description = "";};
 	};
 	
 	

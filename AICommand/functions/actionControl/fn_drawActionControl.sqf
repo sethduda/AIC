@@ -2,6 +2,7 @@
 #include "..\interactiveIcon\functions.h"
 #include "..\commandControl\functions.h"
 #include "..\groupControl\functions.h"
+#include "..\mapElements\functions.h"
 #include "..\properties.h"
 
 /*
@@ -21,7 +22,7 @@ private ["_actionControlId"];
 
 _actionControlId = param [0];
 
-if!(AIC_fnc_getActionControlShown(_actionControlId)) exitWith {};
+if!(AIC_fnc_getMapElementVisible(_actionControlId)) exitWith {};
 
 private ["_actionType"];
 
@@ -45,11 +46,11 @@ if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 		[_icon] call AIC_fnc_drawInteractiveIcon;
 	} forEach _vehicleIcons;
 	
-	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [0.5];
+	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [1];
 
-	AIC_MAP_CONTROL drawLine [
-		(AIC_fnc_getMouseMapPosition()),
+	AIC_MAP_CONTROL drawArrow [
 		_groupControlPosition,
+		(AIC_fnc_getMouseMapPosition()),
 		_lineColor
 	];
 		

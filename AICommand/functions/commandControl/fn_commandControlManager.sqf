@@ -2,6 +2,7 @@
 #include "..\properties.h"
 #include "..\interactiveIcon\functions.h"
 #include "..\actionControl\functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -27,25 +28,27 @@ if(hasInterface) then {
 		_actionControlShown = false;
 		_commandControlsAlpha = -1;
 		
-		// Draw all shown action controls
+		// Draw all visible action controls
 		
 		{
-			if(AIC_fnc_getActionControlShown(_x)) then {
+			if(AIC_fnc_getMapElementVisible(_x)) then {
 				[_x] call AIC_fnc_drawActionControl;
 				_actionControlShown = true;
 			};
 		} forEach _actionControls;
-	
-		// Adjust transparency of command controls if action controls are shown
-		
-		if(_actionControlShown) then {
-			_commandControlsAlpha = 0.2;
-		};
 		
 		// Draw command controls
 		
 		{
-			[_x,_alpha] call AIC_fnc_drawCommandControl;
+			// Move all command controls to the background if an action control is visible
+		
+			if(_actionControlShown) then {
+				[_x,false] call AIC_fnc_setMapElementForeground;
+			} else {
+				[_x,true] call AIC_fnc_setMapElementForeground;
+			};
+			
+			[_x] call AIC_fnc_drawCommandControl;
 		} forEach _commandControls;
 			
 	};

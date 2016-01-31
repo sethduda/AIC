@@ -9,7 +9,6 @@
 
 	Parameter(s):
 	_this select 0: NUMBER - Interactive Icon ID
-	_this select 1: NUMBER - Alpha (Optional - if set, this alpha value will be used for all drawing actions. If set to -1, alpha will not be changed)
 		
 	Returns: 
 	Nothing

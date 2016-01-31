@@ -119,7 +119,7 @@ if(isNil "_groupControlId") then {
 	if( _event == "ASSIGN_VEHICLE_ACTION_SELECTED" ) then {
 		private ["_actionControl"];
 		_actionControl = ["ASSIGN_GROUP_VEHICLE",[_groupControlId]] call AIC_fnc_createActionControl;
-		[_actionControl,true] call AIC_fnc_showActionControl;
+		[_actionControl,true] call AIC_fnc_setMapElementVisible;
 	};
 
 	if( _event == "UNASSIGN_VEHICLE_ACTION_SELECTED" ) then {

@@ -13,16 +13,14 @@
 
 	Parameter(s):
 	_this select 0: STRING - Group Control ID
-	_this select 1: NUMBER - Alpha (Optional - if set, this alpha value will be used for all drawing actions. If set to -1, alpha will not be changed)
 		
 	Returns: 
 	Nothing
 */
 
-private ["_groupControlId","_alpha"];
+private ["_groupControlId"];
 
 _groupControlId = param [0];
-_alpha = param [1,-1];
 
 if!(AIC_fnc_getMapElementVisible(_groupControlId)) exitWith {};
 
@@ -39,7 +37,7 @@ AIC_fnc_setInteractiveIconPosition(_icon,_groupPosition);
 
 // Draw the interactive icon at the group's position
 
-[_icon,_alpha] call AIC_fnc_drawInteractiveIcon;
+[_icon] call AIC_fnc_drawInteractiveIcon;
 
 // Draw go code on top of the icon if group is waiting for go code
 
@@ -62,10 +60,10 @@ _waypointIcons = AIC_fnc_getGroupControlWaypointIcons(_groupControlId);
 
 private ["_priorWaypointPosition","_lineFromPosition","_lineToPosition","_lineColor"];
 
-if(_alpha >= 0) then {
-	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [_alpha];
-} else {
+if(AIC_fnc_getMapElementForeground(_groupControlId)) then {
 	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [1];
+} else {
+	_lineColor = ((AIC_fnc_getGroupControlColor(_groupControlId)) select 1) + [0.4];
 };
 
 {
@@ -91,9 +89,9 @@ if(AIC_fnc_getGroupControlAddingWaypoints(_groupControlId)) then {
 	if(isNil "_priorWaypointPosition") then {
 		_priorWaypointPosition = _groupPosition;
 	};
-	AIC_MAP_CONTROL drawLine [
-		(AIC_fnc_getMouseMapPosition()),
+	AIC_MAP_CONTROL drawArrow [
 		_priorWaypointPosition,
+		(AIC_fnc_getMouseMapPosition()),
 		_lineColor
 	];
 	//hint str (AIC_fnc_getMouseMapPosition());
@@ -102,5 +100,5 @@ if(AIC_fnc_getGroupControlAddingWaypoints(_groupControlId)) then {
 // Draw the waypoint interactive icons on top of the line
 
 {
-	[_x select 1,_alpha] call AIC_fnc_drawInteractiveIcon;
+	[_x select 1] call AIC_fnc_drawInteractiveIcon;
 } forEach _waypointIcons;
