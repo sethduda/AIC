@@ -49,7 +49,7 @@ if(_event == "REFRESH_GROUP_CONTROLS") then {
 			_containerId = AIC_fnc_getCommandControlGroupControlContainer(_commandControlId);
 			[_containerId,_groupControl] call AIC_fnc_addMapElementChild;
 			_commandControlShown = AIC_fnc_getCommandControlShown(_commandControlId);
-			[_groupControl,_commandControlShown] call AIC_fnc_showGroupControl;
+			[_groupControl,_commandControlShown] call AIC_fnc_setMapElementVisible;
 			_newGroupControls pushBack _groupControl;
 		};
 	} forEach _groups;

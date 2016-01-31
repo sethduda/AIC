@@ -1,11 +1,4 @@
 /*
-	Gets and sets the count of group controls that have been created.
-	Data type: NUMBER - count of interactive icons
-*/
-#define AIC_fnc_getGroupControlCount() missionNamespace getVariable ["AIC_Group_Control_Count",0]
-#define AIC_fnc_setGroupControlCount(_controlCount) missionNamespace setVariable ["AIC_Group_Control_Count",(_controlCount)]
-
-/*
 	Gets and sets the group associated to the group control
 	Data type: GROUP
 */
@@ -18,13 +11,6 @@
 */
 #define AIC_fnc_getGroupControlInteractiveIcon(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Icon",(_controlId)],nil]
 #define AIC_fnc_setGroupControlInteractiveIcon(_controlId,_interactiveGroupIcon) missionNamespace setVariable [format ["AIC_Group_Control_%1_Icon",(_controlId)],_interactiveGroupIcon]
-
-/*
-	Gets and sets if the group control is shown
-	Data type: BOOLEAN - is shown
-*/
-#define AIC_fnc_getGroupControlShown(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Shown",(_controlId)],false]
-#define AIC_fnc_setGroupControlShown(_controlId,_isShown) missionNamespace setVariable [format ["AIC_Group_Control_%1_Shown",(_controlId)],_isShown]
 
 /*
 	Gets and sets group control wp interactive icons
@@ -73,47 +59,3 @@
 */
 #define AIC_fnc_getGroupControlType(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],""]
 #define AIC_fnc_setGroupControlType(_controlId,_groupType) missionNamespace setVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],_groupType]
-
-
-
-
-
-/*
-	Author: [SA] Duda
-
-	Description:
-	Gets a map icon's properties
-
-	Parameter(s):
-	_this select 0: STRING - Icon ID
-		
-	Returns: 
-	ARRAY - [
-		STRING - Icon image path
-		NUMBER - Icon screen width
-		NUMBER - Icon screen height
-		NUMBER - Icon map width
-		NUMBER - Icon map height 
-	]
-*/
-#define AIC_fnc2_getMapIconProperties(iconId) missionNamespace getVariable ["AIC_Map_Icon_" + _iconId,nil]
-
-/*
-	Author: [SA] Duda
-
-	Description:
-	Gets a map icon's properties
-
-	Parameter(s):
-	_this select 0: STRING - Icon ID
-		
-	Returns: 
-	ARRAY - [
-		STRING - Icon image path
-		NUMBER - Icon screen width
-		NUMBER - Icon screen height
-		NUMBER - Icon map width
-		NUMBER - Icon map height 
-	]
-*/
-#define AIC_inc_getInteractiveIconPosition(interactiveIconId) missionNamespace getVariable ("AIC_Interactive_Icon_" + (interactiveIconId) + "_Position")

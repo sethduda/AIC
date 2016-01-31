@@ -31,7 +31,6 @@ class AICommand
 		class getGroupControlWpIconSet {description = ""};
 		class createGroupControl {description = ""};
 		class drawGroupControl {description = ""};
-		class showGroupControl {description = ""};
 		class groupControlEventHandler {description = ""};
 		class groupControlWaypointEventHandler {description = ""};
 		class groupControlManager {description = ""; postInit=1};

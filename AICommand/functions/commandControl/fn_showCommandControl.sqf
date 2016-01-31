@@ -23,7 +23,4 @@ private ["_groupControls"];
 
 AIC_fnc_setCommandControlShown(_commandId, _showCommandControl);
 
-_groupControls = AIC_fnc_getCommandControlGroupsControls(_commandId);
-{
-	[_x, _showCommandControl] call AIC_fnc_showGroupControl;
-} forEach _groupControls;
+[_commandId,_showCommandControl] call AIC_fnc_setMapElementVisible;
