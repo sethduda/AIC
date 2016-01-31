@@ -59,3 +59,20 @@
 */
 #define AIC_fnc_getGroupControlType(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],""]
 #define AIC_fnc_setGroupControlType(_controlId,_groupType) missionNamespace setVariable [format ["AIC_Group_Control_%1_Group_Type",(_controlId)],_groupType]
+
+/*
+	Gets and sets group level actions
+	Data type: ARRAY - [
+		STRING - Action id, ...
+	]
+*/
+#define AIC_fnc_getGroupControlActions(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Actions",(_controlId)],[]]
+#define AIC_fnc_setGroupControlActions(_controlId,_controlActions) missionNamespace setVariable [format ["AIC_Group_Control_%1_Actions",(_controlId)],(_controlActions)]
+
+/*
+	Gets and sets waypoints revision for a group command
+	Data type: STRING - interactive icon id
+*/
+#define AIC_fnc_getGroupControlActionsRevision(_controlId) missionNamespace getVariable [format ["AIC_Group_Control_%1_Actions_Revision",(_controlId)],0]
+#define AIC_fnc_setGroupControlActionsRevision(_controlId,_actionRevision) missionNamespace setVariable [format ["AIC_Group_Control_%1_Actions_Revision",(_controlId)],_actionRevision]
+

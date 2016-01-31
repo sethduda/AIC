@@ -68,7 +68,7 @@ if(isDedicated || !hasInterface) exitWith {};
 	};
 };
 
-// Manage updates to group color & icon type
+// Manage updates to group color
 
 [] spawn {
 	private ["_currentControlColor","_waypoints","_currentWpRevision","_groupControls","_group","_groupControlId"];
@@ -113,6 +113,25 @@ if(isDedicated || !hasInterface) exitWith {};
 	};
 };
 
+// Manage updates to group actions
+
+[] spawn {
+	private ["_lastActionRevision","_groupActions","_currentActionsRevision","_groupControls","_group","_groupControlId"];
+	while {true} do {
+		_groupControls = AIC_fnc_getGroupControls();
+		{
+			_groupControlId = _x;
+			_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+			_lastActionRevision = AIC_fnc_getGroupControlActionsRevision(_groupControlId);  
+			_groupActions = [_group] call AIC_fnc_getGroupActions;
+			_currentActionsRevision = _groupActions select 0;
+			if(_lastActionRevision != _currentActionsRevision) then {
+				[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
+			};
+		} forEach _groupControls;
+		sleep 2;
+	};
+};
 
 
 

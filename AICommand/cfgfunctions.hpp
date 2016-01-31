@@ -24,6 +24,8 @@ class AICommand
 		class setGroupColor {description = ""};
 		class getGroupColor {description = ""};
 		class getAllActiveWaypoints {description = ""};
+		class getGroupActions {description = ""};
+		class setGroupActions {description = ""};
 	};
 
 	class CommandMenu
@@ -130,5 +132,16 @@ class AICommand
 		class showCommandControl {description = ""};
 		class sendGoCode {description = ""};
 	};
+	
+	class ActionControlsGroupVehicleAssignmentAction
+	{
+		file = "AICommand\functions\mapElements\actionControls\groupVehicleAssignmentAction";
+		class createGroupVehicleAssignmentAction {description = "";};
+		class deleteGroupVehicleAssignmentAction {description = "";};
+		class drawGroupVehicleAssignmentAction {description = "";};
+		class groupVehicleAssignmentActionManager {description = ""; postInit=1};
+		class groupVehicleAssignmentActionEventHandler {description = "";};
+	};
+	
 	
 };

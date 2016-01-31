@@ -89,7 +89,8 @@ if(isNil "_groupControlId") then {
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
 	
 	if( _event == "ASSIGN_VEHICLE_SELECTED" ) then {
-		private ["_vehicle","_vehicleRoles","_vehicleRolesCount","_groupUnits","_groupUnitCount","_minCount","_role","_unit"];
+	
+		private ["_vehicle","_vehicleRoles","_vehicleRolesCount","_groupUnits","_groupUnitCount","_minCount","_role","_unit","_action","_actions"];
 		_vehicle = _params select 0;
 
 		_vehicleRoles = [_vehicle] call BIS_fnc_vehicleRoles;
@@ -113,6 +114,28 @@ if(isNil "_groupControlId") then {
 			};
 			[[_unit],true] remoteExec ["orderGetIn", _unit];
 		};
+		
+		
+		private ["_groupActions","_newGroupActions","_existingAction","_existingVehicles","_groupActionUpdated"];
+		
+		_groupActions = ([_group] call AIC_fnc_getGroupActions) select 1;
+		_groupActionUpdated = false;
+		_newGroupActions = [];
+		{
+			if((_x select 0) == "GROUP_VEHICLE_ASSIGNMENT") then {
+				_existingAction = _x;
+				_existingVehicles = (_existingAction select 1) select 0;
+				_newGroupActions pushBack ["GROUP_VEHICLE_ASSIGNMENT",[_existingVehicles + [_vehicle]]];
+			} else {
+				_newGroupActions pushBack _x;
+			}
+		} forEach _groupActions;
+		if(!_groupActionUpdated) then {
+			_newGroupActions pushBack ["GROUP_VEHICLE_ASSIGNMENT",[[_vehicle]]];
+		};
+		[_group, _newGroupActions] call AIC_fnc_setGroupActions;
+		
+		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
 		
 	};
 	
@@ -195,6 +218,34 @@ if(isNil "_groupControlId") then {
 		_interactiveIconId = AIC_fnc_getGroupControlInteractiveIcon(_groupControlId);
 		AIC_fnc_setInteractiveIconIconSet(_interactiveIconId,_iconSet);
 		AIC_fnc_setGroupControlType(_groupControlId,(_group call AIC_fnc_getGroupIconType));
+	};
+	
+	if(_event == "REFRESH_ACTIONS" ) then {
+	
+		private ["_groupActions","_existingActions"];
+		_groupActions = [_group] call AIC_fnc_getGroupActions;
+		_existingActions = AIC_fnc_getGroupControlActions(_groupControlId);
+		
+		// Remove all existing actions
+		{
+			[_x] call AIC_fnc_deleteMapElement;
+		} forEach _existingActions;
+		
+		// Add all actions assigned to group
+		_newActions = [];
+		{
+			_actionType = _x select 0;
+			_actionParams = _x select 1;
+			if(_actionType == "GROUP_VEHICLE_ASSIGNMENT") then {
+				_vehicles = _actionParams select 0;
+				_action = [_groupControlId, _group, _vehicles] call AIC_fnc_createGroupVehicleAssignmentAction;
+				_newActions pushBack _action;
+				[_groupControlId,_action] call AIC_fnc_addMapElementChild;
+			};
+		} forEach (_groupActions select 1);
+		AIC_fnc_setGroupControlActions(_groupControlId,_newActions);
+		AIC_fnc_setGroupControlActionsRevision(_groupControlId, _groupActions select 0); 
+		
 	};
 	
 	if(_event == "REFRESH_WAYPOINTS" ) then {

@@ -1,3 +1,9 @@
+#include "actionControl\functions.h"
+#include "actionControls\functions.h"
+#include "commandControl\functions.h"
+#include "groupControl\functions.h"
+#include "interactiveIcon\functions.h"
+
 /*
 	Get and sets the count of elements created
 	Data Type: NUMBER - count of elements already created
@@ -76,5 +82,5 @@
 	Get and sets the map element delete function name to be called when a map element is deleted. Will pass in the map element id as _this select 0.
 	Data Type: SCRIPT
 */
-#define AIC_fnc_getMapElementDeleteFunction(_elementId) missionNamespace getVariable [format ["AIC_Map_Element_%1_Delete_Function",(_elementId)],{}]
+#define AIC_fnc_getMapElementDeleteFunction(_elementId) missionNamespace getVariable [format ["AIC_Map_Element_%1_Delete_Function",(_elementId)],""]
 #define AIC_fnc_setMapElementDeleteFunction(_elementId,_deleteFunction) missionNamespace setVariable [format ["AIC_Map_Element_%1_Delete_Function",(_elementId)],(_deleteFunction)]

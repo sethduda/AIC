@@ -44,7 +44,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=12;
+		items=13;
 		class Item0
 		{
 			side="WEST";
@@ -497,6 +497,24 @@ class Mission
 				};
 			};
 		};
+		class Item12
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={1914.174,5.5,5939.8179};
+					id=40;
+					side="WEST";
+					vehicle="B_Soldier_TL_F";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.5;
+				};
+			};
+		};
 	};
 	class Vehicles
 	{
@@ -504,7 +522,7 @@ class Mission
 		class Item0
 		{
 			position[]={1748.1016,5.5,5831.1089};
-			id=40;
+			id=41;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -512,7 +530,7 @@ class Mission
 		class Item1
 		{
 			position[]={1755.0569,5.5,5819.3716};
-			id=41;
+			id=42;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -520,7 +538,7 @@ class Mission
 		class Item2
 		{
 			position[]={1735.9298,5.5,5823.0669};
-			id=42;
+			id=43;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -528,7 +546,7 @@ class Mission
 		class Item3
 		{
 			position[]={1761.5775,5.5,5835.2383};
-			id=43;
+			id=44;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -536,7 +554,7 @@ class Mission
 		class Item4
 		{
 			position[]={1765.7072,5.5,5810.46};
-			id=44;
+			id=45;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -544,7 +562,7 @@ class Mission
 		class Item5
 		{
 			position[]={1777.64,5.5,5822.4268};
-			id=45;
+			id=46;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -552,7 +570,7 @@ class Mission
 		class Item6
 		{
 			position[]={1774.1276,5.5,5843.1509};
-			id=46;
+			id=47;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;

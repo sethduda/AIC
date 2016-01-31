@@ -27,6 +27,8 @@ AIC_fnc_setGroupControlAddingWaypoints(_groupControlId,nil);
 AIC_fnc_setGroupControlWaypointRevision(_groupControlId,nil);
 AIC_fnc_setGroupControlColor(_groupControlId,nil);
 AIC_fnc_setGroupControlType(_groupControlId,nil);
+AIC_fnc_setGroupControlActions(_groupControlId,nil);
+AIC_fnc_setGroupControlActionsRevision(_groupControlId,nil);
 
 _groupControls = AIC_fnc_getGroupControls();
 _groupControls = _groupControls - [_groupControlId];
