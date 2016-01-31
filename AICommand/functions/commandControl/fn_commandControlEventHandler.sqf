@@ -26,7 +26,7 @@ _params = param [2,[]];
 if(_event == "REFRESH_GROUP_CONTROLS") then {
 
 	private ["_groupsRevision","_groups","_groupControls","_newGroupControls","_groupFound","_group","_groupControl"];
-	private ["_groupControlGroup","_commandControlShown","_groupControlsToRemove","_containerId"];
+	private ["_groupControlGroup","_groupControlsToRemove","_containerId"];
 	
 	_groupsRevision = AIC_fnc_getCommandControlGroupsRevision(_commandControlId);
 	_groups = AIC_fnc_getCommandControlGroups(_commandControlId);
@@ -48,8 +48,6 @@ if(_event == "REFRESH_GROUP_CONTROLS") then {
 			_groupControl = [_group] call AIC_fnc_createGroupControl;
 			_containerId = AIC_fnc_getCommandControlGroupControlContainer(_commandControlId);
 			[_containerId,_groupControl] call AIC_fnc_addMapElementChild;
-			_commandControlShown = AIC_fnc_getCommandControlShown(_commandControlId);
-			[_groupControl,_commandControlShown] call AIC_fnc_setMapElementVisible;
 			_newGroupControls pushBack _groupControl;
 		};
 	} forEach _groups;

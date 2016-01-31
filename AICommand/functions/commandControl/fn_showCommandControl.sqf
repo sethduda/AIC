@@ -19,8 +19,4 @@ private ["_commandId","_showCommandControl"];
 _commandId = param [0];
 _showCommandControl = param [1];
 
-private ["_groupControls"];
-
-AIC_fnc_setCommandControlShown(_commandId, _showCommandControl);
-
 [_commandId,_showCommandControl] call AIC_fnc_setMapElementVisible;

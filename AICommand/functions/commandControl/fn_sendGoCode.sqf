@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -18,7 +19,7 @@ _goCode = param [0];
 
 {
 	_commandControlId = _x;
-	if(AIC_fnc_getCommandControlShown(_commandControlId)) then {
+	if(AIC_fnc_getMapElementVisible(_commandControlId)) then {
 		{
 			[_x,_goCode] call AIC_fnc_sendWaypointGoCode;
 		} forEach (AIC_fnc_getCommandControlGroups(_commandControlId));		

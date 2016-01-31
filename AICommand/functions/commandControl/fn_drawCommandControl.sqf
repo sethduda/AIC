@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -22,7 +23,7 @@ private ["_commandId","_alpha"];
 _commandId = param [0];
 _alpha = param [1,-1];
 
-if(AIC_fnc_getCommandControlShown(_commandId)) then {
+if(AIC_fnc_getMapElementVisible(_commandId)) then {
 
 	private ["_groupControls"];
 	_groupControls = AIC_fnc_getCommandControlGroupsControls(_commandId);

@@ -5,7 +5,6 @@
 #define AIC_fnc_getCommandControls() missionNamespace getVariable ["AIC_Command_Controls",[]]
 #define AIC_fnc_setCommandControls(_commandControls) missionNamespace setVariable ["AIC_Command_Controls",(_commandControls),true]
 
-
 /*
 	Gets and sets the current mouse world position on the map (client local)
 	Data type: POSITION - last known mouse position on the map
@@ -24,14 +23,6 @@
 #define AIC_fnc_setCommandControlGroups(_commandControlId,_groupsArray) missionNamespace setVariable [format ["AIC_Command_Control_%1_Groups",_commandControlId],[AIC_fnc_getCommandControlGroupsRevision(_commandControlId)+1,_groupsArray],true]
 #define AIC_fnc_getCommandControlGroupsRevision(_commandControlId) ((missionNamespace getVariable [format ["AIC_Command_Control_%1_Groups",_commandControlId],[0,[]]]) select 0)
 
-
-/*
-	Gets and sets if the command control is shown (client local)
-	Data type: BOOLEAN - is shown
-*/
-#define AIC_fnc_getCommandControlShown(_controlId) missionNamespace getVariable [format ["AIC_Command_Control_%1_Shown",(_controlId)],false]
-#define AIC_fnc_setCommandControlShown(_controlId,_isShown) missionNamespace setVariable [format ["AIC_Command_Control_%1_Shown",(_controlId)],_isShown]
-
 /*
 	Gets and sets group controls associated with a control id (client local)
 	Data type: ARRAY - [ STRING - group control id, ... ]
@@ -45,13 +36,6 @@
 */
 #define AIC_fnc_getCommandControlGroupsControlsRevision(_controlId) missionNamespace getVariable [format ["AIC_Command_Control_%1_Group_Controls_Revision",(_controlId)],0]
 #define AIC_fnc_setCommandControlGroupsControlsRevision(_controlId,_groupControlsRevision) missionNamespace setVariable [format ["AIC_Command_Control_%1_Group_Controls_Revision",(_controlId)],_groupControlsRevision]
-
-/*
-	Gets and sets if the command control is shown (client local)
-	Data type: BOOLEAN - is shown
-*/
-#define AIC_fnc_getCommandControlMapLayer() missionNamespace getVariable ["AIC_Command_Control_Map_Layer",nil]
-#define AIC_fnc_setCommandControlMapLayer(_mapLayerId) missionNamespace setVariable ["AIC_Command_Control_Map_Layer",_mapLayerId]
 
 /*
 	Gets and sets a command control's group control container element 
