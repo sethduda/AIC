@@ -1,5 +1,5 @@
 #include "functions.h"
-#include "..\properties.h"
+#include "..\..\properties.h"
 #include "..\groupControl\functions.h"
 
 /*

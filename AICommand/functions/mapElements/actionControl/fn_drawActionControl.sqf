@@ -2,8 +2,8 @@
 #include "..\interactiveIcon\functions.h"
 #include "..\commandControl\functions.h"
 #include "..\groupControl\functions.h"
-#include "..\mapElements\functions.h"
-#include "..\properties.h"
+#include "..\functions.h"
+#include "..\..\properties.h"
 
 /*
 	Author: [SA] Duda

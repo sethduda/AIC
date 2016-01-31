@@ -1,5 +1,5 @@
 #include "functions.h"
-#include "..\properties.h"
+#include "..\..\properties.h"
 #include "..\commandControl\functions.h"
 #include "..\interactiveIcon\functions.h"
 

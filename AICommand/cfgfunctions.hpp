@@ -67,7 +67,7 @@ class AICommand
 		class getVehicleMapIconSet {description = "";};
 		class getVehicleInteractiveIcon {description = "";};
 	};
-	
+		
 	class MapElements
 	{
 
@@ -77,57 +77,55 @@ class AICommand
 		class setMapElementVisible {description = "";};
 		class setMapElementForeground {description = "";};
 		class addMapElementChild {description = "";};
-		
-		class ActionControl
-		{
-			file = "AICommand\functions\mapElements\actionControl";
-			class actionControlEventHandler {description = "";};
-			class createActionControl {description = "";};
-			class drawActionControl {description = "";};
-		};
-		
-		class InteractiveIcon
-		{
-			file = "AICommand\functions\mapElements\interactiveIcon";
-			class interactiveIconManager {description = ""; postInit=1};
-			class createInteractiveIcon {description = ""};
-			class drawInteractiveIcon {description = ""};
-			class handleInteractiveIconEvent {description = ""};
-			class interactiveIconEventHandler {description = ""};
-			class getInteractiveIconsByMapPosition {description = ""};
-			class removeInteractiveIcon {description = ""};
-		};
-		
-		
-		class GroupControl
-		{
-			file = "AICommand\functions\mapElements\groupControl";
-			class getGroupIconType {description = ""};
-			class getGroupControlIconSet {description = ""};
-			class getGroupControlWpIconSet {description = ""};
-			class createGroupControl {description = ""};
-			class drawGroupControl {description = ""};
-			class groupControlEventHandler {description = ""};
-			class groupControlWaypointEventHandler {description = ""};
-			class groupControlManager {description = ""; postInit=1};
-			class showGroupReport {description = ""};
-			class removeGroupControl {description = ""};
-		};
-		
-		class CommandControl
-		{
-			file = "AICommand\functions\mapElements\commandControl";
-			class commandControlManager {description = ""; postInit=1};
-			class createCommandControl {description = ""};
-			class drawCommandControl {description = ""};
-			class commandControlAddGroup {description = ""};
-			class commandControlRemoveGroup {description = ""};
-			class commandControlEventHandler {description = ""};
-			class showCommandControl {description = ""};
-			class sendGoCode {description = ""};
-		};
-		
 	};
 	
+	class ActionControlMapElement
+	{
+		file = "AICommand\functions\mapElements\actionControl";
+		class actionControlEventHandler {description = "";};
+		class createActionControl {description = "";};
+		class drawActionControl {description = "";};
+	};
+	
+	class InteractiveIconMapElement
+	{
+		file = "AICommand\functions\mapElements\interactiveIcon";
+		class interactiveIconManager {description = ""; postInit=1};
+		class createInteractiveIcon {description = ""};
+		class drawInteractiveIcon {description = ""};
+		class handleInteractiveIconEvent {description = ""};
+		class interactiveIconEventHandler {description = ""};
+		class getInteractiveIconsByMapPosition {description = ""};
+		class removeInteractiveIcon {description = ""};
+	};
+	
+	
+	class GroupControlMapElement
+	{
+		file = "AICommand\functions\mapElements\groupControl";
+		class getGroupIconType {description = ""};
+		class getGroupControlIconSet {description = ""};
+		class getGroupControlWpIconSet {description = ""};
+		class createGroupControl {description = ""};
+		class drawGroupControl {description = ""};
+		class groupControlEventHandler {description = ""};
+		class groupControlWaypointEventHandler {description = ""};
+		class groupControlManager {description = ""; postInit=1};
+		class showGroupReport {description = ""};
+		class removeGroupControl {description = ""};
+	};
+	
+	class CommandControlMapElement
+	{
+		file = "AICommand\functions\mapElements\commandControl";
+		class commandControlManager {description = ""; postInit=1};
+		class createCommandControl {description = ""};
+		class drawCommandControl {description = ""};
+		class commandControlAddGroup {description = ""};
+		class commandControlRemoveGroup {description = ""};
+		class commandControlEventHandler {description = ""};
+		class showCommandControl {description = ""};
+		class sendGoCode {description = ""};
+	};
 	
 };

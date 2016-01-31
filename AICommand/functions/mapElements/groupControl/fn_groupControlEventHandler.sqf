@@ -1,8 +1,8 @@
 #include "functions.h"
-#include "..\properties.h"
+#include "..\..\properties.h"
 #include "..\commandControl\functions.h"
 #include "..\interactiveIcon\functions.h"
-#include "..\mapElements\functions.h"
+#include "..\functions.h"
 
 /*
 	Author: [SA] Duda

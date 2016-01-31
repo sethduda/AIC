@@ -1,5 +1,5 @@
 #include "functions.h"
-#include "..\mapElements\functions.h"
+#include "..\functions.h"
 
 /*
 	Author: [SA] Duda

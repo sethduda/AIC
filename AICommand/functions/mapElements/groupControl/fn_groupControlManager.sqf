@@ -1,6 +1,6 @@
 #include "functions.h"
 #include "..\interactiveIcon\functions.h"
-#include "..\properties.h"
+#include "..\..\properties.h"
 
 /*
 	Author: [SA] Duda

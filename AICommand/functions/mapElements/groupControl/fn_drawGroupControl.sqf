@@ -1,9 +1,9 @@
 #include "functions.h"
 #include "..\interactiveIcon\functions.h"
-#include "..\groupData\functions.h"
+#include "..\..\groupData\functions.h"
 #include "..\commandControl\functions.h"
-#include "..\mapElements\functions.h"
-#include "..\properties.h"
+#include "..\functions.h"
+#include "..\..\properties.h"
 
 /*
 	Author: [SA] Duda
