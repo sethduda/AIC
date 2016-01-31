@@ -18,17 +18,16 @@ private ["_group"];
 
 _group = param [0];
 
-private ["_groupControlCount","_groupControlId","_groupControls"];
+private ["_groupControlId","_groupControls"];
 
-_groupControlCount = AIC_fnc_getGroupControlCount();
-_groupControlId = str _groupControlCount;
-AIC_fnc_setGroupControlCount(_groupControlCount + 1);
+_groupControlId = [] call AIC_fnc_createMapElement;
 
 private ["_interactiveGroupIcon","_iconSet","_eventHandlerScript","_color"];
 
 _color = AIC_fnc_getGroupControlColor(_groupControlId); 
 _iconSet = [_group,_color] call AIC_fnc_getGroupControlIconSet;
 _interactiveGroupIcon = [_iconSet, position (leader _group)] call AIC_fnc_createInteractiveIcon;
+[_groupControlId,_interactiveGroupIcon] call AIC_fnc_addMapElementChild;
 
 _eventHandlerScript = {
 	private ["_event","_groupControlId","_params"];

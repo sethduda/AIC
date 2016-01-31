@@ -21,11 +21,9 @@ private ["_actionType","_parameters"];
 _actionType = param [0];
 _parameters = param [1,[]];
 
-private ["_actionControlCount","_actionControlId","_actionControls"];
+private ["_actionControlId","_actionControls"];
 
-_actionControlCount = AIC_fnc_getActionControlCount();
-_actionControlId = str _actionControlCount;
-AIC_fnc_setActionControlCount(_actionControlCount + 1);
+_actionControlId = [] call AIC_fnc_createMapElement;
 
 AIC_fnc_setActionControlType(_actionControlId,_actionType);
 AIC_fnc_setActionControlParameters(_actionControlId,_parameters);
@@ -55,6 +53,7 @@ if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 	{
 		if({alive _x} count crew _x == 0) then {
 			_nearIcon = [_x] call AIC_fnc_getVehicleInteractiveIcon;
+			[_actionControlId,_nearIcon] call AIC_fnc_addMapElementChild;
 			AIC_fnc_setInteractiveIconShown(_nearIcon, false);
 			AIC_fnc_setInteractiveIconEventHandlerScript(_nearIcon,_eventHandlerScript);
 			_params = [_actionControlId,[_nearIcon,_x]];

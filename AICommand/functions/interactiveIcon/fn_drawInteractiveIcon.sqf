@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -14,12 +15,10 @@
 	Nothing
 */
 
-private ["_interactiveIconId","_shown","_activeIconIds","_position","_state","_alpha"];
+private ["_interactiveIconId","_activeIconIds","_position","_state"];
 _interactiveIconId = param [0];
-_alpha = param [1,-1];
 
-_shown = AIC_fnc_getInteractiveIconShown(_interactiveIconId);
-if(!_shown) exitWith {};
+if(!AIC_fnc_getMapElementVisible(_interactiveIconId)) exitWith {};
 
 _state = AIC_fnc_getInteractiveIconState(_interactiveIconId);
 
@@ -40,5 +39,5 @@ if(_state == "UNSELECTED") then {
 _position = AIC_fnc_getInteractiveIconPosition(_interactiveIconId);
 
 {
-	[_x, _position,_alpha] call AIC_fnc_drawMapIcon;
+	[_x, _position, AIC_fnc_getMapElementForeground(_interactiveIconId)] call AIC_fnc_drawMapIcon;
 } forEach _activeIconIds;

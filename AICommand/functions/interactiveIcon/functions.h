@@ -49,6 +49,13 @@
 #define AIC_fnc_setInteractiveIconShown(_interactiveIconId,_isShown) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Shown",(_interactiveIconId)],_isShown]
 
 /*
+	Gets and sets if the interactive icon is enabled
+	Data type: BOOLEAN - is interactive icon enabled (defaults to false)
+*/
+#define AIC_fnc_getInteractiveIconEnabled(_interactiveIconId) missionNamespace getVariable [format ["AIC_Interactive_Icon_%1_Enabled",(_interactiveIconId)],false]
+#define AIC_fnc_setInteractiveIconEnabled(_interactiveIconId,_isEnabled) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Enabled",(_interactiveIconId)],_isEnabled]
+
+/*
 	Gets and sets if the interactive icon event handler script
 	Data type: SCRIPT - event handler script
 */

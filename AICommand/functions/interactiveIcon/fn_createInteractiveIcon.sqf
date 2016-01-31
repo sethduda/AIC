@@ -25,11 +25,9 @@ private ["_iconSet","_iconPosition"];
 _iconSet = param [0];
 _iconPosition = param [1];
 
-private ["_interactiveIconCount","_interactiveIconId","_interactiveIconDimensions","_interactiveIcons","_iconProps"];
+private ["_interactiveIconId","_interactiveIconDimensions","_interactiveIcons","_iconProps"];
 
-_interactiveIconCount = AIC_fnc_getInteractiveIconCount();
-_interactiveIconId = str _interactiveIconCount;
-AIC_fnc_setInteractiveIconCount(_interactiveIconCount + 1);
+_interactiveIconId = [] call AIC_fnc_createMapElement;
 
 _iconProps = AIC_fnc_getMapIconProperties((_iconSet select 0) select 0);
 _interactiveIconDimensions = [_iconProps select 3, _iconProps select 4];

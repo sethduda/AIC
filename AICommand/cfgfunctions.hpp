@@ -119,4 +119,23 @@ class AICommand
 		class showActionControl {description = "";};
 	};
 	
+	
+	class MapElements
+	{
+		file = "AICommand\functions\mapElements";
+		class createMapElement {description = "";};
+		class setMapElementEnabled {description = "";};
+		class setMapElementVisible {description = "";};
+		class setMapElementForeground {description = "";};
+		class addMapElementChild {description = "";};
+	};
+	
+	
+	class MapLayer
+	{
+		file = "AICommand\functions\mapLayer";
+		class createMapLayer {description = "";};
+	};
+	
+	
 };

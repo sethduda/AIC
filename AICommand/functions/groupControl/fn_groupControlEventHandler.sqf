@@ -223,6 +223,7 @@ if(isNil "_groupControlId") then {
 
 			if(_waypointIconIndex >= _waypointIconCount) then {
 				_wpIconId = [_waypointIconSet, _x select 1] call AIC_fnc_createInteractiveIcon;
+				[_groupControlId,_wpIconId] call AIC_fnc_addMapElementChild;
 				AIC_fnc_setInteractiveIconShown(_wpIconId,_showWaypoints);
 				_waypointIcons set [_waypointIconIndex,[_waypointIconIndex,_wpIconId]];
 				_eventHandlerScript = {

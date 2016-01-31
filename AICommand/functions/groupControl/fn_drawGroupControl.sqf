@@ -2,6 +2,7 @@
 #include "..\interactiveIcon\functions.h"
 #include "..\groupData\functions.h"
 #include "..\commandControl\functions.h"
+#include "..\mapElements\functions.h"
 #include "..\properties.h"
 
 /*
@@ -44,10 +45,10 @@ AIC_fnc_setInteractiveIconPosition(_icon,_groupPosition);
 
 if(!isNil "_goCode") then {
 	if(_goCode == "ALPHA") then {
-		[A_GO_CODE_ICON,_groupPosition,_alpha] call AIC_fnc_drawMapIcon;
+		[A_GO_CODE_ICON,_groupPosition,AIC_fnc_getMapElementForeground(_groupControlId)] call AIC_fnc_drawMapIcon;
 	};
 	if(_goCode == "BRAVO") then {
-		[B_GO_CODE_ICON,_groupPosition,_alpha] call AIC_fnc_drawMapIcon;
+		[B_GO_CODE_ICON,_groupPosition,AIC_fnc_getMapElementForeground(_groupControlId)] call AIC_fnc_drawMapIcon;
 	};
 };
 

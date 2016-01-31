@@ -34,7 +34,7 @@
 
 /*
 	Gets and sets group controls associated with a control id (client local)
-	Data type: BOOLEAN - is showns
+	Data type: ARRAY - [ STRING - group control id, ... ]
 */
 #define AIC_fnc_getCommandControlGroupsControls(_controlId) missionNamespace getVariable [format ["AIC_Command_Control_%1_Group_Controls",(_controlId)],[]]
 #define AIC_fnc_setCommandControlGroupsControls(_controlId,_groupControls) missionNamespace setVariable [format ["AIC_Command_Control_%1_Group_Controls",(_controlId)],_groupControls]
@@ -45,3 +45,17 @@
 */
 #define AIC_fnc_getCommandControlGroupsControlsRevision(_controlId) missionNamespace getVariable [format ["AIC_Command_Control_%1_Group_Controls_Revision",(_controlId)],0]
 #define AIC_fnc_setCommandControlGroupsControlsRevision(_controlId,_groupControlsRevision) missionNamespace setVariable [format ["AIC_Command_Control_%1_Group_Controls_Revision",(_controlId)],_groupControlsRevision]
+
+/*
+	Gets and sets if the command control is shown (client local)
+	Data type: BOOLEAN - is shown
+*/
+#define AIC_fnc_getCommandControlMapLayer() missionNamespace getVariable ["AIC_Command_Control_Map_Layer",nil]
+#define AIC_fnc_setCommandControlMapLayer(_mapLayerId) missionNamespace setVariable ["AIC_Command_Control_Map_Layer",_mapLayerId]
+
+/*
+	Gets and sets a command control's group control container element 
+	Data type: STRING - map element id
+*/
+#define AIC_fnc_getCommandControlGroupControlContainer(_controlId) missionNamespace getVariable [format ["AIC_Command_Control_%1_Group_Control_Container",(_controlId)],nil]
+#define AIC_fnc_setCommandControlGroupControlContainer(_controlId,_groupControlContainer) missionNamespace setVariable [format ["AIC_Command_Control_%1_Group_Control_Container",(_controlId)],_groupControlContainer]
