@@ -65,7 +65,7 @@ class AICommand
 		file = "AICommand\functions\vehicleIcon";
 		class getVehicleIconPath {description = "";};
 		class getVehicleMapIconSet {description = "";};
-		class getVehicleInteractiveIcon {description = "";};
+		class createVehicleInteractiveIcon {description = "";};
 	};
 		
 	class MapElements
@@ -77,6 +77,7 @@ class AICommand
 		class setMapElementVisible {description = "";};
 		class setMapElementForeground {description = "";};
 		class addMapElementChild {description = "";};
+		class deleteMapElement {description = "";};
 	};
 	
 	class ActionControlMapElement
@@ -85,6 +86,7 @@ class AICommand
 		class actionControlEventHandler {description = "";};
 		class createActionControl {description = "";};
 		class drawActionControl {description = "";};
+		class deleteActionControl {description = "";};
 	};
 	
 	class InteractiveIconMapElement

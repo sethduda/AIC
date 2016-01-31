@@ -23,7 +23,7 @@ _parameters = param [1,[]];
 
 private ["_actionControlId","_actionControls"];
 
-_actionControlId = [false,false] call AIC_fnc_createMapElement;
+_actionControlId = ["AIC_fnc_deleteActionControl",false,false] call AIC_fnc_createMapElement;
 
 AIC_fnc_setActionControlType(_actionControlId,_actionType);
 AIC_fnc_setActionControlParameters(_actionControlId,_parameters);
@@ -34,12 +34,13 @@ AIC_fnc_setActionControls(_actionControls);
 
 if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 
-	private ["_groupControlId", "_group", "_groupPosition", "_nearVehicles","_nearIcon","_nearVehicleIcons","_eventHandlerScript","_params"];
+	private ["_groupControlId", "_group", "_groupPosition", "_nearVehicles","_nearIcon","_nearVehicleIcons","_eventHandlerScript","_params","_color"];
 	
 	_groupControlId = _parameters select 0;
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
 	_groupPosition = position (leader _group);
 	_nearVehicles = nearestObjects [_groupPosition, ["LandVehicle","Boat","Air"], 300];
+	_color = AIC_fnc_getGroupControlColor(_groupControlId);
 	
 	_eventHandlerScript = {
 		private ["_event","_actionControlId","_vehicleAndIconParams"];
@@ -52,7 +53,7 @@ if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 	_nearVehicleIcons = [];
 	{
 		if({alive _x} count crew _x == 0) then {
-			_nearIcon = [_x] call AIC_fnc_getVehicleInteractiveIcon;
+			_nearIcon = [_x,_color] call AIC_fnc_createVehicleInteractiveIcon;
 			[_actionControlId,_nearIcon] call AIC_fnc_addMapElementChild;
 			AIC_fnc_setInteractiveIconEventHandlerScript(_nearIcon,_eventHandlerScript);
 			_params = [_actionControlId,[_nearIcon,_x]];

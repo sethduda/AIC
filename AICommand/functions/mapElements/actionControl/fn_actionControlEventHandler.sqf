@@ -43,7 +43,7 @@ if(isNil "_actionControlId") then {
 			private ["_vehicle"];
 			_vehicle = _params select 1;
 			[_groupControlId, "ASSIGN_VEHICLE_SELECTED", [_vehicle]] spawn AIC_fnc_groupControlEventHandler;
-			[_actionControlId,false] call AIC_fnc_setMapElementVisible;
+			[_actionControlId] call AIC_fnc_deleteMapElement;
 		};
 	};
 

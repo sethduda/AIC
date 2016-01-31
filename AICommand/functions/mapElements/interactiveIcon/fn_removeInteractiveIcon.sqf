@@ -4,7 +4,7 @@
 	Author: [SA] Duda
 
 	Description:
-	Remove interactive icon
+	Remove interactive icon (do not call directly - use AIC_fnc_deleteMapElement instead)
 
 	Parameter(s):
 	_this select 0: STRING - Interactive Icon ID
@@ -15,6 +15,13 @@
 
 private ["_interactiveIconId","_interactiveIcons"];
 _interactiveIconId = param [0];
+
+AIC_fnc_setInteractiveIconIconSet(_interactiveIconId, nil);
+AIC_fnc_setInteractiveIconPosition(_interactiveIconId, nil);
+AIC_fnc_setInteractiveIconState(_interactiveIconId, nil);
+AIC_fnc_setInteractiveIconDimensions(_interactiveIconId, nil);
+AIC_fnc_setInteractiveIconEventHandlerScript(_interactiveIconId, nil);
+AIC_fnc_setInteractiveIconEventHandlerScriptParams(_interactiveIconId, nil);
 
 _interactiveIcons = AIC_fnc_getInteractiveIcons();
 _interactiveIcons = _interactiveIcons - [_interactiveIconId];

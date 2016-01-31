@@ -5,7 +5,7 @@
 	Author: [SA] Duda
 
 	Description:
-	Remove the specified group control
+	Remove the specified group control (do not call directly - use AIC_fnc_deleteMapElement instead)
 
 	Parameter(s):
 	_this select 0: STRING - group control id
@@ -18,18 +18,16 @@ private ["_groupControlId"];
 
 _groupControlId = param [0];
 
-private ["_groupControlIcon","_groupControls","_waypointIcons"];
+private ["_groupControls"];
+
+AIC_fnc_setGroupControlGroup(_groupControlId,nil);
+AIC_fnc_setGroupControlInteractiveIcon(_groupControlId,nil);
+AIC_fnc_setGroupControlWaypointIcons(_groupControlId,nil);
+AIC_fnc_setGroupControlAddingWaypoints(_groupControlId,nil);
+AIC_fnc_setGroupControlWaypointRevision(_groupControlId,nil);
+AIC_fnc_setGroupControlColor(_groupControlId,nil);
+AIC_fnc_setGroupControlType(_groupControlId,nil);
 
 _groupControls = AIC_fnc_getGroupControls();
 _groupControls = _groupControls - [_groupControlId];
 AIC_fnc_setGroupControls(_groupControls);
-
-_groupControlIcon = AIC_fnc_getGroupControlInteractiveIcon(_groupControlId);
-if(!isNil "_groupControlIcon") then {
-	[_groupControlIcon] call AIC_fnc_removeInteractiveIcon;
-};
-
-_waypointIcons = AIC_fnc_getGroupControlWaypointIcons(_groupControlId);
-{	
-	[_x select 1] call AIC_fnc_removeInteractiveIcon;
-} forEach _waypointIcons;

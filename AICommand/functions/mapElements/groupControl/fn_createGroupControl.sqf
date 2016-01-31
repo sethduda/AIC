@@ -20,7 +20,7 @@ _group = param [0];
 
 private ["_groupControlId","_groupControls"];
 
-_groupControlId = [] call AIC_fnc_createMapElement;
+_groupControlId = ["AIC_fnc_removeGroupControl"] call AIC_fnc_createMapElement;
 
 private ["_interactiveGroupIcon","_iconSet","_eventHandlerScript","_color"];
 

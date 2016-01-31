@@ -27,7 +27,7 @@ _iconPosition = param [1];
 
 private ["_interactiveIconId","_interactiveIconDimensions","_interactiveIcons","_iconProps"];
 
-_interactiveIconId = [] call AIC_fnc_createMapElement;
+_interactiveIconId = ["AIC_fnc_removeInteractiveIcon"] call AIC_fnc_createMapElement;
 
 _iconProps = AIC_fnc_getMapIconProperties((_iconSet select 0) select 0);
 _interactiveIconDimensions = [_iconProps select 3, _iconProps select 4];
