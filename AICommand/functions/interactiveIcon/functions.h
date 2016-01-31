@@ -1,11 +1,4 @@
 /*
-	Gets and sets the count of interactive icons that have been created.
-	Data type: NUMBER - count of interactive icons
-*/
-#define AIC_fnc_getInteractiveIconCount() missionNamespace getVariable ["AIC_Interactive_Icon_Count",0]
-#define AIC_fnc_setInteractiveIconCount(_iconCount) missionNamespace setVariable ["AIC_Interactive_Icon_Count",(_iconCount)]
-
-/*
 	Gets and sets the set of map icons associated with an interactive icon
 	Data type: ARRAY - [
 		ARRAY - [ STRING - Unselected Map Icon Ids, ... ],
@@ -42,20 +35,6 @@
 #define AIC_fnc_setInteractiveIconDimensions(_interactiveIconId,_iconDimensions) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Dimensions",(_interactiveIconId)],_iconDimensions]
 
 /*
-	Gets and sets if the interactive icon is shown
-	Data type: BOOLEAN - is interactive icon shown (defaults to false)
-*/
-#define AIC_fnc_getInteractiveIconShown(_interactiveIconId) missionNamespace getVariable [format ["AIC_Interactive_Icon_%1_Shown",(_interactiveIconId)],false]
-#define AIC_fnc_setInteractiveIconShown(_interactiveIconId,_isShown) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Shown",(_interactiveIconId)],_isShown]
-
-/*
-	Gets and sets if the interactive icon is enabled
-	Data type: BOOLEAN - is interactive icon enabled (defaults to false)
-*/
-#define AIC_fnc_getInteractiveIconEnabled(_interactiveIconId) missionNamespace getVariable [format ["AIC_Interactive_Icon_%1_Enabled",(_interactiveIconId)],false]
-#define AIC_fnc_setInteractiveIconEnabled(_interactiveIconId,_isEnabled) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Enabled",(_interactiveIconId)],_isEnabled]
-
-/*
 	Gets and sets if the interactive icon event handler script
 	Data type: SCRIPT - event handler script
 */
@@ -68,7 +47,6 @@
 */
 #define AIC_fnc_getInteractiveIconEventHandlerScriptParams(_interactiveIconId) missionNamespace getVariable [format ["AIC_Interactive_Icon_%1_Event_Handler_Params",(_interactiveIconId)],[]]
 #define AIC_fnc_setInteractiveIconEventHandlerScriptParams(_interactiveIconId,_scriptParams) missionNamespace setVariable [format ["AIC_Interactive_Icon_%1_Event_Handler_Params",(_interactiveIconId)],_scriptParams]
-
 
 /*
 	Gets and sets all of the interactive icons

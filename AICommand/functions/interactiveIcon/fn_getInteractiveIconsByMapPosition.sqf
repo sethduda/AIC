@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -31,7 +32,7 @@ _iconsAtPosition = [];
 _iconsNotAtPosition = [];
 
 {
-	if(AIC_fnc_getInteractiveIconShown(_x)) then {
+	if(AIC_fnc_getMapElementVisible(_x)) then {
 		_iconWorldPosition = AIC_fnc_getInteractiveIconPosition(_x);
 		_iconMapPosition = (findDisplay 12 displayCtrl 51) ctrlMapWorldToScreen _iconWorldPosition;
 		_iconMapPositionX = _iconMapPosition select 0;

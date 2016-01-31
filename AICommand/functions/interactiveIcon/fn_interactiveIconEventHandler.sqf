@@ -1,5 +1,6 @@
 #include "functions.h"
 #include "..\properties.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -30,28 +31,28 @@ _mouseButtonDownIcon = missionNamespace getVariable ["AIC_Interactive_Icon_Mouse
 // Clear icon variables if the icons aren't currently shown
 
 if(!isNil "_selectedIcon") then {
-	if!(AIC_fnc_getInteractiveIconShown(_selectedIcon)) then {
+	if!(AIC_fnc_getMapElementVisible(_selectedIcon)) then {
 		AIC_Interactive_Icon_Selected_Icon = nil;
 		_selectedIcon = nil;
 	};
 };
 
 if(!isNil "_overIcon") then {
-	if!(AIC_fnc_getInteractiveIconShown(_overIcon)) then {
+	if!(AIC_fnc_getMapElementVisible(_overIcon)) then {
 		AIC_Interactive_Icon_Over_Icon = nil;
 		_overIcon = nil;
 	};
 };
 
 if(!isNil "_pickedUpIcon") then {
-	if!(AIC_fnc_getInteractiveIconShown(_pickedUpIcon)) then {
+	if!(AIC_fnc_getMapElementVisible(_pickedUpIcon)) then {
 		AIC_Interactive_Icon_Picked_Up_Icon = nil;
 		_pickedUpIcon = nil;
 	};
 };
 
 if(!isNil "_mouseButtonDownIcon") then {
-	if!(AIC_fnc_getInteractiveIconShown(_mouseButtonDownIcon)) then {
+	if!(AIC_fnc_getMapElementVisible(_mouseButtonDownIcon)) then {
 		AIC_Interactive_Icon_Mouse_Button_Down_Icon = nil;
 		_mouseButtonDownIcon = nil;
 	};

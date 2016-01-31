@@ -24,7 +24,7 @@ private ["_groupControlId","_alpha"];
 _groupControlId = param [0];
 _alpha = param [1,-1];
 
-if!(AIC_fnc_getGroupControlShown(_groupControlId)) exitWith {};
+if!(AIC_fnc_getMapElementVisible(_groupControlId)) exitWith {};
 
 private ["_group","_icon","_groupPosition","_goCode"];
 

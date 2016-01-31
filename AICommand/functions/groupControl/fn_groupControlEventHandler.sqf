@@ -2,6 +2,7 @@
 #include "..\properties.h"
 #include "..\commandControl\functions.h"
 #include "..\interactiveIcon\functions.h"
+#include "..\mapElements\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -54,7 +55,7 @@ if(isNil "_groupControlId") then {
 		private ["_groupControls"];
 		_groupControls = AIC_fnc_getGroupControls();
 		{
-			if(AIC_fnc_getGroupControlShown(_x)) then {
+			if(AIC_fnc_getMapElementVisible(_x)) then {
 				if(_params select 1 == 1) then {			
 					[_x,"RIGHT_MOUSE_BUTTON_DOWN_MAP",[]] call AIC_fnc_groupControlEventHandler;
 				} else {
@@ -69,7 +70,7 @@ if(isNil "_groupControlId") then {
 		private ["_groupControls"];
 		_groupControls = AIC_fnc_getGroupControls();
 		{
-			if(AIC_fnc_getGroupControlShown(_x)) then {
+			if(AIC_fnc_getMapElementVisible(_x)) then {
 				if(_params select 1 == 1) then {			
 					[_x,"RIGHT_MOUSE_BUTTON_CLICK_MAP",[]] call AIC_fnc_groupControlEventHandler;
 				} else {
@@ -213,18 +214,16 @@ if(isNil "_groupControlId") then {
 		_waypointIconIndex = 0;
 
 		
-		private ["_waypointIcon","_wpIconId","_waypointType","_waypointIconSet","_interactiveIconId","_interactiveIconPosition","_eventHandlerScript","_eventHandlerScriptParams","_showWaypoints"];
+		private ["_waypointIcon","_wpIconId","_waypointType","_waypointIconSet","_interactiveIconId","_interactiveIconPosition","_eventHandlerScript","_eventHandlerScriptParams"];
 		
 		{
 			
 			_waypointType = _x select 3;
 			_waypointIconSet = [_waypointType,_color] call AIC_fnc_getGroupControlWpIconSet;
-			_showWaypoints = AIC_fnc_getGroupControlShown(_groupControlId);
 
 			if(_waypointIconIndex >= _waypointIconCount) then {
 				_wpIconId = [_waypointIconSet, _x select 1] call AIC_fnc_createInteractiveIcon;
 				[_groupControlId,_wpIconId] call AIC_fnc_addMapElementChild;
-				AIC_fnc_setInteractiveIconShown(_wpIconId,_showWaypoints);
 				_waypointIcons set [_waypointIconIndex,[_waypointIconIndex,_wpIconId]];
 				_eventHandlerScript = {
 					private ["_event","_groupControlId","_waypointId","_params"];
@@ -258,7 +257,7 @@ if(isNil "_groupControlId") then {
 			{
 				_waypointIcon = _waypointIcons select _i;
 				_interactiveIconId = _waypointIcon select 1;
-				AIC_fnc_setInteractiveIconShown(_interactiveIconId,false);
+				[_interactiveIconId,false] call AIC_fnc_setMapElementVisible;
 			};
 		};
 		_waypointIcons resize _waypointIconIndex;

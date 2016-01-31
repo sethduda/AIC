@@ -20,6 +20,9 @@ private ["_groupControlId","_showControl"];
 _groupControlId = param [0];
 _showControl = param [1];
 
+[_groupControlId,_showControl] call AIC_fnc_setMapElementVisible;
+
+/*
 private ["_groupControlIcon"];
 
 _groupControlIcon = AIC_fnc_getGroupControlInteractiveIcon(_groupControlId);
@@ -33,4 +36,4 @@ private ["_waypointIcons"];
 _waypointIcons = AIC_fnc_getGroupControlWaypointIcons(_groupControlId);
 {	
 	AIC_fnc_setInteractiveIconShown(_x select 1,_showControl);
-} forEach _waypointIcons;
+} forEach _waypointIcons;*/
