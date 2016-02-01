@@ -21,7 +21,7 @@ if(hasInterface) then {
 		
 	AIC_fnc_commandControlDrawHandler = {
 	
-		_temp = diag_tickTime;
+		//_temp = diag_tickTime;
 		
 		private ["_commandControls","_actionControls","_actionControlShown"];
 		
@@ -44,19 +44,23 @@ if(hasInterface) then {
 			// Move all command controls to the background if an action control is visible
 		
 			if(_actionControlShown) then {
-				[_x,false] call AIC_fnc_setMapElementForeground;
-				[_x,false] call AIC_fnc_setMapElementEnabled;
+					if(AIC_fnc_getMapElementForeground(_x)) then {
+						[_x,false] call AIC_fnc_setMapElementForeground;
+						[_x,false] call AIC_fnc_setMapElementEnabled;
+					};
 			} else {
-			//	[_x,true] call AIC_fnc_setMapElementForeground;
-			//	[_x,true] call AIC_fnc_setMapElementEnabled;
+					if(!(AIC_fnc_getMapElementForeground(_x))) then {
+						[_x,true] call AIC_fnc_setMapElementForeground;
+						[_x,true] call AIC_fnc_setMapElementEnabled;
+					};
 			};
 			
 			[_x] call AIC_fnc_drawCommandControl;
 		} forEach _commandControls;
 		
-		_temp2 = diag_tickTime;
+		//_temp2 = diag_tickTime;
 		
-		hint str (_temp2 - _temp);
+	    // hint str (_temp2 - _temp);
 			
 	};
 

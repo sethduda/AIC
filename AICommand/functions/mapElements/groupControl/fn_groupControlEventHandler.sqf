@@ -209,6 +209,7 @@ if(isNil "_groupControlId") then {
 		AIC_fnc_setGroupControlColor(_groupControlId,[_group] call AIC_fnc_getGroupColor);
 		[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
 		[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
+		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
 	};
 	
 	if(_event == "REFRESH_GROUP_ICON" ) then {

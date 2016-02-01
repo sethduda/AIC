@@ -26,7 +26,7 @@ class Mission
 	randomSeed=3203790;
 	class Intel
 	{
-		briefingName="AI Command 9";
+		briefingName="AI Command";
 		startWeather=0.29999998;
 		startWind=0.099999994;
 		startWaves=0.099999994;
@@ -44,7 +44,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=13;
+		items=14;
 		class Item0
 		{
 			side="WEST";
@@ -505,8 +505,26 @@ class Mission
 				items=1;
 				class Item0
 				{
-					position[]={1914.174,5.5,5939.8179};
+					position[]={2216.7034,6.5200577,5407.9106};
 					id=40;
+					side="WEST";
+					vehicle="B_Soldier_TL_F";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.5;
+				};
+			};
+		};
+		class Item13
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={2146.325,8.7533388,5336.3394};
+					id=41;
 					side="WEST";
 					vehicle="B_Soldier_TL_F";
 					leader=1;
@@ -522,7 +540,7 @@ class Mission
 		class Item0
 		{
 			position[]={1748.1016,5.5,5831.1089};
-			id=41;
+			id=42;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -530,7 +548,7 @@ class Mission
 		class Item1
 		{
 			position[]={1755.0569,5.5,5819.3716};
-			id=42;
+			id=43;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -538,7 +556,7 @@ class Mission
 		class Item2
 		{
 			position[]={1735.9298,5.5,5823.0669};
-			id=43;
+			id=44;
 			side="EMPTY";
 			vehicle="B_Heli_Light_01_F";
 			skill=0.60000002;
@@ -546,7 +564,7 @@ class Mission
 		class Item3
 		{
 			position[]={1761.5775,5.5,5835.2383};
-			id=44;
+			id=45;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -554,7 +572,7 @@ class Mission
 		class Item4
 		{
 			position[]={1765.7072,5.5,5810.46};
-			id=45;
+			id=46;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -562,7 +580,7 @@ class Mission
 		class Item5
 		{
 			position[]={1777.64,5.5,5822.4268};
-			id=46;
+			id=47;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
@@ -570,7 +588,7 @@ class Mission
 		class Item6
 		{
 			position[]={1774.1276,5.5,5843.1509};
-			id=47;
+			id=48;
 			side="EMPTY";
 			vehicle="B_APC_Tracked_01_rcws_F";
 			skill=0.60000002;
