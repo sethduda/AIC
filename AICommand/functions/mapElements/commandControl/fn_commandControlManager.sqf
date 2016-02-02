@@ -1,8 +1,4 @@
-#include "functions.h"
-#include "..\..\properties.h"
-#include "..\interactiveIcon\functions.h"
-#include "..\actionControl\functions.h"
-#include "..\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda

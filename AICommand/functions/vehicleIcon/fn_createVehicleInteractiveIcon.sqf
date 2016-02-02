@@ -1,4 +1,4 @@
-#include "..\mapElements\interactiveIcon\functions.h"
+#include "..\functions.h"
 
 /*
 	Author: [SA] Duda

@@ -1,8 +1,4 @@
-#include "functions.h"
-#include "..\functions.h"
-#include "..\..\properties.h"
-#include "..\commandControl\functions.h"
-#include "..\interactiveIcon\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -61,11 +57,11 @@ if(isNil "_actionControlId") then {
 	
 	private ["_actionType","_actionParameters"];
 	
-	_actionType = AIC_fnc_getActionControlType(_actionControlId);
+	_actionType = AIC_fnc_getActionControlType2(_actionControlId);
 	_actionParameters = AIC_fnc_getActionControlParameters(_actionControlId);
 
 	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
-		[_actionControlId] call AIC_fnc_deleteMapElement;
+		[_actionControlId] call AIC_fnc_deleteActionControl;
 	};
 	
 	if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
@@ -78,7 +74,7 @@ if(isNil "_actionControlId") then {
 			private ["_vehicle"];
 			_vehicle = _params select 1;
 			[_groupControlId, "ASSIGN_VEHICLE_SELECTED", [_vehicle]] spawn AIC_fnc_groupControlEventHandler;
-			[_actionControlId] call AIC_fnc_deleteMapElement;
+			[_actionControlId] call AIC_fnc_deleteActionControl;
 		};
 	};
 

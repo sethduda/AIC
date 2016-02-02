@@ -1,3 +1,5 @@
+#include "..\..\functions.h"
+
 	_selected = param [0];
 	if (count _selected == 0) exitwith {};
 

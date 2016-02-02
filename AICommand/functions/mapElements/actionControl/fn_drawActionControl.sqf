@@ -1,9 +1,4 @@
-#include "functions.h"
-#include "..\interactiveIcon\functions.h"
-#include "..\commandControl\functions.h"
-#include "..\groupControl\functions.h"
-#include "..\functions.h"
-#include "..\..\properties.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -26,7 +21,7 @@ if!(AIC_fnc_getMapElementVisible(_actionControlId)) exitWith {};
 
 private ["_actionType"];
 
-_actionType = AIC_fnc_getActionControlType(_actionControlId);
+_actionType = AIC_fnc_getActionControlType2(_actionControlId);
 
 if(_actionType == "ASSIGN_GROUP_VEHICLE") then {
 

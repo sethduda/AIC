@@ -1,10 +1,10 @@
-#include "functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
 
 	Description:
-	Remove interactive icon (do not call directly - use AIC_fnc_deleteMapElement instead)
+	Remove interactive icon
 
 	Parameter(s):
 	_this select 0: STRING - Interactive Icon ID
@@ -14,7 +14,10 @@
 */
 
 private ["_interactiveIconId","_interactiveIcons"];
+
 _interactiveIconId = param [0];
+
+[_interactiveIconId] call AIC_fnc_deleteMapElement;
 
 AIC_fnc_setInteractiveIconIconSet(_interactiveIconId, nil);
 AIC_fnc_setInteractiveIconPosition(_interactiveIconId, nil);

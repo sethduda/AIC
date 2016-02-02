@@ -1,3 +1,5 @@
+#include "..\..\functions.h"
+
 /*
 	(FROM MARTA)
 	Author: Karel Moricky, Modified by SA Duda

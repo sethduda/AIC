@@ -1,6 +1,4 @@
-#include "functions.h"
-#include "..\..\properties.h"
-#include "..\groupControl\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -54,7 +52,7 @@ if(_event == "REFRESH_GROUP_CONTROLS") then {
 	
 	_groupControlsToRemove = _groupControls - _newGroupControls;
 	{
-		[_x] call AIC_fnc_deleteMapElement;
+		[_x] call AIC_fnc_removeGroupControl;
 	} forEach _groupControlsToRemove;
 	
 	AIC_fnc_setCommandControlGroupsControls(_commandControlId,_newGroupControls);

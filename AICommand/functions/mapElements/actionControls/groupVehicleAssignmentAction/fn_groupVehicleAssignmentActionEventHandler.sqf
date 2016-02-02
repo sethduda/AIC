@@ -25,6 +25,7 @@ if(isNil "_mapElementId") then {
 
 } else {
 
+/*
 	if(_event == "VEHICLES_ENTERED") then {
 		private ["_vehicles","_vehicleIcons","_newVehicleIcons"];
 		_vehicles = _params select 0;
@@ -39,6 +40,7 @@ if(isNil "_mapElementId") then {
 		} forEach _vehicleIcons;
 		AIC_fnc_setGroupVehicleAssignmentActionVehicleIcons(_mapElementId,_newVehicleIcons);
 	};
-	
+*/
+
 };
 

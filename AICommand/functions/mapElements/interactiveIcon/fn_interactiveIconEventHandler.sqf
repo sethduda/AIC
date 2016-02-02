@@ -1,6 +1,4 @@
-#include "functions.h"
-#include "..\..\properties.h"
-#include "..\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda

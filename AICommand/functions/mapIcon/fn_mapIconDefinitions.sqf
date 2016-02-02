@@ -1,3 +1,5 @@
+#include "..\functions.h"
+
 _colorBlack = [0,0,0];
 _colorBlue = [0,0,1];
 _colorGreen = [0,1,0];

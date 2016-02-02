@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -14,7 +14,6 @@
 	is owned and controlled by the child.
 	
 	Parameter(s):
-	_this select 0: STRING - Delete function to call when this element is deleted (optional, default: nil)
 	_this select 1: BOOLEAN - Is Visible (optional, default: true)
 	_this select 2: BOOLEAN - Are Events Enabled (optional, default: true)
 	_this select 3: BOOLEAN - Is In Foreground (optional, default: true)
@@ -25,13 +24,12 @@
 	
 */
 
-private ["_deleteFunction","_isVisible","_eventsEnabled","_isInForeground","_elementId"];
+private ["_isVisible","_eventsEnabled","_isInForeground","_elementId"];
 
-_deleteFunction = param [0,nil];
-_isVisible = param [1,true];
-_eventsEnabled = param [2,true];
-_isInForeground = param [3,true];
-_elementId = param [4,nil];
+_isVisible = param [0,true];
+_eventsEnabled = param [1,true];
+_isInForeground = param [2,true];
+_elementId = param [3,nil];
 
 if(isNil "_elementId") then {
 	_elementCount = AIC_fnc_getMapElementCount();
@@ -39,9 +37,6 @@ if(isNil "_elementId") then {
 	AIC_fnc_setMapElementCount(_elementCount + 1);
 };
 
-if(!isNil "_deleteFunction") then {
-	AIC_fnc_setMapElementDeleteFunction(_elementId,_deleteFunction);
-};
 [_elementId,_isVisible] call AIC_fnc_setMapElementVisible;
 [_elementId,_eventsEnabled] call AIC_fnc_setMapElementEnabled;
 [_elementId,_isInForeground] call AIC_fnc_setMapElementForeground;

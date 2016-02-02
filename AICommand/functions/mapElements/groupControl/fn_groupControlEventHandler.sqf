@@ -1,8 +1,4 @@
-#include "functions.h"
-#include "..\..\properties.h"
-#include "..\commandControl\functions.h"
-#include "..\interactiveIcon\functions.h"
-#include "..\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -229,7 +225,9 @@ if(isNil "_groupControlId") then {
 		
 		// Remove all existing actions
 		{
-			[_x] call AIC_fnc_deleteMapElement;
+			if((AIC_fnc_getActionControlType(_x)) == "GROUP_VEHICLE_ASSIGNMENT") then {
+				[_x] call AIC_fnc_deleteGroupVehicleAssignmentAction;
+			};
 		} forEach _existingActions;
 		
 		// Add all actions assigned to group

@@ -25,12 +25,12 @@ _vehicles = param [2,[]];
 
 private ["_mapElementId","_actions","_color","_interactiveIcon","_vehicleIcons"];
 
-_mapElementId = ["AIC_fnc_deleteGroupVehicleAssignmentAction"] call AIC_fnc_createMapElement;
+_mapElementId = [] call AIC_fnc_createMapElement;
 
 AIC_fnc_setGroupVehicleAssignmentActionGroupControlId(_mapElementId,_groupControlId);
 AIC_fnc_setGroupVehicleAssignmentActionGroup(_mapElementId,_group);
-
 AIC_fnc_setGroupVehicleAssignmentActionVehicles(_mapElementId,_vehicles);
+AIC_fnc_setActionControlType(_mapElementId,"GROUP_VEHICLE_ASSIGNMENT");
 
 // Create interactive icons for each of the assigned vehicles
 

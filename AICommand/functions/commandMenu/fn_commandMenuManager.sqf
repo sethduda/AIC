@@ -1,3 +1,5 @@
+#include "..\functions.h"
+
 /*
 	Author: [SA] Duda
 
@@ -63,7 +65,7 @@ AIC_fnc_commandMenuEventHandler = {
 	
 };	
 
-(findDisplay 46) displayAddEventHandler ["KeyDown", "[""KeyDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
-(findDisplay 46) displayAddEventHandler ["MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
+AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "[""KeyDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
+AIC_MAIN_DISPLAY displayAddEventHandler ["MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
 
 };

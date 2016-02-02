@@ -1,6 +1,4 @@
-#include "functions.h"
-#include "..\interactiveIcon\functions.h"
-#include "..\groupControl\functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
@@ -23,9 +21,9 @@ _parameters = param [1,[]];
 
 private ["_actionControlId","_actionControls"];
 
-_actionControlId = ["AIC_fnc_deleteActionControl",false,true] call AIC_fnc_createMapElement;
+_actionControlId = [false,true] call AIC_fnc_createMapElement;
 
-AIC_fnc_setActionControlType(_actionControlId,_actionType);
+AIC_fnc_setActionControlType2(_actionControlId,_actionType);
 AIC_fnc_setActionControlParameters(_actionControlId,_parameters);
 
 _actionControls = AIC_fnc_getActionControls();

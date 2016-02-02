@@ -1,3 +1,5 @@
+#include "..\..\functions.h"
+
 /*
 	Author: [SA] Duda
 

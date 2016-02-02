@@ -1,11 +1,10 @@
-#include "..\interactiveIcon\functions.h"
-#include "functions.h"
+#include "..\..\functions.h"
 
 /*
 	Author: [SA] Duda
 
 	Description:
-	Remove the specified group control (do not call directly - use AIC_fnc_deleteMapElement instead)
+	Remove the specified group control
 
 	Parameter(s):
 	_this select 0: STRING - group control id
@@ -14,11 +13,23 @@
 	Nothing
 */
 
-private ["_groupControlId"];
+private ["_groupControlId","_groupControls"];
 
 _groupControlId = param [0];
 
-private ["_groupControls"];
+[_groupControlId] call AIC_fnc_deleteMapElement;
+
+[AIC_fnc_getGroupControlInteractiveIcon(_groupControlId)] call AIC_fnc_removeInteractiveIcon;
+
+{
+	[_x] call AIC_fnc_removeInteractiveIcon;
+} forEach (AIC_fnc_getGroupControlWaypointIcons(_groupControlId));
+
+{
+	if((AIC_fnc_getActionControlType(_x)) == "GROUP_VEHICLE_ASSIGNMENT") then {
+		[_x] call AIC_fnc_deleteGroupVehicleAssignmentAction;
+	};
+} forEach (AIC_fnc_getGroupControlActions(_groupControlId));
 
 AIC_fnc_setGroupControlGroup(_groupControlId,nil);
 AIC_fnc_setGroupControlInteractiveIcon(_groupControlId,nil);
