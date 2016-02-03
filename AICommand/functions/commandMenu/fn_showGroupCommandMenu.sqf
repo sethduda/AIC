@@ -13,9 +13,21 @@
 	Nothing
 */
 
-private ["_groupControlId","_addWaypointsScript","_addWaypointsScript","_clearAllWaypointsScript","_setGoCodeScript"];
+private ["_groupControlId","_addWaypointsScript","_addWaypointsScript","_clearAllWaypointsScript","_setGoCodeScript","_canControl","_group"];
 
 _groupControlId = param [0];
+
+_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+
+_canControl = true;
+{
+	if( _x != vehicle _x ) then {
+		_canControl = false;
+	};
+	if( isPlayer _x ) then {
+		_canControl = false;
+	};
+} forEach (units _group);
 
 _addWaypointsScript = "['"+_groupControlId+"','ADD_WAYPOINTS_SELECTED'] spawn AIC_fnc_groupControlEventHandler";
 _clearAllWaypointsScript = "['"+_groupControlId+"','CLEAR_WAYPOINTS_SELECTED','Confirm Cancel All'] spawn AIC_fnc_showGroupConfirmMenu";
@@ -47,12 +59,15 @@ AIC_Group_Control_Menu = [
 		["Set Group Combat Mode", [0], "", -5, [["expression", '["'+_setCombatModeScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Set Group Behaviour", [0], "", -5, [["expression", '["'+_setBehaviourScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Set Group Color", [0], "", -5, [["expression", '["'+_setColorScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
-		["Remote Control", [0], "", -5, [["expression", '["'+_remoteControlScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Assign Vehicle(s)", [0], "", -5, [["expression", '["'+_assignVehicleScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Unassign All Vehicles", [0], "", -5, [["expression", '["'+_unassignVehicleScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Clear All Waypoints", [0], "", -5, [["expression", '["'+_clearAllWaypointsScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"]
 		//["Clear Waypoints", [2], "", -5, [["expression", "["" player sidechat 'second' ""] spawn AIC_fnc_commandMenuAction"]], "1", "1"]
 		//["Submenu", [3], "#USER:MY_SUBMENU_inCommunication", -5, [["expression", "showCommandingMenu ""#USER:MY_SUBMENU_inCommunication"""]], "1", "1"]
 ];
-	
+
+if(_canControl) then {
+	AIC_Group_Control_Menu pushBack ["Remote Control", [0], "", -5, [["expression", '["'+_remoteControlScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
+};
+
 showCommandingMenu "#USER:AIC_Group_Control_Menu";

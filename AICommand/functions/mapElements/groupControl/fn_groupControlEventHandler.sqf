@@ -171,11 +171,29 @@ if(isNil "_groupControlId") then {
 	};
 
 	if( _event == "REMOTE_CONTROL_SELECTED" ) then {
-		player remoteControl (leader _group);
-		(vehicle (leader _group)) switchCamera "External";
-		player setVariable ["AIC_Remote_Control_Unit",(leader _group)];
-		openMap false;
-		["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
+				
+		private ["_canControl"];
+				
+		_canControl = true;
+		{
+			if( _x != vehicle _x ) then {
+				_canControl = false;
+			};
+			if( isPlayer _x ) then {
+				_canControl = false;
+			};
+		} forEach (units _group);
+		
+		if(_canControl) then {
+			player remoteControl (leader _group);
+			(vehicle (leader _group)) switchCamera "External";
+			player setVariable ["AIC_Remote_Control_Unit",(leader _group)];
+			openMap false;
+			["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
+		} else {
+			["RemoteControl",["","Sorry, you cannot control vehicles or players"]] call BIS_fnc_showNotification;
+		};
+		
 	};
 
 	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP" ) then {
