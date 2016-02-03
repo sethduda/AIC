@@ -26,6 +26,8 @@ class AICommand
 		class getAllActiveWaypoints {description = ""};
 		class getGroupActions {description = ""};
 		class setGroupActions {description = ""};
+		class getGroupAssignedVehicles {description = ""};
+		class setGroupAssignedVehicles {description = ""};
 	};
 
 	class CommandMenu

@@ -89,6 +89,7 @@ if(isNil "_groupControlId") then {
 		private ["_vehicle","_vehicleRoles","_vehicleRolesCount","_groupUnits","_groupUnitCount","_minCount","_role","_unit","_action","_actions"];
 		_vehicle = _params select 0;
 
+		/*
 		_vehicleRoles = [_vehicle] call BIS_fnc_vehicleRoles;
 		_vehicleRolesCount = count _vehicleRoles;
 		_groupUnits = units _group;
@@ -110,7 +111,7 @@ if(isNil "_groupControlId") then {
 			};
 			[[_unit],true] remoteExec ["orderGetIn", _unit];
 		};
-		
+		*/
 		
 		private ["_groupActions","_newGroupActions","_existingAction","_existingVehicles","_groupActionUpdated"];
 		
@@ -122,6 +123,7 @@ if(isNil "_groupControlId") then {
 				_existingAction = _x;
 				_existingVehicles = (_existingAction select 1) select 0;
 				_newGroupActions pushBack ["GROUP_VEHICLE_ASSIGNMENT",[_existingVehicles + [_vehicle]]];
+				_groupActionUpdated = true;
 			} else {
 				_newGroupActions pushBack _x;
 			}
@@ -142,8 +144,13 @@ if(isNil "_groupControlId") then {
 	};
 
 	if( _event == "UNASSIGN_VEHICLE_ACTION_SELECTED" ) then {
+		private ["_assignedVehicle"];
 		{
-			[_group,vehicle _x] remoteExec ["leaveVehicle", _x];
+			_assignedVehicle = assignedVehicle _x;
+			if(!isNull _assignedVehicle) then {
+				_x remoteExec ["unassignVehicle", _x];
+				[_x,_assignedVehicle] remoteExec ["leaveVehicle", _x];
+			};
 		} forEach (units _group);
 	};
 	

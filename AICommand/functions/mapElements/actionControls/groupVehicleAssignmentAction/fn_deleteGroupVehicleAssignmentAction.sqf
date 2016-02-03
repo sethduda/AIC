@@ -19,6 +19,10 @@ _mapElementId = param [0];
 
 [_mapElementId] call AIC_fnc_deleteMapElement;
 
+{
+	[_x select 1] call AIC_fnc_removeInteractiveIcon;
+} forEach(AIC_fnc_getGroupVehicleAssignmentActionVehicleIcons(_mapElementId));
+
 AIC_fnc_setGroupVehicleAssignmentActionGroupControlId(_mapElementId,nil);
 AIC_fnc_setGroupVehicleAssignmentActionGroup(_mapElementId,nil);
 AIC_fnc_setGroupVehicleAssignmentActionVehicles(_mapElementId,nil);
