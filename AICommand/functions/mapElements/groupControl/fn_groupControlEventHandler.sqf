@@ -144,14 +144,16 @@ if(isNil "_groupControlId") then {
 	};
 
 	if( _event == "UNASSIGN_VEHICLE_ACTION_SELECTED" ) then {
-		private ["_assignedVehicle"];
+		[_group,[]] call AIC_fnc_setGroupActions;
 		{
-			_assignedVehicle = assignedVehicle _x;
-			if(!isNull _assignedVehicle) then {
-				_x remoteExec ["unassignVehicle", _x];
-				[_x,_assignedVehicle] remoteExec ["leaveVehicle", _x];
+			[_group,_x] remoteExec ["leaveVehicle", leader _group];
+		} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+		{
+			if(_x != vehicle _x) then {
+				[_x,vehicle _x] remoteExec ["leaveVehicle", leader _group];
 			};
 		} forEach (units _group);
+		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
 	};
 	
 	if( _event == "SELECTED" ) then {

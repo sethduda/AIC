@@ -145,5 +145,10 @@ class AICommand
 		class groupVehicleAssignmentActionEventHandler {description = "";};
 	};
 	
+	class Util
+	{
+		file = "AICommand\functions\util";
+		class getInVehicle {description = "";};
+	};
 	
 };

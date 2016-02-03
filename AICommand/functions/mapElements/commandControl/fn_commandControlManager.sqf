@@ -195,23 +195,7 @@ if(isServer) then {
 										} forEach _vehicles;
 									};
 								};
-								
-								{
-									//_x remoteExec ["unassignVehicle", _x];
-									[_x,vehicle _x] remoteExec ["leaveVehicle", _x];
-									//diag_log format ["Unassigned Unit: %1", _x];
-								} forEach (units _group);
-								
-								// Empty out all of the vehicles
-								{
-									_vehicleToEmpty = _x;
-									{
-										//_x remoteExec ["unassignVehicle", _x];
-										[_x,_vehicleToEmpty] remoteExec ["leaveVehicle", _x];
-										//diag_log format ["Unassigned Crew Unit: %1", _x];
-									} forEach (crew _vehicleToEmpty)
-								} forEach _vehicles;
-								
+		
 								// Assign units to vehicles
 								_unitIndex = 0;
 								_countOfSlots = count _vehicleSlotsToAssign;
@@ -219,34 +203,23 @@ if(isServer) then {
 									if(_countOfSlots > _unitIndex) then {
 										_vehicleToAssign = (_vehicleSlotsToAssign select _unitIndex) select 0;
 										_role = (_vehicleSlotsToAssign select _unitIndex) select 1;
-										[_x] allowGetIn true;
-										if((_role select 0) == "Driver") then {
-											_x assignAsDriver _vehicleToAssign;
-										};
-										if((_role select 0) == "Turret") then {
-											_x assignAsTurret [_vehicleToAssign,_role select 1];
-										};
-										if((_role select 0) == "Cargo") then {
-											_x assignAsCargoIndex [_vehicleToAssign,(_role select 1) select 0];
-										};
-										[[_x],true] remoteExec ["orderGetIn", _x];
-									}; 
+										[[_x,_vehicleToAssign,_role],"AIC_fnc_getInVehicle",_x] spawn BIS_fnc_MP; 
+										_x setVariable ["AIC_Assigned_Vehicle", _vehicleToAssign];
+									} else {
+										_x setVariable ["AIC_Assigned_Vehicle", nil];
+									};
 									_unitIndex = _unitIndex + 1;
-									//diag_log format ["Did Assign Unit: %1", _x];
 								} forEach (units _group);
 								
 							};
 						};
 						
-						private ["_allUnitsIn"];
+						private ["_allUnitsIn","_assignedVehicle"];
 						_allUnitsIn = true;
 						{ 
-							//diag_log format ["Unit: %1", _x];
-							//diag_log format ["Assigned Vehicle: %1", assignedVehicle _x];
-							if(!isNull(assignedVehicle _x)) then {
-								if!(_x in (assignedVehicle _x)) then {
-									
-									//diag_log "Unit Not in Vehicle!";
+							_assignedVehicle = _x getVariable ["AIC_Assigned_Vehicle", objNull];
+							if(!isNull(_assignedVehicle)) then {
+								if(not(_x in _assignedVehicle) && alive _assignedVehicle) then {
 									_allUnitsIn = false;
 								};
 							};
