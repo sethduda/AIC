@@ -13,6 +13,9 @@
 	Nothing
 */
 
+["ALL_EAST"] call AIC_fnc_createCommandControl;
+["ALL_WEST"] call AIC_fnc_createCommandControl;
+
 if(hasInterface) then {
 		
 	AIC_fnc_commandControlDrawHandler = {
@@ -86,14 +89,9 @@ if(hasInterface) then {
 };
 
 if(isServer) then {
-
-	// Create default EAST and WEST command controls
 	
 	[] spawn {
-	
-		["ALL_EAST"] call AIC_fnc_createCommandControl;
-		["ALL_WEST"] call AIC_fnc_createCommandControl;
-		
+
 		while {true} do {
 			{
 				if(side _x == east) then {
