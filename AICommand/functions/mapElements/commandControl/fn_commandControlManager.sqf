@@ -96,7 +96,8 @@ if(isServer) then {
 			{
 				if(side _x == east) then {
 					["ALL_EAST",_x] call AIC_fnc_commandControlAddGroup;
-				} else {
+				};
+				if(side _x == west) then {
 					["ALL_WEST",_x] call AIC_fnc_commandControlAddGroup;
 				};
 			} forEach allGroups;
