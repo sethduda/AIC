@@ -199,16 +199,18 @@ if(isServer) then {
 								};
 								
 								{
-									_x remoteExec ["unassignVehicle", _x];
+									//_x remoteExec ["unassignVehicle", _x];
 									[_x,vehicle _x] remoteExec ["leaveVehicle", _x];
+									//diag_log format ["Unassigned Unit: %1", _x];
 								} forEach (units _group);
 								
 								// Empty out all of the vehicles
 								{
 									_vehicleToEmpty = _x;
 									{
-										_x remoteExec ["unassignVehicle", _x];
+										//_x remoteExec ["unassignVehicle", _x];
 										[_x,_vehicleToEmpty] remoteExec ["leaveVehicle", _x];
+										//diag_log format ["Unassigned Crew Unit: %1", _x];
 									} forEach (crew _vehicleToEmpty)
 								} forEach _vehicles;
 								
@@ -219,6 +221,7 @@ if(isServer) then {
 									if(_countOfSlots > _unitIndex) then {
 										_vehicleToAssign = (_vehicleSlotsToAssign select _unitIndex) select 0;
 										_role = (_vehicleSlotsToAssign select _unitIndex) select 1;
+										[_x] allowGetIn true;
 										if((_role select 0) == "Driver") then {
 											_x assignAsDriver _vehicleToAssign;
 										};
@@ -231,6 +234,7 @@ if(isServer) then {
 										[[_x],true] remoteExec ["orderGetIn", _x];
 									}; 
 									_unitIndex = _unitIndex + 1;
+									//diag_log format ["Did Assign Unit: %1", _x];
 								} forEach (units _group);
 								
 							};
@@ -239,8 +243,12 @@ if(isServer) then {
 						private ["_allUnitsIn"];
 						_allUnitsIn = true;
 						{ 
+							//diag_log format ["Unit: %1", _x];
+							//diag_log format ["Assigned Vehicle: %1", assignedVehicle _x];
 							if(!isNull(assignedVehicle _x)) then {
 								if!(_x in (assignedVehicle _x)) then {
+									
+									//diag_log "Unit Not in Vehicle!";
 									_allUnitsIn = false;
 								};
 							};
