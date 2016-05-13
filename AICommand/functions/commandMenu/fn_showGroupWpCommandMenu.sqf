@@ -36,7 +36,6 @@ AIC_Group_Control_Waypoint_Menu = [
 		// isVisible - Boolean 1 or 0 for yes or no, - or optional argument string, eg: "CursorOnGround"
 		// isActive - Boolean 1 or 0 for yes or no - if item is not active, it appears gray.
 		// optional icon path: The path to the texture of the cursor, that should be used on this menuitem.
-		["Set Go Code", [0], "", -5, [["expression", '["'+_setGoCodeScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"],
 		["Delete Waypoint", [0], "", -5, [["expression", '["'+_deleteWaypointScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"]
 		//["Clear Waypoints", [2], "", -5, [["expression", "["" player sidechat 'second' ""] spawn AIC_fnc_commandMenuAction"]], "1", "1"]
 		//["Submenu", [3], "#USER:MY_SUBMENU_inCommunication", -5, [["expression", "showCommandingMenu ""#USER:MY_SUBMENU_inCommunication"""]], "1", "1"]
