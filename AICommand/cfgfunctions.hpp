@@ -42,6 +42,8 @@ class AICommand
 		class showGroupColorMenu {description = "";};
 		class showGroupCombatModeMenu {description = "";};
 		class showGroupBehaviourMenu {description = "";};
+		class addCommandMenuAction {description = "";};
+		class executeCommandMenuAction {description = "";};
 	};
 
 	class CR
@@ -91,7 +93,17 @@ class AICommand
 		class createActionControl {description = "";};
 		class drawActionControl {description = "";};
 		class deleteActionControl {description = "";};
-		class actionControlManager {description = ""; postInit=1};
+		class actionControlManager {description = "";};
+	};
+	
+	class InputControlMapElement
+	{
+		file = "AICommand\functions\mapElements\inputControl";
+		class inputControlEventHandler {description = "";};
+		class createInputControl {description = "";};
+		class drawInputControl {description = "";};
+		class deleteInputControl {description = "";};
+		class inputControlManager {description = ""; postInit=1};
 	};
 	
 	class InteractiveIconMapElement

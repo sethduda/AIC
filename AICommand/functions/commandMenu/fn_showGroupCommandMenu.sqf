@@ -8,17 +8,70 @@
 	
 	Parameter(s):
 	_this select 0: STRING - Group control id
+	_this select 1: NUMBER - Command menu action index (defaults to -1)
+	_this select 2: NUMBER - Command menu action path index (defaults to 0)
 		
 	Returns: 
 	Nothing
 */
 
-private ["_groupControlId","_addWaypointsScript","_addWaypointsScript","_clearAllWaypointsScript","_setGoCodeScript","_canControl","_group"];
+params ["_groupControlId",["_actionIndex",-1],["_pathPositionIndex",0]];
 
-_groupControlId = param [0];
+private ["_index","_pathLabel","_actionString","_seenMenuLabels"];
 
 _group = AIC_fnc_getGroupControlGroup(_groupControlId);
+_actions = AIC_fnc_getCommandMenuActions();
+_seenMenuLabels = [];
 
+if(_actionIndex < 0) then {
+	AIC_Group_Control_Menu = [["Group Command",false]];
+	_index = 0;
+	{
+		_x params ["_label","_path","_actionHandlerScript","_actionHandlerParams","_inputSelection","_isEnabledScript"];
+		if([_group] call _isEnabledScript) then {
+			if(count _path > 0) then {
+				_pathLabel = _path select 0;
+				if!(_pathLabel in _seenMenuLabels) then {
+					_actionString = format ["[%1, %2, %3] spawn AIC_fnc_showGroupCommandMenu",_groupControlId,_index,0];
+					AIC_Group_Control_Menu pushBack [_pathLabel, [0], "", -5, [["expression", '["'+_actionString+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
+					_seenMenuLabels pushBack _pathLabel;
+				};
+			} else {
+				_actionString = format ["[%1, %2] spawn AIC_fnc_executeCommandMenuAction",_groupControlId,_index];
+				AIC_Group_Control_Menu pushBack [_label, [0], "", -5, [["expression", '["'+_actionString+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
+			};
+		};
+		_index = _index + 1;
+	} forEach _actions;
+} else {
+	private ["_currentAction"];
+	_currentAction = _actions select _actionIndex;
+	_currentPathLabel = (_currentAction select 1) select _pathPositionIndex;
+	AIC_Group_Control_Menu = [[_currentPathLabel,false]];
+	_index = 0;
+	{
+		_x params ["_label","_path","_actionHandlerScript","_actionHandlerParams","_inputSelection","_isEnabledScript"];
+		if([_group] call _isEnabledScript && count _path > _pathPositionIndex) then {
+			if(_currentPathLabel == (_path select _pathPositionIndex)) then {
+				if(count _path > (_pathPositionIndex + 1)) then {
+					_pathLabel = _path select (_pathPositionIndex + 1);
+					if!(_pathLabel in _seenMenuLabels) then {
+						_actionString = format ["[%1, %2, %3] spawn AIC_fnc_showGroupCommandMenu",_groupControlId,_index,(_pathPositionIndex + 1)];
+						AIC_Group_Control_Menu pushBack [_pathLabel, [0], "", -5, [["expression", '["'+_actionString+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
+						_seenMenuLabels pushBack _pathLabel;
+					};
+				} else {
+					_actionString = format ["[%1, %2] spawn AIC_fnc_executeCommandMenuAction",_groupControlId,_index];
+					AIC_Group_Control_Menu pushBack [_label, [0], "", -5, [["expression", '["'+_actionString+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
+				};
+			};
+		};		
+		_index = _index + 1;
+	} forEach _actions;
+};
+
+
+/*
 _canControl = true;
 {
 	if( _x != vehicle _x ) then {
@@ -69,5 +122,6 @@ AIC_Group_Control_Menu = [
 if(_canControl) then {
 	AIC_Group_Control_Menu pushBack ["Remote Control", [0], "", -5, [["expression", '["'+_remoteControlScript+'"] spawn AIC_fnc_commandMenuAction']], "1", "1"];
 };
+*/
 
 showCommandingMenu "#USER:AIC_Group_Control_Menu";

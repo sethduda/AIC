@@ -3,6 +3,7 @@
 #include "commandControl\functions.h"
 #include "groupControl\functions.h"
 #include "interactiveIcon\functions.h"
+#include "inputControl\functions.h"
 
 /*
 	Get and sets the count of elements created

@@ -22,22 +22,6 @@ _event = param [1];
 _params = param [2,[]];
 
 if(isNil "_groupControlId") then {
-
-	// Global group control event handler (not specific to any one group control)
-
-	if(_event == "KeyDown") then {
-		if(_params select 1 == 211) then {
-			player remoteControl objNull;
-			(vehicle player) switchCamera cameraView;
-			private ["_rcUnit"];
-			_rcUnit = player getVariable ["AIC_Remote_Control_Unit",objNull];
-			if(!isNull _rcUnit) then {
-				objNull remoteControl _rcUnit;
-				player setVariable ["AIC_Remote_Control_Unit",objNull];
-				["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
-			};
-		}
-	};
 	
 	if(_event == "MouseHolding" || _event == "MouseMoving") then {
 		private ["_mouseMapPositionX","_mouseMapPositionY"];
@@ -161,6 +145,7 @@ if(isNil "_groupControlId") then {
 		[[_group]] spawn AIC_fnc_showGroupReport;
 	};
 
+	/*
 	if( _event == "CLEAR_WAYPOINTS_SELECTED" ) then {
 		[_group] call AIC_fnc_disableAllWaypoints;	
 		[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
@@ -169,6 +154,7 @@ if(isNil "_groupControlId") then {
 	if( _event == "ADD_WAYPOINTS_SELECTED" ) then {
 		AIC_fnc_setGroupControlAddingWaypoints(_groupControlId,true);
 	};
+
 
 	if( _event == "REMOTE_CONTROL_SELECTED" ) then {
 				
@@ -195,6 +181,7 @@ if(isNil "_groupControlId") then {
 		};
 		
 	};
+	*/
 
 	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP" ) then {
 		if(AIC_fnc_getGroupControlAddingWaypoints(_groupControlId)) then {
@@ -208,7 +195,7 @@ if(isNil "_groupControlId") then {
 			[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
 		};
 	};
-	
+	/*
 	if(_event == "CHANGE_BEHAVIOUR" ) then {
 		private ["_mode"];
 		_mode = _params select 0;
@@ -227,13 +214,14 @@ if(isNil "_groupControlId") then {
 		[_group,_color] call AIC_fnc_setGroupColor;
 		[_groupControlId,"COLOR_CHANGED",[]] call AIC_fnc_groupControlEventHandler;
 	};
+
 	
 	if(_event == "COLOR_CHANGED" ) then {
 		AIC_fnc_setGroupControlColor(_groupControlId,[_group] call AIC_fnc_getGroupColor);
 		[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
 		[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
 		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
-	};
+	};	*/
 	
 	if(_event == "REFRESH_GROUP_ICON" ) then {
 		private ["_color","_iconSet","_interactiveIconId"];

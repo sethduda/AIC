@@ -25,27 +25,6 @@ if(isDedicated || !hasInterface) exitWith {};
 	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseHolding", "[nil, ""MouseHolding"",_this] call AIC_fnc_groupControlEventHandler" ];
 };
 
-[] spawn {
-	waitUntil {!isNull AIC_MAIN_DISPLAY};
-	AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "[nil, ""KeyDown"",_this] call AIC_fnc_groupControlEventHandler" ];
-};
-
-// Remote control manager
-
-[] spawn {
-	while {true} do {
-		private ["_rcUnit"];
-		_rcUnit = player getVariable ["AIC_Remote_Control_Unit",objNull];
-		if(!isNull _rcUnit) then {	
-			if(!alive _rcUnit) then {
-				// Trigger delete key event handler
-				[nil, "KeyDown",[nil,211]] call AIC_fnc_groupControlEventHandler;
-			};
-		};
-		sleep 2;
-	};
-};
-
 // Manage updates to group waypoints
 
 [] spawn {

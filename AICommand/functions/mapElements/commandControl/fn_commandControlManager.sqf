@@ -16,32 +16,212 @@
 ["ALL_EAST"] call AIC_fnc_createCommandControl;
 ["ALL_WEST"] call AIC_fnc_createCommandControl;
 
+
+AIC_fnc_addWaypointsActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	AIC_fnc_setGroupControlAddingWaypoints(_groupControlId,true);
+};
+
+["Add Waypoints",[],AIC_fnc_addWaypointsActionHandler] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_setGroupColorActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	_params params ["_color"];
+	[_group,_color] call AIC_fnc_setGroupColor;
+	AIC_fnc_setGroupControlColor(_groupControlId,_color);
+	[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+	[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
+	[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
+	hint ("Color set to " + toLower (_color select 0));
+};
+
+["Red",["Set Group Color"],AIC_fnc_setGroupColorActionHandler,[AIC_COLOR_RED]] call AIC_fnc_addCommandMenuAction;
+["Blue",["Set Group Color"],AIC_fnc_setGroupColorActionHandler,[AIC_COLOR_BLUE]] call AIC_fnc_addCommandMenuAction;
+["Green",["Set Group Color"],AIC_fnc_setGroupColorActionHandler,[AIC_COLOR_GREEN]] call AIC_fnc_addCommandMenuAction;
+["Black",["Set Group Color"],AIC_fnc_setGroupColorActionHandler,[AIC_COLOR_BLACK]] call AIC_fnc_addCommandMenuAction;
+["White",["Set Group Color"],AIC_fnc_setGroupColorActionHandler,[AIC_COLOR_WHITE]] call AIC_fnc_addCommandMenuAction;
+
+
+AIC_fnc_setGroupBehaviourActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	_params params ["_mode"];
+	[_group,_mode] remoteExec ["setBehaviour", leader _group]; 
+	hint ("Behaviour set to " + toLower _mode);
+};
+
+["Careless",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["CARELESS"]] call AIC_fnc_addCommandMenuAction;
+["Safe",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["SAFE"]] call AIC_fnc_addCommandMenuAction;
+["Aware",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["AWARE"]] call AIC_fnc_addCommandMenuAction;
+["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
+["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
+		
+AIC_fnc_setGroupCombatModeActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	_params params ["_mode","_modeLabel"];
+	[_group,_mode] remoteExec ["setCombatMode", leader _group]; 
+	hint ("Combat mode set to " + toLower _modeLabel);
+};
+
+["Never fire",["Set Group Combat Mode"],AIC_fnc_setGroupCombatModeActionHandler,["BLUE","Never fire"]] call AIC_fnc_addCommandMenuAction;
+["Hold fire - defend only",["Set Group Combat Mode"],AIC_fnc_setGroupCombatModeActionHandler,["GREEN","Hold fire - defend only"]] call AIC_fnc_addCommandMenuAction;
+["Hold fire, engage at will",["Set Group Combat Mode"],AIC_fnc_setGroupCombatModeActionHandler,["WHITE","Hold fire, engage at will"]] call AIC_fnc_addCommandMenuAction;
+["Fire at will",["Set Group Combat Mode"],AIC_fnc_setGroupCombatModeActionHandler,["YELLOW","Fire at will"]] call AIC_fnc_addCommandMenuAction;
+["Fire at will, engage at will",["Set Group Combat Mode"],AIC_fnc_setGroupCombatModeActionHandler,["RED","Fire at will, engage at will"]] call AIC_fnc_addCommandMenuAction;
+		
+AIC_fnc_clearAllWaypointsActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	[_group] call AIC_fnc_disableAllWaypoints;	
+	[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
+	hint ("All waypoints cleared");
+};
+
+["Confirm Cancel All",["Clear All Waypoints"],AIC_fnc_clearAllWaypointsActionHandler] call AIC_fnc_addCommandMenuAction;		
+
+AIC_fnc_remoteControlActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	private ["_keyDownHandler","_rcUnit"];
+	_rcUnit = leader _group;
+	player remoteControl _rcUnit;
+	(vehicle _rcUnit) switchCamera "External";
+	player setVariable ["AIC_Remote_Control_Unit",_rcUnit];
+	openMap false;
+	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
+	_keyDownHandler = AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "if(_this select 1 == 211) then { player setVariable ['AIC_Remote_Control_Unit',objNull] }" ];
+	while {!isNull (player getVariable ["AIC_Remote_Control_Unit",objNull])} do {
+		private ["_rcUnit"];
+		_rcUnit = player getVariable ["AIC_Remote_Control_Unit",objNull];
+		if(!alive _rcUnit || !alive player) then {
+			player setVariable ['AIC_Remote_Control_Unit',objNull]
+		} else {
+			sleep 1;
+		};
+	};
+	AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown",_keyDownHandler];
+	player remoteControl objNull;
+	(vehicle player) switchCamera cameraView;
+	objNull remoteControl _rcUnit;
+	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
+};
+
+["Remote Control",[],AIC_fnc_remoteControlActionHandler,[],"NONE",{
+	params ["_group"];
+	private ["_canControl"];
+	_canControl = true;
+	{
+		if( _x != vehicle _x ) then {
+			_canControl = false;
+		};
+		if( isPlayer _x ) then {
+			_canControl = false;
+		};
+	} forEach (units _group);
+	_canControl;
+}] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_assignVehicleActionHandler = {
+	params ["_group","_groupControlId","_selectedVehicle","_params"];
+	if(!isNull _selectedVehicle) then {
+		private ["_vehicleName","_assignedVehicles"];
+		[_group,_selectedVehicle] remoteExec ["addVehicle", leader _group];
+		[_group,_selectedVehicle] remoteExec ["addVehicle", _selectedVehicle];
+		_assignedVehicles = [_group] call AIC_fnc_getGroupAssignedVehicles;
+		_assignedVehicles pushBack _selectedVehicle;
+		[_group,_assignedVehicles] call AIC_fnc_setGroupAssignedVehicles;
+
+		_vehicleSlotsToAssign = [];
+		
+		_maxSlots = 0;
+		{
+			_vehicleRoles = [_x] call BIS_fnc_vehicleRoles;
+			if(count _vehicleRoles > _maxSlots) then {
+				_maxSlots = count _vehicleRoles;
+			};
+		} forEach _assignedVehicles;
+		
+		if(_maxSlots > 0) then {
+			for "_i" from 0 to (_maxSlots-1) do {
+				{
+					_vehicleRoles = [_x] call BIS_fnc_vehicleRoles;
+					if(count _vehicleRoles > _i) then {
+						_vehicleSlotsToAssign pushBack [_x,_vehicleRoles select _i];
+					};
+				} forEach _assignedVehicles;
+			};
+		};
+
+		// Assign units to vehicles
+		_unitIndex = 0;
+		_countOfSlots = count _vehicleSlotsToAssign;
+		{
+			if(_countOfSlots > _unitIndex) then {
+				_vehicleToAssign = (_vehicleSlotsToAssign select _unitIndex) select 0;
+				_role = (_vehicleSlotsToAssign select _unitIndex) select 1;
+				[_x,_vehicleToAssign,_role] remoteExec ["AIC_fnc_getInVehicle", _x];
+			};
+			_unitIndex = _unitIndex + 1;
+		} forEach (units _group);
+
+		_vehicleName = getText (configFile >> "CfgVehicles" >> typeOf _selectedVehicle >> "displayName");
+		hint ("Vehicle assigned: " + _vehicleName);
+	} else {
+		hint ("No vehicle assigned");
+	};
+};
+
+["Assign Vehicle",[],AIC_fnc_assignVehicleActionHandler,[],"VEHICLE"] call AIC_fnc_addCommandMenuAction;		
+
+AIC_fnc_unassignVehicleActionHandler = {
+	params ["_group"];
+	{
+		[_group,_x] remoteExec ["leaveVehicle", leader _group];
+		[_group,_x] remoteExec ["leaveVehicle", _x];
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	{
+		if( _x != vehicle _x ) then {
+			[_x,vehicle _x] remoteExec ["leaveVehicle", _x];
+			[_x,vehicle _x] remoteExec ["leaveVehicle", vehicle _x];
+		};
+	} forEach (units _group);
+	hint ("All vehicles unassigned");
+};
+
+["Unassign All Vehicle(s)",[],AIC_fnc_unassignVehicleActionHandler,[],"NONE",{
+	params ["_group"];
+	private ["_canUnassign"];
+	_canUnassign = false;
+	_canUnassign = (count ([_group] call AIC_fnc_getGroupAssignedVehicles) > 0);
+	{
+		if( _x != vehicle _x ) then {
+			_canUnassign = true;
+		};
+	} forEach (units _group);
+	_canUnassign;
+}] call AIC_fnc_addCommandMenuAction;		
+
 if(hasInterface) then {
 		
 	AIC_fnc_commandControlDrawHandler = {
 	
 		//_temp = diag_tickTime;
 		
-		private ["_commandControls","_actionControls","_actionControlShown"];
+		private ["_commandControls","_inputControls","_actionControlShown"];
 		
 		_commandControls = AIC_fnc_getCommandControls();
-		_actionControls = AIC_fnc_getActionControls();
-		_actionControlShown = false;
+		_inputControls = AIC_fnc_getInputControls();
 		
-		// Draw all visible action controls
-		
+		// Draw all visible input controls
 		{
 			if(AIC_fnc_getMapElementVisible(_x)) then {
-				[_x] call AIC_fnc_drawActionControl;
-				_actionControlShown = true;
+				[_x] call AIC_fnc_drawInputControl;
 			};
-		} forEach _actionControls;
+		} forEach _inputControls;
 		
 		// Draw command controls
 		
 		{
 			// Move all command controls to the background if an action control is visible
 		
+			/*
 			if(_actionControlShown) then {
 					if(AIC_fnc_getMapElementForeground(_x)) then {
 						[_x,false] call AIC_fnc_setMapElementForeground;
@@ -53,6 +233,7 @@ if(hasInterface) then {
 						[_x,true] call AIC_fnc_setMapElementEnabled;
 					};
 			};
+			*/
 			
 			[_x] call AIC_fnc_drawCommandControl;
 		} forEach _commandControls;
