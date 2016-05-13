@@ -30,11 +30,6 @@ _goCode = AIC_fnc_getGroupGoCode(_group);
 
 AIC_fnc_setInteractiveIconPosition(_icon,_groupPosition);	
 
-// Draw actions
-{
-	[_x] call AIC_fnc_drawGroupVehicleAssignmentAction;
-} forEach (AIC_fnc_getGroupControlActions(_groupControlId));
-
 // Draw the interactive icon at the group's position
 
 [_icon] call AIC_fnc_drawInteractiveIcon;

@@ -35,13 +35,8 @@ class AICommand
 		file = "AICommand\functions\commandMenu";
 		class commandMenuManager {description = ""; postInit=1};
 		class showGroupCommandMenu {description = "";};
-		class showGroupGoCodeMenu {description = "";};
-		class showGroupConfirmMenu {description = "";};
 		class showGroupWpCommandMenu {description = "";};
 		class showGroupWpGoCodeMenu {description = "";};
-		class showGroupColorMenu {description = "";};
-		class showGroupCombatModeMenu {description = "";};
-		class showGroupBehaviourMenu {description = "";};
 		class addCommandMenuAction {description = "";};
 		class executeCommandMenuAction {description = "";};
 	};
@@ -85,17 +80,7 @@ class AICommand
 		class addMapElementChild {description = "";};
 		class deleteMapElement {description = "";};
 	};
-	
-	class ActionControlMapElement
-	{
-		file = "AICommand\functions\mapElements\actionControl";
-		class actionControlEventHandler {description = "";};
-		class createActionControl {description = "";};
-		class drawActionControl {description = "";};
-		class deleteActionControl {description = "";};
-		class actionControlManager {description = "";};
-	};
-	
+
 	class InputControlMapElement
 	{
 		file = "AICommand\functions\mapElements\inputControl";
@@ -145,16 +130,6 @@ class AICommand
 		class commandControlEventHandler {description = ""};
 		class showCommandControl {description = ""};
 		class sendGoCode {description = ""};
-	};
-	
-	class ActionControlsGroupVehicleAssignmentAction
-	{
-		file = "AICommand\functions\mapElements\actionControls\groupVehicleAssignmentAction";
-		class createGroupVehicleAssignmentAction {description = "";};
-		class deleteGroupVehicleAssignmentAction {description = "";};
-		class drawGroupVehicleAssignmentAction {description = "";};
-		class groupVehicleAssignmentActionManager {description = ""; postInit=1};
-		class groupVehicleAssignmentActionEventHandler {description = "";};
 	};
 	
 	class Util

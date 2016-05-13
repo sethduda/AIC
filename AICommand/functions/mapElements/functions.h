@@ -1,5 +1,3 @@
-#include "actionControl\functions.h"
-#include "actionControls\functions.h"
 #include "commandControl\functions.h"
 #include "groupControl\functions.h"
 #include "interactiveIcon\functions.h"

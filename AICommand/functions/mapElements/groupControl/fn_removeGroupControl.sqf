@@ -25,12 +25,6 @@ _groupControlId = param [0];
 	[_x] call AIC_fnc_removeInteractiveIcon;
 } forEach (AIC_fnc_getGroupControlWaypointIcons(_groupControlId));
 
-{
-	if((AIC_fnc_getActionControlType(_x)) == "GROUP_VEHICLE_ASSIGNMENT") then {
-		[_x] call AIC_fnc_deleteGroupVehicleAssignmentAction;
-	};
-} forEach (AIC_fnc_getGroupControlActions(_groupControlId));
-
 AIC_fnc_setGroupControlGroup(_groupControlId,nil);
 AIC_fnc_setGroupControlInteractiveIcon(_groupControlId,nil);
 AIC_fnc_setGroupControlWaypointIcons(_groupControlId,nil);

@@ -68,120 +68,10 @@ if(isNil "_groupControlId") then {
 
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
 	
-	if( _event == "ASSIGN_VEHICLE_SELECTED" ) then {
-	
-		private ["_vehicle","_vehicleRoles","_vehicleRolesCount","_groupUnits","_groupUnitCount","_minCount","_role","_unit","_action","_actions"];
-		_vehicle = _params select 0;
-
-		/*
-		_vehicleRoles = [_vehicle] call BIS_fnc_vehicleRoles;
-		_vehicleRolesCount = count _vehicleRoles;
-		_groupUnits = units _group;
-		_groupUnitCount = count (units _group);
-		_minCount = _vehicleRolesCount min _groupUnitCount;
-		
-		for "_i" from 0 to (_minCount-1) do
-		{
-			_role = _vehicleRoles select _i;
-			_unit = _groupUnits select _i;
-			if((_role select 0) == "Driver") then {
-				_unit assignAsDriver _vehicle;
-			};
-			if((_role select 0) == "Turret") then {
-				_unit assignAsTurret [_vehicle,_role select 1];
-			};
-			if((_role select 0) == "Cargo") then {
-				_unit assignAsCargoIndex [_vehicle,(_role select 1) select 0];
-			};
-			[[_unit],true] remoteExec ["orderGetIn", _unit];
-		};
-		*/
-		
-		private ["_groupActions","_newGroupActions","_existingAction","_existingVehicles","_groupActionUpdated"];
-		
-		_groupActions = ([_group] call AIC_fnc_getGroupActions) select 1;
-		_groupActionUpdated = false;
-		_newGroupActions = [];
-		{
-			if((_x select 0) == "GROUP_VEHICLE_ASSIGNMENT") then {
-				_existingAction = _x;
-				_existingVehicles = (_existingAction select 1) select 0;
-				_newGroupActions pushBack ["GROUP_VEHICLE_ASSIGNMENT",[_existingVehicles + [_vehicle]]];
-				_groupActionUpdated = true;
-			} else {
-				_newGroupActions pushBack _x;
-			}
-		} forEach _groupActions;
-		if(!_groupActionUpdated) then {
-			_newGroupActions pushBack ["GROUP_VEHICLE_ASSIGNMENT",[[_vehicle]]];
-		};
-		[_group, _newGroupActions] call AIC_fnc_setGroupActions;
-		
-		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
-		
-	};
-	
-	if( _event == "ASSIGN_VEHICLE_ACTION_SELECTED" ) then {
-		private ["_actionControl"];
-		_actionControl = ["ASSIGN_GROUP_VEHICLE",[_groupControlId]] call AIC_fnc_createActionControl;
-		[_actionControl,true] call AIC_fnc_setMapElementVisible;
-	};
-
-	if( _event == "UNASSIGN_VEHICLE_ACTION_SELECTED" ) then {
-		[_group,[]] call AIC_fnc_setGroupActions;
-		{
-			[_group,_x] remoteExec ["leaveVehicle", leader _group];
-		} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
-		{
-			if(_x != vehicle _x) then {
-				[_x,vehicle _x] remoteExec ["leaveVehicle", leader _group];
-			};
-		} forEach (units _group);
-		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
-	};
-	
 	if( _event == "SELECTED" ) then {
 		[_groupControlId] call AIC_fnc_showGroupCommandMenu;
 		[[_group]] spawn AIC_fnc_showGroupReport;
 	};
-
-	/*
-	if( _event == "CLEAR_WAYPOINTS_SELECTED" ) then {
-		[_group] call AIC_fnc_disableAllWaypoints;	
-		[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
-	};
-
-	if( _event == "ADD_WAYPOINTS_SELECTED" ) then {
-		AIC_fnc_setGroupControlAddingWaypoints(_groupControlId,true);
-	};
-
-
-	if( _event == "REMOTE_CONTROL_SELECTED" ) then {
-				
-		private ["_canControl"];
-				
-		_canControl = true;
-		{
-			if( _x != vehicle _x ) then {
-				_canControl = false;
-			};
-			if( isPlayer _x ) then {
-				_canControl = false;
-			};
-		} forEach (units _group);
-		
-		if(_canControl) then {
-			player remoteControl (leader _group);
-			(vehicle (leader _group)) switchCamera "External";
-			player setVariable ["AIC_Remote_Control_Unit",(leader _group)];
-			openMap false;
-			["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
-		} else {
-			["RemoteControl",["","Sorry, you cannot control vehicles or players"]] call BIS_fnc_showNotification;
-		};
-		
-	};
-	*/
 
 	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP" ) then {
 		if(AIC_fnc_getGroupControlAddingWaypoints(_groupControlId)) then {
@@ -195,34 +85,7 @@ if(isNil "_groupControlId") then {
 			[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
 		};
 	};
-	/*
-	if(_event == "CHANGE_BEHAVIOUR" ) then {
-		private ["_mode"];
-		_mode = _params select 0;
-		[_group,_mode] remoteExec ["setBehaviour", leader _group]; 
-	};
-	
-	if(_event == "CHANGE_COMBAT_MODE" ) then {
-		private ["_mode"];
-		_mode = _params select 0;
-		[_group,_mode] remoteExec ["setCombatMode", leader _group]; 
-	};
-	
-	if(_event == "CHANGE_COLOR" ) then {
-		private ["_color"];
-		_color = _params select 0;
-		[_group,_color] call AIC_fnc_setGroupColor;
-		[_groupControlId,"COLOR_CHANGED",[]] call AIC_fnc_groupControlEventHandler;
-	};
 
-	
-	if(_event == "COLOR_CHANGED" ) then {
-		AIC_fnc_setGroupControlColor(_groupControlId,[_group] call AIC_fnc_getGroupColor);
-		[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
-		[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
-		[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
-	};	*/
-	
 	if(_event == "REFRESH_GROUP_ICON" ) then {
 		private ["_color","_iconSet","_interactiveIconId"];
 		_color = AIC_fnc_getGroupControlColor(_groupControlId); 
@@ -230,36 +93,6 @@ if(isNil "_groupControlId") then {
 		_interactiveIconId = AIC_fnc_getGroupControlInteractiveIcon(_groupControlId);
 		AIC_fnc_setInteractiveIconIconSet(_interactiveIconId,_iconSet);
 		AIC_fnc_setGroupControlType(_groupControlId,(_group call AIC_fnc_getGroupIconType));
-	};
-	
-	if(_event == "REFRESH_ACTIONS" ) then {
-	
-		private ["_groupActions","_existingActions"];
-		_groupActions = [_group] call AIC_fnc_getGroupActions;
-		_existingActions = AIC_fnc_getGroupControlActions(_groupControlId);
-		
-		// Remove all existing actions
-		{
-			if((AIC_fnc_getActionControlType(_x)) == "GROUP_VEHICLE_ASSIGNMENT") then {
-				[_x] call AIC_fnc_deleteGroupVehicleAssignmentAction;
-			};
-		} forEach _existingActions;
-		
-		// Add all actions assigned to group
-		_newActions = [];
-		{
-			_actionType = _x select 0;
-			_actionParams = _x select 1;
-			if(_actionType == "GROUP_VEHICLE_ASSIGNMENT") then {
-				_vehicles = _actionParams select 0;
-				_action = [_groupControlId, _group, _vehicles] call AIC_fnc_createGroupVehicleAssignmentAction;
-				_newActions pushBack _action;
-				[_groupControlId,_action] call AIC_fnc_addMapElementChild;
-			};
-		} forEach (_groupActions select 1);
-		AIC_fnc_setGroupControlActions(_groupControlId,_newActions);
-		AIC_fnc_setGroupControlActionsRevision(_groupControlId, _groupActions select 0); 
-		
 	};
 	
 	if(_event == "REFRESH_WAYPOINTS" ) then {
