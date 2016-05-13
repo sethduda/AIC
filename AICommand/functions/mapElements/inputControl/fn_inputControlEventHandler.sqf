@@ -60,11 +60,24 @@ if(isNil "_inputControlId") then {
 	_inputType = AIC_fnc_getInputControlType(_inputControlId);
 	_inputParameters = AIC_fnc_getInputControlParameters(_inputControlId);
 
-	if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
-		AIC_fnc_setInputControlOutput(_inputControlId,objNull);
+
+	
+	if(_inputType == "POSITION") then {
+	
+		if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
+			AIC_fnc_setInputControlOutput(_inputControlId,[]);
+		};
+		
+		if(_event == "LEFT_MOUSE_BUTTON_CLICK_MAP") then {
+			AIC_fnc_setInputControlOutput(_inputControlId,AIC_fnc_getMouseMapPosition());
+		};
 	};
 	
 	if(_inputType == "VEHICLE") then {
+	
+		if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
+			AIC_fnc_setInputControlOutput(_inputControlId,objNull);
+		};
 
 		private ["_groupControlId"];
 		

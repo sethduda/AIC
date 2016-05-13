@@ -151,7 +151,6 @@ AIC_fnc_assignVehicleActionHandler = {
 		private ["_vehicleName","_assignedVehicles","_vehicleSlotsToAssign","_maxSlots","_vehicleRoles"];
 		private ["_unitIndex","_countOfSlots","_vehicleToAssign"];
 		[_group,_selectedVehicle] remoteExec ["addVehicle", leader _group];
-		[_group,_selectedVehicle] remoteExec ["addVehicle", _selectedVehicle];
 		_assignedVehicles = [_group] call AIC_fnc_getGroupAssignedVehicles;
 		_assignedVehicles pushBack _selectedVehicle;
 		[_group,_assignedVehicles] call AIC_fnc_setGroupAssignedVehicles;
@@ -196,14 +195,7 @@ AIC_fnc_unassignVehicleActionHandler = {
 	params ["_group"];
 	{
 		[_group,_x] remoteExec ["leaveVehicle", leader _group];
-		[_group,_x] remoteExec ["leaveVehicle", _x];
 	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
-	{
-		if( _x != vehicle _x ) then {
-			[_x,vehicle _x] remoteExec ["leaveVehicle", _x];
-			[_x,vehicle _x] remoteExec ["leaveVehicle", vehicle _x];
-		};
-	} forEach (units _group);
 	[_group,nil] call AIC_fnc_setGroupAssignedVehicles;
 	hint ("All vehicles unassigned");
 };
@@ -220,6 +212,40 @@ AIC_fnc_unassignVehicleActionHandler = {
 	} forEach (units _group);
 	_canUnassign;
 }] call AIC_fnc_addCommandMenuAction;		
+
+AIC_fnc_landActionHandler = {
+	params ["_group","_groupControlId","_selectedPosition"];
+	if(count _selectedPosition > 0) then {
+		_hasAir = false;
+		{
+			if(_x isKindOf "Air") then {
+				_hasAir = true;
+			};
+		} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+		if(_hasAir) then {
+			private ["_wp"];
+			_wp = _group addWaypoint [_selectedPosition, 0];
+			_wp setWaypointType "MOVE";
+			_wp setWaypointBehaviour "UNCHANGED";
+			_wp setWaypointStatements ["true", "{ if((vehicle _x) isKindOf 'Air') then { (vehicle this) land 'LAND'; }; } forEach (units (group this))"];
+		};
+	};
+};
+
+["Land",[],AIC_fnc_landActionHandler,[],"POSITION",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			if(((position _x) select 2) > 1) then {
+				_hasAir = true;
+			};
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+
 
 if(hasInterface) then {
 		
