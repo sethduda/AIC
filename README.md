@@ -6,7 +6,7 @@ This is an Alpha release. When this addon is enabled, you will be given control 
 
 If you like this addon and want to see more, please comment here:
 
-https://forums.bistudio.com/topic/187492-ai-command-high-command-replacement/
+https://forums.bistudio.com/topic/190793-advanced-ai-command/
 
 **Features:**
 
