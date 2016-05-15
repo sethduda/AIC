@@ -223,11 +223,9 @@ AIC_fnc_landActionHandler = {
 			};
 		} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
 		if(_hasAir) then {
-			private ["_wp"];
-			_wp = _group addWaypoint [_selectedPosition, 0];
-			_wp setWaypointType "MOVE";
-			_wp setWaypointBehaviour "UNCHANGED";
-			_wp setWaypointStatements ["true", "{ if((vehicle _x) isKindOf 'Air') then { (vehicle this) land 'LAND'; }; } forEach (units (group this))"];
+			[_group] call AIC_fnc_disableAllWaypoints;	
+			[_group, [_selectedPosition,false,"MOVE","{ if((vehicle _x) isKindOf 'Air') then { (vehicle this) land 'LAND'; }; } forEach (units (group this))"]] call AIC_fnc_addWaypoint;
+			[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
 		};
 	};
 };
@@ -362,7 +360,7 @@ if(isServer) then {
 
 	[] spawn {
 		while {true} do {
-			private ["_group","_groupControl","_lastWpRevision","_groupWaypoints","_groupControlWaypoints","_currentWpRevision","_groupControlWaypointArray","_wp","_goCodeWpFound","_wpType","_waitForCode"];
+			private ["_group","_groupControl","_lastWpRevision","_groupWaypoints","_groupControlWaypoints","_currentWpRevision","_groupControlWaypointArray","_wp","_goCodeWpFound","_wpType","_waitForCode","_wpActionScript"];
 			{
 				_group = _x;
 
@@ -382,12 +380,17 @@ if(isServer) then {
 						{
 							if(!_goCodeWpFound) then {
 								_wpType = _x select 3;
+								if(count _x > 4) then {
+									_wpActionScript = _x select 4;
+								} else {
+									_wpActionScript = "";
+								};
 								_wp = _group addWaypoint [_x select 1, 0];
 								if(_wpType == "ALPHA" || _wpType == "BRAVO") then {
 									_goCodeWpFound = true;
 									_wp setWaypointStatements ["true", "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint; [group this,'"+_wpType+"'] call AIC_fnc_waitForWaypointGoCode;"];
 								} else {
-									_wp setWaypointStatements ["true", "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;"];
+									_wp setWaypointStatements ["true", "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;" + _wpActionScript];
 								};
 							};
 						} forEach _groupControlWaypointArray;
