@@ -1,0 +1,12 @@
+name = "Advanced AI Command (Alpha)";
+picture = "logo.paa";
+description = "Advanced AI Command (Alpha)";
+logo = "logo.paa";
+logoOver = "logo.paa";
+tooltip = "Advanced AI Command (Alpha)";
+tooltipOwned = "Advanced AI Command (Alpha) Owned";
+overview = "Advanced AI Command (Alpha)";
+author = "[SA] Duda";
+overviewPicture = "logo.paa";
+overviewText = "Advanced AI Command (Alpha)";
+overviewFootnote = "";

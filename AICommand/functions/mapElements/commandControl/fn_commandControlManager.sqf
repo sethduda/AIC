@@ -15,6 +15,7 @@
 
 ["ALL_EAST"] call AIC_fnc_createCommandControl;
 ["ALL_WEST"] call AIC_fnc_createCommandControl;
+["ALL_GUER"] call AIC_fnc_createCommandControl;
 
 
 AIC_fnc_addWaypointsActionHandler = {
@@ -316,6 +317,28 @@ if(hasInterface) then {
 	
 };
 
+if(!isDedicated && hasInterface) then {
+	[] spawn {
+		while {true} do {
+			if(!isNull player && isPlayer player) then {
+				if!( player getVariable ["AIC_Command_Control_Added",false] ) then {
+					if(side player == west) then {
+						["ALL_WEST",true] call AIC_fnc_showCommandControl;
+					};
+					if(side player == east) then {
+						["ALL_EAST",true] call AIC_fnc_showCommandControl;
+					};
+					if(side player == resistance) then {
+						["ALL_GUER",true] call AIC_fnc_showCommandControl;
+					};
+					player setVariable ["AIC_Command_Control_Added",true];
+				};
+			};
+			sleep 2;
+		};
+	};
+};
+
 if(isServer) then {
 	
 	[] spawn {
@@ -327,6 +350,9 @@ if(isServer) then {
 				};
 				if(side _x == west) then {
 					["ALL_WEST",_x] call AIC_fnc_commandControlAddGroup;
+				};
+				if(side _x == resistance) then {
+					["ALL_GUER",_x] call AIC_fnc_commandControlAddGroup;
 				};
 			} forEach allGroups;
 			sleep 10;
