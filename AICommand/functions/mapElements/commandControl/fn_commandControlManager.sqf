@@ -38,9 +38,11 @@ AIC_fnc_addWaypointsActionHandler = {
 			_currentControlColor = AIC_fnc_getGroupControlColor(_groupControlId);  
 			_currentGroupColor = [_group] call AIC_fnc_getGroupColor;
 			if((_currentControlColor select 0) != (_currentGroupColor select 0)) then {
-				[_groupControlId,"COLOR_CHANGED",[]] call AIC_fnc_groupControlEventHandler;
+				AIC_fnc_setGroupControlColor(_groupControlId,_currentGroupColor);
+				[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+				[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
+				[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
 			};
-			
 			_currentGroupType = AIC_fnc_getGroupControlType(_groupControlId); 
 			_groupType = _group call AIC_fnc_getGroupIconType;
 			if(_groupType != _currentGroupType) then {
@@ -83,6 +85,99 @@ AIC_fnc_setGroupBehaviourActionHandler = {
 ["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
 ["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
 		
+AIC_fnc_setFlyInHeightActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	_params params ["_height"];
+	{
+		if(_x isKindOf "Air") then {
+			[_x,_height] remoteExec ["flyInHeight", _x]; 
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	hint ("Fly in height set to " + (str _height) + " meters");
+};
+
+["500 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[500],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["250 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[250],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["100 meters (default)",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[100],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["50 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[50],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["40 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[40],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["30 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[30],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["20 meters",["Set Fly in Height"],AIC_fnc_setFlyInHeightActionHandler,[20],"NONE",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Air") then {
+			_hasAir = true;
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir;	
+}] call AIC_fnc_addCommandMenuAction;
+
+["Safe",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["SAFE"]] call AIC_fnc_addCommandMenuAction;
+["Aware",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["AWARE"]] call AIC_fnc_addCommandMenuAction;
+["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
+["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
+
 AIC_fnc_setGroupCombatModeActionHandler = {
 	params ["_group","_groupControlId","_params"];
 	_params params ["_mode","_modeLabel"];
@@ -183,6 +278,9 @@ AIC_fnc_assignVehicleActionHandler = {
 			};
 			_unitIndex = _unitIndex + 1;
 		} forEach (units _group);
+		if(_selectedVehicle isKindOf "Air") then {
+			[_selectedVehicle,100] remoteExec ["flyInHeight", _selectedVehicle]; 
+		};
 		_vehicleName = getText (configFile >> "CfgVehicles" >> typeOf _selectedVehicle >> "displayName");
 		hint ("Vehicle assigned: " + _vehicleName);
 	} else {
