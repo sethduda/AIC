@@ -19,7 +19,7 @@ https://forums.bistudio.com/topic/190793-advanced-ai-command/
 **Installation:**
 
 1. Subscrive via steam: http://steamcommunity.com/sharedfiles/filedetails/?id=685037021 or dowload latest release from https://github.com/sethduda/AIC/releases
-2. If installing this on a server, add the addon to the -server command line option
+2. If installing this on a server, add the addon to the -mod command line option
 
 **Issues & Feature Requests**
 
