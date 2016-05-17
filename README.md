@@ -2,7 +2,7 @@
 
 SP & MP Compatible. Full replacement for high command.
 
-This is an Alpha release. When this addon is enabled, you will be given control of all groups on your side when looking at the map. Future release will give finer grained control to limit commanders/groups. If you try this in multiplayer, all players will be commanders.
+Important: This addon must be setup using editor modules. See install directions below. 
 
 If you like this addon and want to see more, please comment here:
 
