@@ -20,6 +20,11 @@ https://forums.bistudio.com/topic/190793-advanced-ai-command/
 
 1. Subscrive via steam: http://steamcommunity.com/sharedfiles/filedetails/?id=685037021 or dowload latest release from https://github.com/sethduda/AIC/releases
 2. If installing this on a server, add the addon to the -mod command line option
+3. Setup command structure using editor-based modules:
+
+![Editor Module Example Setup](http://images.akamai.steamusercontent.com/ugc/278473128263933821/3C258BB6120BEB164140B6A6D4EB48C9528A4C4A/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside|637:358&composite-to=*,*|637:358&background-color=black)
+
+In the example above, two playable units on each side have been setup as commanders. Both units on the same side will see the same command map (and can see each other's changes). Each commander will be in control of two AI groups. Make sure all modules and units are synchronized together.
 
 **Issues & Feature Requests**
 
