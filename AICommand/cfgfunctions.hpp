@@ -2,6 +2,13 @@ class AICommand
 {
 	tag = "AIC";
 	
+	class Module
+	{
+		file = "AICommand\functions\module";	
+		class initAICommandModuleServer {description = ""};
+		class initAICommandModuleClient {description = ""};
+	};
+	
 	class MapIcon
 	{
 		file = "AICommand\functions\mapIcon";	

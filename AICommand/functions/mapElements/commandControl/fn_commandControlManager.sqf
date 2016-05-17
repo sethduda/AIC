@@ -496,28 +496,6 @@ if(hasInterface) then {
 	
 };
 
-if(!isDedicated && hasInterface) then {
-	[] spawn {
-		while {true} do {
-			if(!isNull player && isPlayer player) then {
-				if!( player getVariable ["AIC_Command_Control_Added",false] ) then {
-					if(side player == west) then {
-						["ALL_WEST",true] call AIC_fnc_showCommandControl;
-					};
-					if(side player == east) then {
-						["ALL_EAST",true] call AIC_fnc_showCommandControl;
-					};
-					if(side player == resistance) then {
-						["ALL_GUER",true] call AIC_fnc_showCommandControl;
-					};
-					player setVariable ["AIC_Command_Control_Added",true];
-				};
-			};
-			sleep 2;
-		};
-	};
-};
-
 if(isServer) then {
 	
 	[] spawn {
