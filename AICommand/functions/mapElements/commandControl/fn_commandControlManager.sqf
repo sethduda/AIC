@@ -84,7 +84,18 @@ AIC_fnc_setGroupBehaviourActionHandler = {
 ["Aware",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["AWARE"]] call AIC_fnc_addCommandMenuAction;
 ["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
 ["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
+	
+AIC_fnc_setGroupSpeedActionHandler = {
+	params ["_group","_groupControlId","_params"];
+	_params params ["_speed","_label"];
+	[_group,_speed] remoteExec ["setSpeedMode", leader _group]; 
+	hint ("Speed set to " + _label);
+};	
 		
+["Half Speed",["Set Group Speed"],AIC_fnc_setGroupSpeedActionHandler,["LIMITED", "Half Speed"]] call AIC_fnc_addCommandMenuAction;
+["Full Speed (In Formation)",["Set Group Speed"],AIC_fnc_setGroupSpeedActionHandler,["NORMAL", "Full Speed (In Formation)"]] call AIC_fnc_addCommandMenuAction;
+["Full (No Formation)",["Set Group Speed"],AIC_fnc_setGroupSpeedActionHandler,["FULL", "Full (No Formation)"]] call AIC_fnc_addCommandMenuAction;	
+
 AIC_fnc_setFlyInHeightActionHandler = {
 	params ["_group","_groupControlId","_params"];
 	_params params ["_height"];
@@ -172,11 +183,6 @@ AIC_fnc_setFlyInHeightActionHandler = {
 	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
 	_hasAir;	
 }] call AIC_fnc_addCommandMenuAction;
-
-["Safe",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["SAFE"]] call AIC_fnc_addCommandMenuAction;
-["Aware",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["AWARE"]] call AIC_fnc_addCommandMenuAction;
-["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
-["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
 
 AIC_fnc_setGroupCombatModeActionHandler = {
 	params ["_group","_groupControlId","_params"];
@@ -310,7 +316,82 @@ AIC_fnc_unassignVehicleActionHandler = {
 		};
 	} forEach (units _group);
 	_canUnassign;
-}] call AIC_fnc_addCommandMenuAction;		
+}] call AIC_fnc_addCommandMenuAction;	
+
+AIC_fnc_unloadOtherGroupsActionHandler = {
+	params ["_group"];
+	private ["_vehicle","_unloadedGroups","_assignedVehicles"];
+	_unloadedGroups = [];
+	{
+		_vehicle = _x;
+		{
+			if(group _x != _group) then {
+				if!(group _x in _unloadedGroups) then {
+					[group _x, _vehicle] remoteExec ["leaveVehicle", leader group _x];
+					_unloadedGroups pushBack (group _x);
+					_assignedVehicles = [group _x] call AIC_fnc_getGroupAssignedVehicles;
+					_assignedVehicles = _assignedVehicles - [_vehicle];
+					[group _x,_assignedVehicles] call AIC_fnc_setGroupAssignedVehicles;
+				};
+			};
+		} forEach (crew _vehicle);
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	hint ((str count _unloadedGroups) + " other group(s) unloaded");
+};
+
+["Unload Other Group(s)",[],AIC_fnc_unloadOtherGroupsActionHandler,[],"NONE",{
+	params ["_group"];
+	_group getVariable ["AIC_Has_Group_Cargo",false];
+}] call AIC_fnc_addCommandMenuAction;	
+
+// Manage groups with other groups as cargo
+[] spawn {
+	private ["_groupsAsDrivers","_groupsAsCargo","_newGroupsAsDrivers","_newGroupsAsCargo","_groupControls","_groupControlId"];
+	private ["_group","_groupLeader"];
+	_groupsAsDrivers = [];
+	_groupsAsCargo = [];
+	while {true} do {
+		_newGroupsAsDrivers = [];
+		_newGroupsAsCargo = [];
+		_groupControls = AIC_fnc_getGroupControls();
+		{
+			_groupControlId = _x;
+			_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+			_groupLeader = leader _group;
+			{
+				if( _groupLeader in _x && (group driver _x) == _group ) then {
+					_hasOtherGroups = false;
+					{
+						if(group _x != _group) exitWith {
+							_hasOtherGroups = true;
+						};
+					} forEach (crew _x);
+					if(_hasOtherGroups) then {
+						_newGroupsAsDrivers pushBack _groupControlId;
+						_group setVariable ["AIC_Has_Group_Cargo",true];
+					};
+				};
+				if( _groupLeader in _x && (group driver _x) != _group && (leader group driver _x) in _x ) then {
+					_newGroupsAsCargo pushBack _groupControlId;
+					[_groupControlId,false] call AIC_fnc_setMapElementEnabled;
+					[_groupControlId,false] call AIC_fnc_setMapElementForeground;
+				};
+			} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+		} forEach _groupControls;
+		{
+			_group = AIC_fnc_getGroupControlGroup(_x);
+			_group setVariable ["AIC_Has_Group_Cargo",false];
+		} forEach (_groupsAsDrivers - _newGroupsAsDrivers);
+		_groupsAsDrivers = _newGroupsAsDrivers;
+		{
+			[_x,true] call AIC_fnc_setMapElementEnabled;
+			[_x,true] call AIC_fnc_setMapElementForeground;
+		} forEach (_groupsAsCargo - _newGroupsAsCargo);
+		_groupsAsCargo = _newGroupsAsCargo;
+		sleep 1;
+	};
+};
+
 
 AIC_fnc_landActionHandler = {
 	params ["_group","_groupControlId","_selectedPosition"];
