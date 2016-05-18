@@ -20,17 +20,32 @@ https://forums.bistudio.com/topic/190793-advanced-ai-command/
 
 1. Subscrive via steam: http://steamcommunity.com/sharedfiles/filedetails/?id=685037021 or dowload latest release from https://github.com/sethduda/AIC/releases
 2. If installing this on a server, add the addon to the -mod command line option
-3. Setup command structure using editor-based modules:
+3. Place the "Advanced AI Command" module using the mission editor (located in the Misc section)
+4. Optionally, configure setup using "Groups" and "Commanders" editor modules. See below of examples
+
+**Example Module Configurations:**
+
+**Setup 1:** Give all playable units full control over all groups on their side
+
+No additional configuration needed
+
+**Setup 2:** Give specific playable units full control over all groups on their side
 
 ![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample1.jpg)
 
+In this example, two playable units will have full control over all groups on their side. The 3rd playable unit won't have any command controls.
 
-![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample2.jpg)
-
+**Setup 3:** Give specific playable units control over specific groups
 
 ![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample3.jpg)
 
-In the example above, two playable units on each side have been setup as commanders. Both units on the same side will see the same command map (and can see each other's changes). Each commander will be in control of two AI groups. Make sure all modules and units are synchronized together.
+In this example, two playable units will have control over two groups. The 3rd playable unit won't have any command controls.
+
+**Setup 4:** Give specific playable units control over specific groups (Advanced)
+
+![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample2.jpg)
+
+This is an advanced example giving multiple players (different sides) control over specific groups.
 
 **Issues & Feature Requests**
 
