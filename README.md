@@ -31,19 +31,19 @@ No additional configuration needed
 
 **Setup 2:** Give specific playable units full control over all groups on their side
 
-![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample1.jpg)
+<img src="https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample1.jpg" width="500">
 
 In this example, two playable units will have full control over all groups on their side. The 3rd playable unit won't have any command controls.
 
 **Setup 3:** Give specific playable units control over specific groups
 
-![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample3.jpg)
+<img src="https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample3.jpg" width="500">
 
 In this example, two playable units will have control over two groups. The 3rd playable unit won't have any command controls.
 
 **Setup 4:** Give specific playable units control over specific groups (Advanced)
 
-![Editor Module Example Setup](https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample2.jpg)
+<img src="https://raw.githubusercontent.com/sethduda/AIC/master/moduleExample2.jpg" width="500">
 
 This is an advanced example giving multiple players (different sides) control over specific groups.
 
