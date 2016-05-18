@@ -31,15 +31,30 @@ class CfgVehicles
 			class AnyBrain;
 		};
 	};
+	class AdvancedAICommand: Module_F
+	{
+		author = "[SA] Duda";
+		scope = 2;
+		displayName = "Advanced AI Command";
+		icon = "\A3\modules_f\data\icon_HC_ca.paa";
+		functionPriority = 1;
+		isGlobal = 0;
+		function = "AIC_fnc_initAICommandModuleServer";
+		class ModuleDescription: ModuleDescription
+		{
+			description = "Enable Advanced AI Command";
+		};
+	};
 	class AdvancedAICommand_Commanders: Module_F
 	{
 		author = "[SA] Duda";
 		scope = 2;
 		displayName = "Advanced AI Command - Commanders";
 		icon = "\A3\modules_f\data\icon_HC_ca.paa";
-		functionPriority = 1;
-		isGlobal = 0;
-		function = "AIC_fnc_initAICommandModuleServer";
+		class Eventhandlers
+		{
+			init = "";
+		};
 		class ModuleDescription: ModuleDescription
 		{
 			description = "Set player(s) as commanders, giving them the ability to control groups of AI";
@@ -59,7 +74,7 @@ class CfgVehicles
 		author = "[SA] Duda";
 		scope = 2;
 		displayName = "Advanced AI Command - Groups";
-		icon = "\A3\modules_f\data\icon_HC_sub_ca.paa";
+		icon = "\A3\modules_f\data\icon_HC_ca.paa";
 		class Eventhandlers
 		{
 			init = "";

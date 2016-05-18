@@ -16,6 +16,7 @@
 ["ALL_EAST"] call AIC_fnc_createCommandControl;
 ["ALL_WEST"] call AIC_fnc_createCommandControl;
 ["ALL_GUER"] call AIC_fnc_createCommandControl;
+["ALL_CIV"] call AIC_fnc_createCommandControl;
 
 
 AIC_fnc_addWaypointsActionHandler = {
@@ -510,6 +511,9 @@ if(isServer) then {
 				};
 				if(side _x == resistance) then {
 					["ALL_GUER",_x] call AIC_fnc_commandControlAddGroup;
+				};
+				if(side _x == civilian) then {
+					["ALL_CIV",_x] call AIC_fnc_commandControlAddGroup;
 				};
 			} forEach allGroups;
 			sleep 10;
