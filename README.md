@@ -10,11 +10,12 @@ https://forums.bistudio.com/topic/190793-advanced-ai-command/
 
 **Features:**
 
- - Control AI groups via the map. Provides intuitive interface for commanders.
- - Supports multiple commanders in multiplayer. All commanders can see in real-time as waypoints are moved.
- - Assign/unassign vehicles to an AI group using the map.
- - Waypoints can be moved around via dragging. They can be deleted using the delete key.
- - Supports remote controlling of AI group leaders (for groups without vehicles). Press delete to exit remote control.
+- Control AI groups via the map. Provides intuitive interface for commanders. 
+- Supports multiple commanders in multiplayer. All commanders can see in real-time as waypoints are moved. 
+- Assign/unassign vehicles to an AI group using the map. 
+- Land & set fly in height for planes / helicopters 
+- Waypoints can be moved around via dragging. They can be deleted using the delete key. 
+- Supports remote controlling of AI group leaders (for groups without vehicles). Press delete to exit remote control. 
 
 **Installation:**
 
