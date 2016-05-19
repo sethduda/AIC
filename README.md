@@ -20,14 +20,13 @@ https://forums.bistudio.com/topic/190793-advanced-ai-command/
 
 1. Subscrive via steam: http://steamcommunity.com/sharedfiles/filedetails/?id=685037021 or dowload latest release from https://github.com/sethduda/AIC/releases
 2. If installing this on a server, add the addon to the -mod command line option
-3. Place the "Advanced AI Command" module using the mission editor (located in the Misc section)
-4. Optionally, configure setup using "Groups" and "Commanders" editor modules. See below of examples
+3. Optionally, configure setup using Advanced AI Command "Groups" and "Commanders" editor modules in the Misc category. See below of examples configurations.
 
 **Example Module Configurations:**
 
 **Setup 1:** Give all playable units full control over all groups on their side
 
-No additional configuration needed
+No additional configuration needed.
 
 **Setup 2:** Give specific playable units full control over all groups on their side
 
