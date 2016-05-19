@@ -12,4 +12,4 @@
 	Returns: 
 	Color Array
 */
-(param [0]) getVariable ["AIC_Group_Color",AIC_COLOR_RED];
+(param [0]) getVariable ["AIC_Group_Color",AIC_COLOR_BLUE];

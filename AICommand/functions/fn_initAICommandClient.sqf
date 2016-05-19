@@ -16,7 +16,9 @@
 
 params ["_configurationMode",["_parameters",[]]];
 
-waitUntil {!isNil "AIC_INIT_STARTUP_SCRIPTS_EXECUTED"};
+if(!hasInterface) exitWith {};
+
+waitUntil {!isNil "AIC_INIT_STARTUP_SCRIPTS_EXECUTED" && !isNull player};
 
 if(_configurationMode == "SPECIFIED_COMMANDERS_SPECIFIED_GROUPS") then {
 	_parameters params ["_commandersModule","_commandControlId"];
