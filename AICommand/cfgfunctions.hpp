@@ -2,11 +2,11 @@ class AICommand
 {
 	tag = "AIC";
 	
-	class Module
+	class Main
 	{
-		file = "AICommand\functions\module";	
-		class initAICommandModuleServer {description = ""};
-		class initAICommandModuleClient {description = ""};
+		file = "AICommand\functions";	
+		class initAICommand {description = ""};
+		class initAICommandClient {description = ""};
 	};
 	
 	class MapIcon
@@ -14,7 +14,7 @@ class AICommand
 		file = "AICommand\functions\mapIcon";	
 		class createMapIcon {description = ""};
 		class drawMapIcon {description = ""};
-		class mapIconDefinitions {description = ""; preInit=1};
+		class mapIconDefinitions {description = ""};
 	};
 	
 	class GroupData
@@ -40,7 +40,7 @@ class AICommand
 	class CommandMenu
 	{
 		file = "AICommand\functions\commandMenu";
-		class commandMenuManager {description = ""; postInit=1};
+		class commandMenuManager {description = "";};
 		class showGroupCommandMenu {description = "";};
 		class showGroupWpCommandMenu {description = "";};
 		class showGroupWpGoCodeMenu {description = "";};
@@ -95,13 +95,13 @@ class AICommand
 		class createInputControl {description = "";};
 		class drawInputControl {description = "";};
 		class deleteInputControl {description = "";};
-		class inputControlManager {description = ""; postInit=1};
+		class inputControlManager {description = "";};
 	};
 	
 	class InteractiveIconMapElement
 	{
 		file = "AICommand\functions\mapElements\interactiveIcon";
-		class interactiveIconManager {description = ""; postInit=1};
+		class interactiveIconManager {description = ""};
 		class createInteractiveIcon {description = ""};
 		class drawInteractiveIcon {description = ""};
 		class handleInteractiveIconEvent {description = ""};
@@ -121,7 +121,7 @@ class AICommand
 		class drawGroupControl {description = ""};
 		class groupControlEventHandler {description = ""};
 		class groupControlWaypointEventHandler {description = ""};
-		class groupControlManager {description = ""; postInit=1};
+		class groupControlManager {description = ""};
 		class showGroupReport {description = ""};
 		class removeGroupControl {description = ""};
 	};
@@ -129,7 +129,7 @@ class AICommand
 	class CommandControlMapElement
 	{
 		file = "AICommand\functions\mapElements\commandControl";
-		class commandControlManager {description = ""; postInit=1};
+		class commandControlManager {description = ""};
 		class createCommandControl {description = ""};
 		class drawCommandControl {description = ""};
 		class commandControlAddGroup {description = ""};

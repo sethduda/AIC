@@ -2,7 +2,7 @@ class CfgPatches
 {
 	class AICommand
 	{
-		units[] = {"AICommandCommanders","AICommandGroups"};
+		units[] = {"AdvancedAICommand_Commanders","AdvancedAICommand_Groups"};
 		requiredVersion = 1.0;
 		requiredAddons[] = {"A3_Modules_F"};
 	};
@@ -10,6 +10,7 @@ class CfgPatches
 
 class cfgFunctions {
 	#include "\AICommand\cfgfunctions.hpp"
+	#include "\AICommand\cfgfunctionsaddon.hpp"
 };
 
 class CfgNotifications
@@ -29,20 +30,6 @@ class CfgVehicles
 		class ModuleDescription
 		{
 			class AnyBrain;
-		};
-	};
-	class AdvancedAICommand: Module_F
-	{
-		author = "[SA] Duda";
-		scope = 2;
-		displayName = "Advanced AI Command";
-		icon = "\A3\modules_f\data\icon_HC_ca.paa";
-		functionPriority = 1;
-		isGlobal = 0;
-		function = "AIC_fnc_initAICommandModuleServer";
-		class ModuleDescription: ModuleDescription
-		{
-			description = "Enable Advanced AI Command";
 		};
 	};
 	class AdvancedAICommand_Commanders: Module_F
