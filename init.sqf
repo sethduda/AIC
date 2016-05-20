@@ -1,4 +1,6 @@
 
+[] call AIC_fnc_initAICommand;
+
 /*
 [markerPos "hc1", [[1,"Take High Command","FUNC_takeHC",true,true,false],[2,"Release High Command","FUNC_releaseHC",true,false,true]], false, 1] call AIC_fnc_createCommandRadio;
 
