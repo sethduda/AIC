@@ -85,6 +85,69 @@ AIC_fnc_setGroupBehaviourActionHandler = {
 ["Aware",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["AWARE"]] call AIC_fnc_addCommandMenuAction;
 ["Combat",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["COMBAT"]] call AIC_fnc_addCommandMenuAction;
 ["Stealth",["Set Group Behaviour"],AIC_fnc_setGroupBehaviourActionHandler,["STEALTH"]] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_joinGroupActionHandler = {
+	params ["_group","_groupControlId","_selectedGroup","_params"];
+	if(!isNull _selectedGroup) then {
+		(units _group) joinSilent _selectedGroup;
+		hint ("Selected Group Joined");
+	} else {
+		hint ("No Group Selected");
+	};
+};
+
+["Join A Group",["Group Size"],AIC_fnc_joinGroupActionHandler,[],"GROUP"] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_splitGroupHalfActionHandler = {
+	params ["_group","_groupControlId"];
+	_group2 = createGroup (side _group);
+	_joinNewGroup = false;
+	{
+		if(_joinNewGroup) then {
+			[_x] joinSilent _group2;
+			_joinNewGroup = false;
+		} else {	
+			_joinNewGroup = true;
+		};
+	} forEach (units _group);
+	hint ("Group Split in Half");
+};
+
+["In Half",["Group Size","Split Group"],AIC_fnc_splitGroupHalfActionHandler,[],"NONE",{
+	params ["_group"];
+	count units _group > 1;
+}] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_splitGroupUnitsActionHandler = {
+	params ["_group","_groupControlId"];
+	
+	// Find all command controls to update with new split groups
+	_commandControlsToUpdate = [];
+	_commandControls = AIC_fnc_getCommandControls();
+	{
+		_commandControlId = _x;
+		_groups = AIC_fnc_getCommandControlGroups(_commandControlId);
+		if(_group in _groups) then {
+			_commandControlsToUpdate pushBack _commandControlId;
+		};
+	} forEach _commandControls;
+	
+	{
+		_group = createGroup (side _x);
+		[_x] joinSilent _group;
+		{
+			[_x,_group] call AIC_fnc_commandControlAddGroup;
+		} forEach _commandControlsToUpdate;
+	} forEach (units _group);
+	
+	hint ("Group Split into Individual Units");
+	
+};
+
+["Into Individual Units",["Group Size","Split Group"],AIC_fnc_splitGroupUnitsActionHandler,[],"NONE",{
+	params ["_group"];
+	count units _group > 1;
+}] call AIC_fnc_addCommandMenuAction;
 	
 AIC_fnc_setGroupSpeedActionHandler = {
 	params ["_group","_groupControlId","_params"];
@@ -210,6 +273,7 @@ AIC_fnc_clearAllWaypointsActionHandler = {
 AIC_fnc_remoteControlActionHandler = {
 	params ["_group","_groupControlId","_params"];
 	private ["_keyDownHandler","_rcUnit"];
+	/*
 	_rcUnit = leader _group;
 	player remoteControl _rcUnit;
 	(vehicle _rcUnit) switchCamera "External";
@@ -231,20 +295,49 @@ AIC_fnc_remoteControlActionHandler = {
 	(vehicle player) switchCamera cameraView;
 	objNull remoteControl _rcUnit;
 	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
+	*/
+
+	_fromUnit = missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull];
+	if(isNull _fromUnit) then {
+		missionNamespace setVariable ["AIC_Remote_Control_From_Unit",player];
+	};
+
+	_rcUnit = leader _group;
+	selectPlayer _rcUnit;
+	(vehicle _rcUnit) switchCamera "External";
+
+	 missionNamespace setVariable ["AIC_Remote_Control_To_Unit",_rcUnit];
+
+	openMap false;
+	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
+	_keyDownHandler = AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "if(_this select 1 == 211) then { AIC_Remote_Control_To_Unit = objNull }" ];
+	while {!isNull (missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull])} do {
+		private ["_rcUnit"];
+		_rcUnit = missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull];
+		if(!alive _rcUnit) then {
+			AIC_Remote_Control_To_Unit = objNull;
+		} else {
+			sleep 1;
+		};
+	};
+	AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown",_keyDownHandler];
+	selectPlayer (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",_rcUnit]);
+	(vehicle player) switchCamera cameraView;
+	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
 };
 
 ["Remote Control",[],AIC_fnc_remoteControlActionHandler,[],"NONE",{
 	params ["_group"];
 	private ["_canControl"];
 	_canControl = true;
-	{
+	/*{
 		if( _x != vehicle _x ) then {
 			_canControl = false;
 		};
 		if( isPlayer _x ) then {
 			_canControl = false;
 		};
-	} forEach (units _group);
+	} forEach (units _group);*/
 	_canControl;
 }] call AIC_fnc_addCommandMenuAction;
 
@@ -516,7 +609,7 @@ if(isServer) then {
 					["ALL_CIV",_x] call AIC_fnc_commandControlAddGroup;
 				};
 			} forEach allGroups;
-			sleep 10;
+			sleep 5;
 		};
 		
 	};

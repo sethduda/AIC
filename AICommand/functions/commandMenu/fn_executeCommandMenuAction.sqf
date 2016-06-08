@@ -50,6 +50,32 @@ if(count _actions > _actionIndex && _actionIndex >= 0) then {
 		} forEach _commandControls;
 		[_group,_groupControlId,_selectedVehicle,_params] spawn _handler;
 	};
+	if(_inputType == "GROUP") then {
+		_groupControls = AIC_fnc_getGroupControls();
+		{		
+			[_x,false] call AIC_fnc_setMapElementVisible;
+			[_x,false] call AIC_fnc_setMapElementForeground;
+			[_x,false] call AIC_fnc_setMapElementEnabled;
+		} forEach _groupControls;
+		[_groupControlId,true] call AIC_fnc_setMapElementVisible;
+		[_groupControlId,true] call AIC_fnc_setMapElementForeground;
+		[_groupControlId,false] call AIC_fnc_setMapElementEnabled;
+		_inputControl = ["GROUP",[_groupControlId]] call AIC_fnc_createInputControl;
+		[_inputControl,true] call AIC_fnc_setMapElementVisible;
+		while{true} do {
+			_output = AIC_fnc_getInputControlOutput(_inputControl);
+			if(!isNil "_output") exitWith {};
+			sleep 0.1;
+		};
+		_selectedGroup = AIC_fnc_getInputControlOutput(_inputControl);
+		[_inputControl] call AIC_fnc_deleteInputControl;
+		{		
+			[_x,true] call AIC_fnc_setMapElementVisible;
+			[_x,true] call AIC_fnc_setMapElementForeground;
+			[_x,true] call AIC_fnc_setMapElementEnabled;
+		} forEach _groupControls;
+		[_group,_groupControlId,_selectedGroup,_params] spawn _handler;
+	};
 	if(_inputType == "POSITION") then {
 		_commandControls = AIC_fnc_getCommandControls();
 		{		

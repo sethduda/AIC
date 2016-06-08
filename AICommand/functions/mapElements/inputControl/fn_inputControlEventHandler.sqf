@@ -89,6 +89,24 @@ if(isNil "_inputControlId") then {
 			AIC_fnc_setInputControlOutput(_inputControlId,_vehicle);
 		};
 	};
+	
+	
+	if(_inputType == "GROUP") then {
+	
+		if(_event == "RIGHT_MOUSE_BUTTON_CLICK_MAP") then {
+			AIC_fnc_setInputControlOutput(_inputControlId,grpNull);
+		};
+
+		private ["_groupControlId"];
+		
+		_groupControlId = _inputParameters select 0;
+	
+		if( _event == "GROUP_SELECTED" ) then {
+			private ["_group"];
+			_group = _params select 1;
+			AIC_fnc_setInputControlOutput(_inputControlId,_group);
+		};
+	};
 
 };
 
