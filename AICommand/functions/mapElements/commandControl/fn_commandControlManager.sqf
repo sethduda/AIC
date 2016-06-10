@@ -272,57 +272,46 @@ AIC_fnc_clearAllWaypointsActionHandler = {
 
 AIC_fnc_remoteControlActionHandler = {
 	params ["_group","_groupControlId","_params"];
-	private ["_keyDownHandler","_rcUnit"];
-	/*
-	_rcUnit = leader _group;
-	player remoteControl _rcUnit;
-	(vehicle _rcUnit) switchCamera "External";
-	player setVariable ["AIC_Remote_Control_Unit",_rcUnit];
-	openMap false;
-	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
-	_keyDownHandler = AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "if(_this select 1 == 211) then { player setVariable ['AIC_Remote_Control_Unit',objNull] }" ];
-	while {!isNull (player getVariable ["AIC_Remote_Control_Unit",objNull])} do {
-		private ["_rcUnit"];
-		_rcUnit = player getVariable ["AIC_Remote_Control_Unit",objNull];
-		if(!alive _rcUnit || !alive player) then {
-			player setVariable ['AIC_Remote_Control_Unit',objNull]
-		} else {
-			sleep 1;
-		};
-	};
-	AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown",_keyDownHandler];
-	player remoteControl objNull;
-	(vehicle player) switchCamera cameraView;
-	objNull remoteControl _rcUnit;
-	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
-	*/
+	private ["_fromUnit","_rcUnit","_exitingRcUnit"];
 
 	_fromUnit = missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull];
-	if(isNull _fromUnit) then {
-		missionNamespace setVariable ["AIC_Remote_Control_From_Unit",player];
+	if(isNull _fromUnit || !alive _fromUnit) then {
+		_fromUnit = player;
+		missionNamespace setVariable ["AIC_Remote_Control_From_Unit",_fromUnit];
 	};
-
+	
 	_rcUnit = leader _group;
+	if(!alive _rcUnit) exitWith {
+		["RemoteControl",["","Remote Control Failed: Not Alive"]] call BIS_fnc_showNotification;
+	};
+	_exitingRcUnit = missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull];
+	if(!isNull _exitingRcUnit) then {
+		_exitingRcUnit removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
+		AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown", (missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])];
+	};
+	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",_rcUnit];
+
+	AIC_Remote_Control_From_Unit_Event_Handler = _fromUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
+	AIC_Remote_Control_To_Unit_Event_Handler = _rcUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
+	AIC_Remote_Control_Delete_Handler = AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "if(_this select 1 == 211) then { [] call AIC_fnc_terminateRemoteControl; }" ];
+	
+	BIS_fnc_feedback_allowPP = false;
 	selectPlayer _rcUnit;
 	(vehicle _rcUnit) switchCamera "External";
-
-	 missionNamespace setVariable ["AIC_Remote_Control_To_Unit",_rcUnit];
-
 	openMap false;
+	
 	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
-	_keyDownHandler = AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "if(_this select 1 == 211) then { AIC_Remote_Control_To_Unit = objNull }" ];
-	while {!isNull (missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull])} do {
-		private ["_rcUnit"];
-		_rcUnit = missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull];
-		if(!alive _rcUnit) then {
-			AIC_Remote_Control_To_Unit = objNull;
-		} else {
-			sleep 1;
-		};
-	};
-	AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown",_keyDownHandler];
-	selectPlayer (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",_rcUnit]);
+	
+};
+
+AIC_fnc_terminateRemoteControl = {
+	AIC_MAIN_DISPLAY displayRemoveEventHandler ["KeyDown", (missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])];
+	(missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_From_Unit_Event_Handler",-1])];
+	(missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
+	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",nil];
+	selectPlayer (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",player]);
 	(vehicle player) switchCamera cameraView;
+	BIS_fnc_feedback_allowPP = true;
 	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
 };
 
@@ -330,14 +319,12 @@ AIC_fnc_remoteControlActionHandler = {
 	params ["_group"];
 	private ["_canControl"];
 	_canControl = true;
-	/*{
-		if( _x != vehicle _x ) then {
-			_canControl = false;
-		};
-		if( isPlayer _x ) then {
-			_canControl = false;
-		};
-	} forEach (units _group);*/
+	if(!alive leader _group) then {
+		_canControl = false;
+	};
+	if(isPlayer leader _group) then {
+		_canControl = false;
+	};
 	_canControl;
 }] call AIC_fnc_addCommandMenuAction;
 
