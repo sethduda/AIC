@@ -505,6 +505,43 @@ AIC_fnc_landActionHandler = {
 }] call AIC_fnc_addCommandMenuAction;
 
 
+AIC_fnc_rappelActionHandler = {
+	params ["_group","_groupControlId","_selectedPosition"];
+	if(count _selectedPosition > 0) then {
+		{
+			if(_x isKindOf "Helicopter") then {
+				[_x,25,AGLtoASL [_selectedPosition select 0, _selectedPosition select 1, 0]] call AR_Rappel_All_Cargo;
+			};
+		} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+		[_group] spawn {
+			params ["_groupRappelling"];
+			_unitsInVehicle = true;
+			while {_unitsInVehicle} do {
+				_unitsInVehicle = false;
+				{
+					if(vehicle _x != _x) then {
+						_unitsInVehicle = true;
+					};
+				} forEach (units _groupRappelling);
+				sleep 1;
+			};
+			[_groupRappelling] call AIC_fnc_unassignVehicleActionHandler;
+		};
+	};
+};
+
+["Rappel Other Group(s)",[],AIC_fnc_rappelActionHandler,[],"POSITION",{
+	params ["_group"];
+	_hasAir = false;
+	{
+		if(_x isKindOf "Helicopter") then {
+			if(((position _x) select 2) > 1) then {
+				_hasAir = true;
+			};
+		};
+	} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+	_hasAir && (_group getVariable ["AIC_Has_Group_Cargo",false]) && !isNil "AR_RAPPELLING_INIT";	
+}] call AIC_fnc_addCommandMenuAction;
 
 if(hasInterface) then {
 		
