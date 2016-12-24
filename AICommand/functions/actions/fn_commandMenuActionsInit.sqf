@@ -22,6 +22,7 @@ AIC_fnc_addWaypointsActionHandler = {
 };
 
 ["GROUP","Add Waypoints",[],AIC_fnc_addWaypointsActionHandler] call AIC_fnc_addCommandMenuAction;
+["WAYPOINT","Add Waypoints",[],AIC_fnc_addWaypointsActionHandler] call AIC_fnc_addCommandMenuAction;
 
 AIC_fnc_setGroupColorActionHandler = {
 	params ["_menuParams","_actionParams"];
