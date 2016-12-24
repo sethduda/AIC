@@ -116,7 +116,7 @@ if(isNil "_groupControlId") then {
 		{
 			
 			_waypointType = _x select 3;
-			_waypointIconSet = [_waypointType,_color] call AIC_fnc_getGroupControlWpIconSet;
+			_waypointIconSet = ["MOVE",_color] call AIC_fnc_getGroupControlWpIconSet;
 
 			if(_waypointIconIndex >= _waypointIconCount) then {
 				_wpIconId = [_waypointIconSet, _x select 1] call AIC_fnc_createInteractiveIcon;

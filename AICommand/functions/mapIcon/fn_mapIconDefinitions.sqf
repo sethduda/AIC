@@ -15,7 +15,7 @@ AIC_COLOR_WHITE = ["WHITE",_colorWhite];
 _colors = [AIC_COLOR_RED,AIC_COLOR_GREEN,AIC_COLOR_BLUE,AIC_COLOR_BLACK,AIC_COLOR_WHITE];
 _groupIconTypes = ["inf","air","motor_inf","mech_inf","armor","plane","uav","art","mortar","maint","med","support","boat"];
 
-_wpIconTypes = ["alpha","bravo","move"];
+_wpIconTypes = ["MOVE"];
 
 AIC_UNSELECTED_GROUP_SELECTOR_ICON = ["AICommand\images\group_selector_dashed.paa",48,48,0,_colorBlack + [0.5]] call AIC_fnc_createMapIcon;
 AIC_SELECTED_GROUP_SELECTOR_ICON = ["AICommand\images\group_selector.paa",48,48,0,_colorBlack + [1]] call AIC_fnc_createMapIcon;

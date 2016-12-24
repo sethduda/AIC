@@ -1,5 +1,5 @@
 #include "..\functions.h"
-
+								
 /*
 	Author: [SA] Duda
 
@@ -10,16 +10,27 @@
 	_this select 0: GROUP - group to add waypoint to
 	_this select 1: ARRAY - waypoint params [
 		POSITION: waypoint world position,
-		BOOLEAN: waypoint disabled
+		BOOLEAN: waypoint disabled,
+		STRING: waypoint type,
+		STRING: waypoint action script,
+		STRING: waypoint condition
+		NUMBER: waypoint timeout
+		STRING: waypoint formation
+		NUMBER: waypoint completion radius,
+		NUMBER: waypoint completion radius
 	]
 
 	Returns: 
 	ARRAY: [
-			NUMBER: waypoint index
+			NUMBER: waypoint index,
 			POSITION: waypoint world position,
 			BOOLEAN: waypoint disabled,
 			STRING: waypoint type,
-			STRING: waypoint action script
+			STRING: waypoint action script,
+			STRING: waypoint condition
+			NUMBER: waypoint timeout
+			STRING: waypoint formation
+			NUMBER: waypoint completion radius
 	]
 */
 

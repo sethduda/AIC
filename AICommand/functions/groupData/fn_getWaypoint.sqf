@@ -12,9 +12,15 @@
 
 	Returns: 
 	ARRAY: [
-		NUMBER: waypoint index
-		POSITION: waypoint world position,
-		BOOLEAN: waypoint disabled
+			NUMBER: waypoint index,
+			POSITION: waypoint world position,
+			BOOLEAN: waypoint disabled,
+			STRING: waypoint type,
+			STRING: waypoint action script,
+			STRING: waypoint condition
+			NUMBER: waypoint timeout
+			STRING: waypoint formation
+			NUMBER: waypoint completion radius
 	]
 */
 

@@ -142,60 +142,35 @@ if(isServer) then {
 			private ["_group","_groupControl","_lastWpRevision","_groupWaypoints","_groupControlWaypoints","_currentWpRevision","_groupControlWaypointArray","_wp","_goCodeWpFound","_wpType","_waitForCode","_wpActionScript","_wpCondition","_wpTimeout"];
 			{
 				_group = _x;
-
 				_lastWpRevision = _group getVariable ["AIC_Server_Last_Wp_Revision",0];
 				_groupWaypoints = waypoints _group;
 				_groupControlWaypoints = [_group] call AIC_fnc_getAllActiveWaypoints;
 				_currentWpRevision = _groupControlWaypoints select 0;
 				_groupControlWaypointArray = _groupControlWaypoints select 1;
-				
-				_waitForCode = _group getVariable ["AIC_Wait_For_Go_Code","NONE"];
-				if(_waitForCode == "NONE") then {
-					
-					if( _currentWpRevision != _lastWpRevision) then {
-						//hint "changing waypoints";
-						while {(count (waypoints _group)) > 0} do { deleteWaypoint ((waypoints _group) select 0); };
-						_goCodeWpFound = false;
-						{
-							if(!_goCodeWpFound) then {
-								_wpType = _x select 3;
-								if(count _x > 4) then {
-									_wpActionScript = _x select 4;
-								} else {
-									_wpActionScript = "";
-								};
-								if(count _x > 5) then {
-									_wpCondition = _x select 5;
-								} else {
-									_wpCondition = true;
-								};
-								_wp = _group addWaypoint [_x select 1, 0];
-								if(_wpType == "ALPHA" || _wpType == "BRAVO") then {
-									_goCodeWpFound = true;
-									_wp setWaypointStatements ["true", "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint; [group this,'"+_wpType+"'] call AIC_fnc_waitForWaypointGoCode;"];
-								} else {
-									_wp setWaypointStatements [format ["true && {%1}",_wpCondition], "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;" + _wpActionScript];
-								};
-								if(count _x > 6) then {
-									_wpTimeout = _x select 6;
-									_wp setWaypointTimeOut [_wpTimeout,_wpTimeout,_wpTimeout];
-								}; 
-								if(count _x > 7) then {
-									_wp setWaypointFormation (_x select 7);
-								};
-								if(count _x > 8) then {
-									_wp setWaypointCompletionRadius (_x select 8);
-								};  
-							};
-						} forEach _groupControlWaypointArray;
-						if(count (waypoints _group)==0) then {
-							_group addWaypoint [position leader _group, 0];
-						};
-						_group setVariable ["AIC_Server_Last_Wp_Revision",_currentWpRevision];
+				if( _currentWpRevision != _lastWpRevision) then {
+					while {(count (waypoints _group)) > 0} do { 
+						deleteWaypoint ((waypoints _group) select 0); 
 					};
-					
+					{		
+						_x params ["_wpIndex","_wpPosition","_wpDisabled",["_wpType","MOVE"],["_wpActionScript",""],["_wpCondition","true"],"_wpTimeout","_wpFormation","_wpCompletionRadius"];
+						_wp = _group addWaypoint [_x select 1, 0];
+						_wp setWaypointStatements [format ["true && {%1}",_wpCondition], "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;" + _wpActionScript];
+						_wp setWaypointType _wpType;
+						if(!isNil "_wpTimeout") then {
+							_wp setWaypointTimeOut [_wpTimeout,_wpTimeout,_wpTimeout];
+						}; 
+						if(!isNil "_wpFormation") then {
+							_wp setWaypointFormation _wpFormation;
+						};
+						if(!isNil "_wpCompletionRadius") then {
+							_wp setWaypointCompletionRadius _wpCompletionRadius;
+						};  
+					} forEach _groupControlWaypointArray;
+					if(count (waypoints _group)==0) then {
+						_group addWaypoint [position leader _group, 0];
+					};
+					_group setVariable ["AIC_Server_Last_Wp_Revision",_currentWpRevision];
 				};
-
 			} forEach allGroups;
 			sleep 2;
 		};
