@@ -64,5 +64,82 @@ if(isDedicated || !hasInterface) exitWith {};
 	};
 };
 
+// Manage updates to group color
+
+[] spawn {
+	private ["_currentControlColor","_waypoints","_currentWpRevision","_groupControls","_group","_groupControlId"];
+	while {true} do {
+		_groupControls = AIC_fnc_getGroupControls();
+		{
+			_groupControlId = _x;
+			_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+			_currentControlColor = AIC_fnc_getGroupControlColor(_groupControlId);  
+			_currentGroupColor = [_group] call AIC_fnc_getGroupColor;
+			if((_currentControlColor select 0) != (_currentGroupColor select 0)) then {
+				AIC_fnc_setGroupControlColor(_groupControlId,_currentGroupColor);
+				[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+				[_groupControlId,"REFRESH_WAYPOINTS",[]] call AIC_fnc_groupControlEventHandler;
+				[_groupControlId,"REFRESH_ACTIONS",[]] call AIC_fnc_groupControlEventHandler;
+			};
+			_currentGroupType = AIC_fnc_getGroupControlType(_groupControlId); 
+			_groupType = _group call AIC_fnc_getGroupIconType;
+			if(_groupType != _currentGroupType) then {
+				[_groupControlId,"REFRESH_GROUP_ICON",[]] call AIC_fnc_groupControlEventHandler;
+			};
+			
+		} forEach _groupControls;
+		sleep 2;
+	};
+};
+
+// Manage groups with other groups as cargo
+
+[] spawn {
+	private ["_groupsAsDrivers","_groupsAsCargo","_newGroupsAsDrivers","_newGroupsAsCargo","_groupControls","_groupControlId"];
+	private ["_group","_groupLeader"];
+	_groupsAsDrivers = [];
+	_groupsAsCargo = [];
+	while {true} do {
+		_newGroupsAsDrivers = [];
+		_newGroupsAsCargo = [];
+		_groupControls = AIC_fnc_getGroupControls();
+		{
+			_groupControlId = _x;
+			_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+			_groupLeader = leader _group;
+			{
+				if( _groupLeader in _x && (group driver _x) == _group ) then {
+					_hasOtherGroups = false;
+					{
+						if(group _x != _group) exitWith {
+							_hasOtherGroups = true;
+						};
+					} forEach (crew _x);
+					if(_hasOtherGroups) then {
+						_newGroupsAsDrivers pushBack _groupControlId;
+						_group setVariable ["AIC_Has_Group_Cargo",true];
+					};
+				};
+				if( _groupLeader in _x && (group driver _x) != _group && (leader group driver _x) in _x ) then {
+					_newGroupsAsCargo pushBack _groupControlId;
+					[_groupControlId,false] call AIC_fnc_setMapElementEnabled;
+					[_groupControlId,false] call AIC_fnc_setMapElementForeground;
+				};
+			} forEach ([_group] call AIC_fnc_getGroupAssignedVehicles);
+		} forEach _groupControls;
+		{
+			_group = AIC_fnc_getGroupControlGroup(_x);
+			_group setVariable ["AIC_Has_Group_Cargo",false];
+		} forEach (_groupsAsDrivers - _newGroupsAsDrivers);
+		_groupsAsDrivers = _newGroupsAsDrivers;
+		{
+			[_x,true] call AIC_fnc_setMapElementEnabled;
+			[_x,true] call AIC_fnc_setMapElementForeground;
+		} forEach (_groupsAsCargo - _newGroupsAsCargo);
+		_groupsAsCargo = _newGroupsAsCargo;
+		sleep 1;
+	};
+};
+
 
 

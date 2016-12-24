@@ -20,7 +20,6 @@ private ["_groupControlId","_event","_params"];
 _groupControlId = param [0,nil];
 _event = param [1];
 _params = param [2,[]];
-
 if(isNil "_groupControlId") then {
 	
 	if(_event == "MouseHolding" || _event == "MouseMoving") then {

@@ -41,11 +41,21 @@ class AICommand
 	{
 		file = "AICommand\functions\commandMenu";
 		class commandMenuManager {description = "";};
+		class showCommandMenu {description = "";};
 		class showGroupCommandMenu {description = "";};
 		class showGroupWpCommandMenu {description = "";};
-		class showGroupWpGoCodeMenu {description = "";};
 		class addCommandMenuAction {description = "";};
 		class executeCommandMenuAction {description = "";};
+	};
+	
+
+	class Actions
+	{
+		file = "AICommand\functions\actions";
+		class commandMenuActionsInit {description = "";};
+		class selectGroupControlGroup {description = "";};
+		class selectGroupControlPosition {description = "";};
+		class selectGroupControlVehicle {description = "";};
 	};
 
 	class CR

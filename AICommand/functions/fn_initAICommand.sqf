@@ -30,6 +30,7 @@ params [["_autoConfigureCommanders",true]];
 [] call AIC_fnc_interactiveIconManager;
 [] call AIC_fnc_inputControlManager;
 [] call AIC_fnc_commandMenuManager;
+[] call AIC_fnc_commandMenuActionsInit;
 
 AIC_INIT_STARTUP_SCRIPTS_EXECUTED = true;
 
