@@ -151,26 +151,58 @@ if(isServer) then {
 					while {(count (waypoints _group)) > 0} do { 
 						deleteWaypoint ((waypoints _group) select 0); 
 					};
+					private ["_priorWaypointDurationEnabled"];
+					_priorWaypointDurationEnabled = false;
 					{		
-						_x params ["_wpIndex","_wpPosition","_wpDisabled",["_wpType","MOVE"],["_wpActionScript",""],["_wpCondition","true"],"_wpTimeout","_wpFormation","_wpCompletionRadius"];
-						_wp = _group addWaypoint [_x select 1, 0];
-						_wp setWaypointStatements [format ["true && {%1}",_wpCondition], "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;" + _wpActionScript];
-						_wp setWaypointType _wpType;
-						if(!isNil "_wpTimeout") then {
-							_wp setWaypointTimeOut [_wpTimeout,_wpTimeout,_wpTimeout];
-						}; 
-						if(!isNil "_wpFormation") then {
-							_wp setWaypointFormation _wpFormation;
+						if(!_priorWaypointDurationEnabled) then {
+							_x params ["_wpIndex","_wpPosition","_wpDisabled",["_wpType","MOVE"],["_wpActionScript",""],["_wpCondition","true"],"_wpTimeout","_wpFormation","_wpCompletionRadius",["_wpDuration",0],"_wpLoiterRadius","_wpLoiterDirection"];
+							if(_wpDuration > 0) then {
+								_priorWaypointDurationEnabled = true;
+							};
+							_wp = _group addWaypoint [_x select 1, 0];
+							_wp setWaypointStatements [format ["true && ((group this) getVariable ['AIC_WP_DURATION_REMANING',0]) <= 0 && {%1}",_wpCondition], "[group this, "+str (_x select 0)+"] call AIC_fnc_disableWaypoint;" + _wpActionScript];
+							_wp setWaypointType _wpType;
+							if(!isNil "_wpTimeout") then {
+								_wp setWaypointTimeOut [_wpTimeout,_wpTimeout,_wpTimeout];
+							}; 
+							if(!isNil "_wpFormation") then {
+								_wp setWaypointFormation _wpFormation;
+							};
+							if(!isNil "_wpCompletionRadius") then {
+								_wp setWaypointCompletionRadius _wpCompletionRadius;
+							};  
+							if(!isNil "_wpLoiterRadius") then {
+								_wp setWaypointLoiterRadius _wpLoiterRadius;
+							};  
+							if(!isNil "_wpLoiterDirection") then {
+								_wp setWaypointLoiterType _wpLoiterDirection;
+							};  
+							
 						};
-						if(!isNil "_wpCompletionRadius") then {
-							_wp setWaypointCompletionRadius _wpCompletionRadius;
-						};  
 					} forEach _groupControlWaypointArray;
 					if(count (waypoints _group)==0) then {
 						_group addWaypoint [position leader _group, 0];
 					};
 					_group setVariable ["AIC_Server_Last_Wp_Revision",_currentWpRevision];
 				};
+				
+				private ["_nextActiveWaypoint"];
+				if( count _groupControlWaypointArray > 0 ) then {
+					_nextActiveWaypoint = _groupControlWaypointArray select 0;
+					_nextActiveWaypoint params ["_wpIndex","_wpPosition","_wpDisabled",["_wpType","MOVE"],["_wpActionScript",""],["_wpCondition","true"],"_wpTimeout","_wpFormation","_wpCompletionRadius",["_wpDuration",0],"_wpLoiterRadius","_wpLoiterDirection"];
+					if(_wpDuration > 0 && _group getVariable ["AIC_WP_DURATION_REMANING",0] <= 0) then {
+						_group setVariable ["AIC_WP_DURATION_REMANING",_wpDuration];
+					};
+					if(_wpDuration <= 0 && _group getVariable ["AIC_WP_DURATION_REMANING",0] > 0) then {
+						_group setVariable ["AIC_WP_DURATION_REMANING",0,true];
+					};
+					_group setVariable ["AIC_WP_DURATION_REMANING",(_group getVariable ["AIC_WP_DURATION_REMANING",0]) - 2,true];
+					if(_wpDuration > 0 && _group getVariable ["AIC_WP_DURATION_REMANING",0] <= 0) then {
+						_nextActiveWaypoint set [9,0];
+						[_group, _nextActiveWaypoint] call AIC_fnc_setWaypoint;
+					};
+				};
+				
 			} forEach allGroups;
 			sleep 2;
 		};

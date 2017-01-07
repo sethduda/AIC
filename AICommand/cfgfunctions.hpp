@@ -133,6 +133,7 @@ class AICommand
 		class groupControlWaypointEventHandler {description = ""};
 		class groupControlManager {description = ""};
 		class showGroupReport {description = ""};
+		class showGroupWaypointReport {description = ""};
 		class removeGroupControl {description = ""};
 	};
 	
