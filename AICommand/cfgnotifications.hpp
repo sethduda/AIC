@@ -1,6 +1,6 @@
 class RemoteControl
 {
-	title = "Remote Control";
+	title = "Remote";
 	iconPicture = "AICommand\images\warning.jpg";
 	description = "%2";
 	priority = 0;

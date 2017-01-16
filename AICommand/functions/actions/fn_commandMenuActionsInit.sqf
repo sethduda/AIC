@@ -237,69 +237,6 @@ AIC_fnc_clearAllWaypointsActionHandler = {
 
 ["GROUP","Confirm Cancel All",["Clear All Waypoints"],AIC_fnc_clearAllWaypointsActionHandler] call AIC_fnc_addCommandMenuAction;		
 
-AIC_fnc_remoteControlActionHandler = {
-	params ["_menuParams","_actionParams"];
-	_menuParams params ["_groupControlId"];
-	private ["_group"];
-	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
-	private ["_fromUnit","_rcUnit","_exitingRcUnit"];
-
-	_fromUnit = missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull];
-	if(isNull _fromUnit || !alive _fromUnit) then {
-		_fromUnit = player;
-		missionNamespace setVariable ["AIC_Remote_Control_From_Unit",_fromUnit];
-	};
-	
-	_rcUnit = leader _group;
-	if(!alive _rcUnit) exitWith {
-		["RemoteControl",["","Remote Control Failed: Not Alive"]] call BIS_fnc_showNotification;
-	};
-	_exitingRcUnit = missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull];
-	if(!isNull _exitingRcUnit) then {
-		_exitingRcUnit removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
-		["MAIN_DISPLAY","KeyDown",(missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])] call AIC_fnc_removeEventHandler;
-	};
-	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",_rcUnit];
-
-	AIC_Remote_Control_From_Unit_Event_Handler = _fromUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
-	AIC_Remote_Control_To_Unit_Event_Handler = _rcUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
-	AIC_Remote_Control_Delete_Handler = ["MAIN_DISPLAY","KeyDown", "if(_this select 1 == 211) then { [] call AIC_fnc_terminateRemoteControl; }"] call AIC_fnc_addEventHandler;
-	
-	BIS_fnc_feedback_allowPP = false;
-	selectPlayer _rcUnit;
-	(vehicle _rcUnit) switchCamera "External";
-	openMap false;
-	
-	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
-	
-};
-
-AIC_fnc_terminateRemoteControl = {
-	["MAIN_DISPLAY","KeyDown",(missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])] call AIC_fnc_removeEventHandler;
-	(missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_From_Unit_Event_Handler",-1])];
-	(missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
-	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",nil];
-	selectPlayer (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",player]);
-	(vehicle player) switchCamera cameraView;
-	BIS_fnc_feedback_allowPP = true;
-	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
-};
-
-["GROUP","Remote Control",["Remote"],AIC_fnc_remoteControlActionHandler,[],{
-	params ["_groupControlId"];
-	private ["_group"];
-	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
-	private ["_canControl"];
-	_canControl = true;
-	if(!alive leader _group) then {
-		_canControl = false;
-	};
-	if(isPlayer leader _group) then {
-		_canControl = false;
-	};
-	_canControl;
-}] call AIC_fnc_addCommandMenuAction;
-
 AIC_fnc_remoteViewActionHandler = {
 	params ["_menuParams","_actionParams"];
 	_menuParams params ["_groupControlId"];
@@ -307,6 +244,11 @@ AIC_fnc_remoteViewActionHandler = {
 	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
 	private ["_fromUnit","_rcUnit","_exitingRcUnit"];
 
+	private _remoteControlActive = !isNull (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull]);
+	if(_remoteControlActive) then {
+		[] call AIC_fnc_terminateRemoteControl;
+	};
+	
 	_fromUnit = missionNamespace getVariable ["AIC_Remote_View_From_Unit",objNull];
 	if(isNull _fromUnit || !alive _fromUnit) then {
 		_fromUnit = player;
@@ -335,7 +277,7 @@ AIC_fnc_terminateRemoteView = {
 	["MAIN_DISPLAY","KeyDown",(missionNamespace getVariable ["AIC_Remote_View_Delete_Handler",-1])] call AIC_fnc_removeEventHandler;
 	(missionNamespace getVariable ["AIC_Remote_View_From_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_View_From_Unit_Event_Handler",-1])];
 	missionNamespace setVariable ["AIC_Remote_View_To_Unit",nil];
-	selectPlayer (missionNamespace getVariable ["AIC_Remote_View_From_Unit",player]);
+	missionNamespace setVariable ["AIC_Remote_View_From_Unit",nil];
 	[] call AIC_fnc_disable3rdPersonCamera;
 	["RemoteControl",["","Remote View Terminated"]] call BIS_fnc_showNotification;
 };
@@ -348,6 +290,74 @@ AIC_fnc_terminateRemoteView = {
 	_canControl = false;
 	if(player != leader _group) then {
 		_canControl = true;
+	};
+	_canControl;
+}] call AIC_fnc_addCommandMenuAction;
+
+AIC_fnc_remoteControlActionHandler = {
+	params ["_menuParams","_actionParams"];
+	_menuParams params ["_groupControlId"];
+	private ["_group"];
+	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+	private ["_fromUnit","_rcUnit","_exitingRcUnit"];
+
+	private _remoteViewActive = !isNull (missionNamespace getVariable ["AIC_Remote_View_From_Unit",objNull]);
+	if(_remoteViewActive) then {
+		[] call AIC_fnc_terminateRemoteView;
+	};
+
+	_fromUnit = missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull];
+	if(isNull _fromUnit || !alive _fromUnit) then {
+		_fromUnit = player;
+		missionNamespace setVariable ["AIC_Remote_Control_From_Unit",_fromUnit];
+	};
+	
+	_rcUnit = leader _group;
+	if(!alive _rcUnit) exitWith {
+		["RemoteControl",["","Remote Control Failed: Not Alive"]] call BIS_fnc_showNotification;
+	};
+	_exitingRcUnit = missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull];
+	if(!isNull _exitingRcUnit) then {
+		_exitingRcUnit removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
+		["MAIN_DISPLAY","KeyDown",(missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])] call AIC_fnc_removeEventHandler;
+	};
+	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",_rcUnit];
+
+	AIC_Remote_Control_From_Unit_Event_Handler = _fromUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
+	AIC_Remote_Control_To_Unit_Event_Handler = _rcUnit addEventHandler ["HandleDamage", "[] call AIC_fnc_terminateRemoteControl; _this select 2;"];
+	AIC_Remote_Control_Delete_Handler = ["MAIN_DISPLAY","KeyDown", "if(_this select 1 == 211) then { [] call AIC_fnc_terminateRemoteControl; }"] call AIC_fnc_addEventHandler;
+	
+	BIS_fnc_feedback_allowPP = false;
+	selectPlayer _rcUnit;
+	(vehicle _rcUnit) switchCamera "External";
+	openMap false;
+	
+	["RemoteControl",["","Press DELETE to Exit Remote Control"]] call BIS_fnc_showNotification;
+};
+
+AIC_fnc_terminateRemoteControl = {
+	["MAIN_DISPLAY","KeyDown",(missionNamespace getVariable ["AIC_Remote_Control_Delete_Handler",-1])] call AIC_fnc_removeEventHandler;
+	(missionNamespace getVariable ["AIC_Remote_Control_From_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_From_Unit_Event_Handler",-1])];
+	(missionNamespace getVariable ["AIC_Remote_Control_To_Unit",objNull]) removeEventHandler ["HandleDamage", (missionNamespace getVariable ["AIC_Remote_Control_To_Unit_Event_Handler",-1])];
+	missionNamespace setVariable ["AIC_Remote_Control_To_Unit",nil];
+	selectPlayer (missionNamespace getVariable ["AIC_Remote_Control_From_Unit",player]);
+	missionNamespace setVariable ["AIC_Remote_Control_From_Unit",nil];
+	(vehicle player) switchCamera cameraView;
+	BIS_fnc_feedback_allowPP = true;
+	["RemoteControl",["","Remote Control Terminated"]] call BIS_fnc_showNotification;
+};
+
+["GROUP","Remote Control",["Remote"],AIC_fnc_remoteControlActionHandler,[],{
+	params ["_groupControlId"];
+	private ["_group"];
+	_group = AIC_fnc_getGroupControlGroup(_groupControlId);
+	private ["_canControl"];
+	_canControl = true;
+	if(!alive leader _group) then {
+		_canControl = false;
+	};
+	if(isPlayer leader _group) then {
+		_canControl = false;
 	};
 	_canControl;
 }] call AIC_fnc_addCommandMenuAction;
