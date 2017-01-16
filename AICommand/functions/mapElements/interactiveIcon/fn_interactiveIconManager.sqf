@@ -15,16 +15,9 @@
 
 if(isDedicated || !hasInterface) exitWith {};
 
-[] spawn {
-	waitUntil {!isNull AIC_MAP_CONTROL};
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonClick", "[""MouseButtonClick"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseMoving", "[""MouseMoving"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonUp", "[""MouseButtonUp"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseHolding", "[""MouseHolding"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-};
-
-[] spawn {
-	waitUntil {!isNull AIC_MAP_DISPLAY};
-	AIC_MAP_DISPLAY displayAddEventHandler ["KeyDown", "[""KeyDownDisplay"",_this] call AIC_fnc_interactiveIconEventHandler" ];
-};
+["MAP_CONTROL","MouseButtonClick", "[""MouseButtonClick"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseMoving", "[""MouseMoving"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseButtonUp", "[""MouseButtonUp"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseHolding", "[""MouseHolding"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_DISPLAY","KeyDown", "[""KeyDownDisplay"",_this] call AIC_fnc_interactiveIconEventHandler"] spawn AIC_fnc_addManagedEventHandler;

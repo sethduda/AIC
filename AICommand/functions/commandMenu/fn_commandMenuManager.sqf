@@ -18,8 +18,6 @@
 
 if(!hasInterface) exitWith {};
 
-waitUntil {!isNull (findDisplay 46)};
-
 // This function prevents left clicking from triggering the action on the command menu
 AIC_fnc_commandMenuAction = {
 
@@ -66,7 +64,7 @@ AIC_fnc_commandMenuEventHandler = {
 	
 };	
 
-AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "[""KeyDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
-AIC_MAIN_DISPLAY displayAddEventHandler ["MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_commandMenuEventHandler" ];
+["MAIN_DISPLAY","KeyDown", "[""KeyDown"",_this] call AIC_fnc_commandMenuEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAIN_DISPLAY","MouseButtonDown", "[""MouseButtonDown"",_this] call AIC_fnc_commandMenuEventHandler"] spawn AIC_fnc_addManagedEventHandler;
 
 };

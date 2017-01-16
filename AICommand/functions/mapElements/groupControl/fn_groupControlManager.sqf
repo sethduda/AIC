@@ -17,13 +17,10 @@ if(isDedicated || !hasInterface) exitWith {};
 
 // Setup UI event handlers
 
-[] spawn {
-	waitUntil {!isNull AIC_MAP_CONTROL};
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonDown", "[nil, ""MouseButtonDown"",_this] call AIC_fnc_groupControlEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonClick", "[nil, ""MouseButtonClick"",_this] call AIC_fnc_groupControlEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseMoving", "[nil, ""MouseMoving"",_this] call AIC_fnc_groupControlEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseHolding", "[nil, ""MouseHolding"",_this] call AIC_fnc_groupControlEventHandler" ];
-};
+["MAP_CONTROL","MouseButtonDown", "[nil, ""MouseButtonDown"",_this] call AIC_fnc_groupControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseButtonClick", "[nil, ""MouseButtonClick"",_this] call AIC_fnc_groupControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseMoving", "[nil, ""MouseMoving"",_this] call AIC_fnc_groupControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseHolding", "[nil, ""MouseHolding"",_this] call AIC_fnc_groupControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
 
 // Manage updates to group waypoints
 

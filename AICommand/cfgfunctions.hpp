@@ -47,8 +47,16 @@ class AICommand
 		class addCommandMenuAction {description = "";};
 		class executeCommandMenuAction {description = "";};
 	};
-	
 
+	class EventHandler
+	{
+		file = "AICommand\functions\eventHandler";
+		class addManagedEventHandler {description = "";};
+		class addEventHandler {description = "";};
+		class removeEventHandler {description = "";};
+		class eventHandlerManager {description = "";};
+	};
+	
 	class Actions
 	{
 		file = "AICommand\functions\actions";
@@ -56,6 +64,18 @@ class AICommand
 		class selectGroupControlGroup {description = "";};
 		class selectGroupControlPosition {description = "";};
 		class selectGroupControlVehicle {description = "";};
+	};
+	
+	
+	
+	class RemoteCamera
+	{
+		file = "AICommand\functions\remoteCamera";
+		class disable3rdPersonCamera {description = "";};
+		class enable3rdPersonCamera {description = "";};
+		class cameraMouseMoveHandler {description = "";};
+		class cameraMouseZoomHandler {description = "";};
+		class cameraUpdatePosition {description = "";};
 	};
 
 	class CR

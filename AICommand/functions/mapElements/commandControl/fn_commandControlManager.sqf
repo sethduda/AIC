@@ -66,10 +66,7 @@ if(hasInterface) then {
 
 	// Setup UI event handlers
 
-	[] spawn {
-		waitUntil {!isNull AIC_MAP_CONTROL};
-		AIC_MAP_CONTROL ctrlAddEventHandler ["Draw", "_this call AIC_fnc_commandControlDrawHandler" ];
-	};
+	["MAP_CONTROL","Draw", "_this call AIC_fnc_commandControlDrawHandler"] spawn AIC_fnc_addManagedEventHandler;
 	
 	// Check for command control group controls revision changes
 	[] spawn {

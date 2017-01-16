@@ -17,17 +17,9 @@ if(isDedicated || !hasInterface) exitWith {};
 
 // Setup UI event handlers
 
-[] spawn {
-	waitUntil {!isNull AIC_MAP_CONTROL};
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonDown", "[nil, ""MouseButtonDown"",_this] call AIC_fnc_inputControlEventHandler" ];
-	AIC_MAP_CONTROL ctrlAddEventHandler ["MouseButtonClick", "[nil, ""MouseButtonClick"",_this] call AIC_fnc_inputControlEventHandler" ];
-};
-
-[] spawn {
-	waitUntil {!isNull AIC_MAIN_DISPLAY};
-	AIC_MAIN_DISPLAY displayAddEventHandler ["KeyDown", "[nil, ""KeyDown"",_this] call AIC_fnc_inputControlEventHandler" ];
-};
-
+["MAP_CONTROL","MouseButtonDown", "[nil, ""MouseButtonDown"",_this] call AIC_fnc_inputControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAP_CONTROL","MouseButtonClick", "[nil, ""MouseButtonClick"",_this] call AIC_fnc_inputControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
+["MAIN_DISPLAY","KeyDown", "[nil, ""KeyDown"",_this] call AIC_fnc_inputControlEventHandler"] spawn AIC_fnc_addManagedEventHandler;
 
 
 

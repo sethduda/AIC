@@ -31,6 +31,7 @@ params [["_autoConfigureCommanders",true]];
 [] call AIC_fnc_inputControlManager;
 [] call AIC_fnc_commandMenuManager;
 [] call AIC_fnc_commandMenuActionsInit;
+[] call AIC_fnc_eventHandlerManager;
 
 AIC_INIT_STARTUP_SCRIPTS_EXECUTED = true;
 
