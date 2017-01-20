@@ -11,6 +11,7 @@ _this spawn {
 	AIC_3rd_Person_Camera_Frame_Handler = addMissionEventHandler ["EachFrame", {[] call AIC_fnc_cameraUpdatePosition; false}];
 	
 	AIC_fnc_remoteCameraMapHandler = {
+		if(visibleMap) exitWith {};
 		private ["_event","_eventParams","_actionKeys"];
 		_event = param [0];
 		_eventParams = param [1];
